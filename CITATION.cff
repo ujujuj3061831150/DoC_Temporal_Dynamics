@@ -4,16 +4,23 @@ title: "A Bedside Decision Support System for Disorders of Consciousness: Multi-
 authors:
   - family-names: "Chen"
     given-names: "Hongjie"
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Chen"
     given-names: "Jianming"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Xiong"
     given-names: "Guanyu"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Li"
     given-names: "Fang"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Duan"
     given-names: "Fang"
-version: 1.0.0
-date-released: 2026-10-17
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
+version: 1.0.1
+date-released: 2026-10-26
+repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
+url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT
 keywords:
   - disorders-of-consciousness
