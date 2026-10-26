@@ -1,0 +1,40 @@
+\begin{table*}[!ht]
+\centering
+\caption{De-Identified Individual Cohort Characteristics, Feature Profiles, and Cross-Center Benchmark Performance for the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital) Inpatient Cohort ($N=15$; 15 males; 6 MCS [including 1 EMCS], 9 VS/UWS; 11 ICH, 4 TBI; mean age $51.7 \pm 12.3$~years). Clean 6-channel records ($N=13$; 6 MCS [including 1 EMCS], 7 VS/UWS) exclude CRRC\_008 and CRRC\_009 due to continuous mechanical electrode drift on $O_2$.}
+\label{tab:crrc_patient_cohort}
+\vspace{-4pt}
+\scriptsize
+\renewcommand{\arraystretch}{0.92}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccc}
+\hline
+\textbf{Subject ID} & \textbf{Diagnosis} & \textbf{CRS-R} & \textbf{Lesion Laterality} & \textbf{Duration (s)} & \textbf{Retention} & $c_{\text{global}}$ & $-\mathrm{CV}_\theta$ & $\rho_1$ & $r_{\text{residual}}$ \\
+\hline
+CRRC\_001 & MCS & 11 & Bilateral intact & 605.0 & 98.7\% & 0.1834 & -1.3927 & +0.1118 & +0.5878 \\
+CRRC\_002$^*$ & $\text{MCS}^+$$^*$ (EMCS) & 23 & Right hemisphere & 1236.0 & 98.7\% & 0.5343 & -0.3331 & +0.3201 & +0.2064 \\
+CRRC\_003 & MCS & 10 & Left hemisphere & 1225.0 & 97.1\% & 0.8409 & -0.3682 & +0.1451 & +0.3646 \\
+CRRC\_004 & MCS & 7 & Left hemisphere & 1221.0 & 100.0\% & 0.5993 & -0.3748 & -0.0378 & +0.1391 \\
+CRRC\_005 & MCS & 17 & Bilateral intact & 845.0 & 100.0\% & 0.4906 & -0.6205 & +0.3850 & +0.3328 \\
+CRRC\_006 & MCS & 9 & Right hemisphere & 1216.0 & 97.4\% & 0.5173 & -0.4568 & +0.5073 & +0.2188 \\
+\hline
+CRRC\_007 & VS/UWS & 7 & Right hemisphere & 1896.0 & 99.8\% & 0.8119 & -0.4731 & +0.0105 & +0.3776 \\
+CRRC\_008$^\dagger$ & VS/UWS & 2 & Bilateral intact & 1213.0 & 100.0\% & 0.7253 & -0.6384 & +0.0337 & +0.3048 \\
+CRRC\_009$^\dagger$ & VS/UWS & 3 & Bilateral intact & 1209.0 & 99.7\% & 0.6213 & -0.6091 & +0.0614 & +0.1660 \\
+CRRC\_010$^\ddagger$ & VS/UWS & 2 & Bilateral intact & 637.0 & 21.4\% & 0.7294 & -0.4525 & +0.2401 & -0.0657 \\
+CRRC\_011 & VS/UWS & 7 & Bilateral intact & 1237.0 & 99.0\% & 0.4154 & -0.4882 & +0.4003 & +0.3513 \\
+CRRC\_012 & VS/UWS & 7 & Bilateral intact & 436.0 & 99.1\% & 0.5607 & -0.3266 & +0.0680 & +0.0339 \\
+CRRC\_013 & VS/UWS & 7 & Left hemisphere & 2344.0 & 99.5\% & 0.5517 & -0.4399 & +0.1056 & +0.2702 \\
+CRRC\_014 & VS/UWS & 7 & Right hemisphere & 1215.0 & 86.8\% & 0.7556 & -0.6032 & +0.6941 & +0.1504 \\
+CRRC\_015 & VS/UWS & 4 & Left hemisphere & 1040.0 & 100.0\% & 0.6218 & -0.7362 & -0.0033 & +0.3001 \\
+\hline
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\textbf{Cross-Center Performance Comparison Across Evaluation Protocols and Model Architectures:}} \\
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\quad $\bullet$ \textbf{Protocol 1 (Clean 6-Ch, $N=13$; 6 MCS/EMCS, 7 VS/UWS)}: The two-feature static reference yields 0.5952 AUROC. With shared target standardization and direction alignment, four-feature linear scoring, fixed truncation, and source-tuned ridge yield 0.7143; source-tuned logistic regression and LDA yield 0.6905. Frozen-source linear transfer yields 0.5238.} \\
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\quad $\bullet$ \textbf{Protocol 2 (Full Cohort, $N=15$; 6 MCS/EMCS, 9 VS/UWS)}: The two-feature static reference yields 0.6481 AUROC. Under matched target alignment, four-feature linear scoring yields 0.7778 and fixed $c=1.5$ truncation yields 0.7963 (subject-level Bayesian 95\% interval $[0.5213,0.9630]$). Source-tuned ridge, logistic regression, and LDA yield 0.7407, 0.7593, and 0.7593. All-model protocol comparisons appear in Table~\ref{tab:matched_comparison}; operating thresholds are defined in Note~C.} \\
+\hline
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\footnotesize $^*$Patient CRRC\_002 presented with unilateral right hemisphere stroke and severe left motor deficit; scored 23 on the CRS-R with functional communication intact, meeting standard diagnostic criteria for Emergence from MCS (EMCS), and was retained in the conscious/emerging class ($\text{MCS}^+$) for binary triage screening.} \\
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\footnotesize $^\dagger$CRRC\_008 and CRRC\_009 exhibit documented $O_2$ electrode artifacts; excluded in Protocol 1 ($N=13$) and retained in Protocol 2 ($N=15$).} \\
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\footnotesize $^\ddagger$CRRC\_010 exhibited low retention (21.4\%, 34 clean blocks) due to frequent head motion; retained under Protocol 2 intent-to-treat screening.} \\
+\multicolumn{10}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\footnotesize All records acquired via NeuSen NSM2 / EEGCap32-pony (Neuracle, 1000~Hz, 4-s epochs [4,000 samples], BioSemi-compatible channel layout; Ethics Approval No.~2025-118-01; cohort details reported in Duan et~al.~\cite{duan2026auditory}) and evaluated across homologous channels (F3, F4, C3, C4, O1, O2). De-identified tabular feature matrices are open-source.} \\
+\hline
+\end{tabular*}
+\end{table*}

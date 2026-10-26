@@ -1,0 +1,10 @@
+{
+  "patients": 23,
+  "mean_persistence_overall": 0.789796954169698,
+  "mean_persistence_uws": 0.8361091199453733,
+  "mean_persistence_mcs": 0.7392745915053252,
+  "min_persistence": 0.49557522123893805,
+  "max_persistence": 1.0,
+  "persistence_auroc": 0.26515151515151514,
+  "transition_rate_auroc": 0.7348484848484849
+}

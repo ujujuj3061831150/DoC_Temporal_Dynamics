@@ -1,0 +1,81 @@
+\begin{table*}[t]
+\centering
+\renewcommand{\arraystretch}{0.78}
+\setlength{\tabcolsep}{1.8pt}
+\begin{minipage}[t]{0.47\textwidth}
+\centering
+\caption{Multiscale Sensitivity and External Cohort Benchmarks}
+\label{tab:multiscale_sensitivity}
+\vspace{-5pt}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcc}
+\hline
+\multicolumn{3}{c}{\textbf{(A) Multiscale Window \& Cohort Transfer (AUROC)}} \\
+\hline
+\textbf{Cohort / Duration} & \textbf{Linear} & \textbf{Rank Consensus} \\
+\hline
+Mendeley 2-second & 0.8916 & 0.8529 \\
+Mendeley 4-second (Default) & \textbf{0.8911} & \textbf{0.8591} \\
+Mendeley 8-second & 0.8711 & 0.8453 \\
+Mendeley 30-min Trunc. & 0.8867 & 0.8480 \\
+Figshare Static Baseline & 0.7199 & 0.6812 \\
+Figshare 120-s ($N=50$, Jump $D_1$) & \textbf{0.7691} & 0.6927 \\
+Figshare 120-s ($N=50$, Lag-1 $\rho_1$) & 0.7012 & 0.6845 \\
+Figshare 25-Fold CV ($D_1$, $N=50$) & \textbf{0.7771} & 0.7505 \\
+\hline
+\end{tabular*}
+\vspace{1pt}
+\noindent\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lc}
+\hline
+\multicolumn{2}{c}{\textbf{(B) Longitudinal \& Multi-Tier Benchmarks}} \\
+\hline
+\textbf{Validation Metric} & \textbf{Value} \\
+\hline
+Mendeley 5-h ICC ($\rho_1$ / $D_1$ / $r_{\text{residual}}$) & 0.4857 / 0.6433 / 0.4511 \\
+Wielek Transition AUC (directional $p=0.030$) & \textbf{0.7348} \\
+Wielek Mean State Stay (MCS vs. VS) & 0.7393 vs. 0.8361 \\
+Figshare Zero-Shot BA (Train Thresh.) & 0.5645 (Sens 1.000) \\
+Figshare Target-Centered BA (Target Med.) & \textbf{0.7759} (Sens 0.842) \\
+62-Channel HD Mode-1 $R^2$ & 46.52\% \\
+\hline
+\end{tabular*}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.50\textwidth}
+\centering
+\caption{Hyperparameter Stability: Soft Truncation and T-GECF Grid}
+\label{tab:hyperparam_stability}
+\vspace{-5pt}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\hline
+\multicolumn{4}{c}{\textbf{(A) Soft Truncation Threshold $c$}} \\
+\hline
+\textbf{Threshold} & \textbf{AUROC} & \textbf{PR-AUC} & \textbf{Bal.} \\
+\hline
+$c = 1.0\sigma$ & 0.8958 & 0.8543 & 0.8080 \\
+$c = 1.5\sigma$ (Default) & \textbf{0.9149} & \textbf{0.8782} & \textbf{0.8399} \\
+$c = 2.0\sigma$ & 0.9056 & 0.8662 & 0.8046 \\
+$c = 2.5\sigma$ & 0.8996 & 0.8622 & 0.8129 \\
+$c = 3.0\sigma$ & 0.8996 & 0.8622 & 0.8129 \\
+$c = \infty$ (Raw) & 0.8996 & 0.8622 & 0.8129 \\
+\hline
+\end{tabular*}
+\vspace{1pt}
+\noindent\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
+\hline
+\multicolumn{5}{c}{\textbf{(B) T-GECF Gating Grid ($\theta_0 \times \kappa$)}} \\
+\hline
+ & \multicolumn{4}{c}{\textbf{Sigmoid Gate Slope $\kappa$}} \\
+\textbf{$\theta_0$ (Quantile)} & \textbf{0.5} & \textbf{1.0} & \textbf{2.0} & \textbf{5.0} \\
+\hline
+1.282 (90\%) & \textbf{0.9220} & 0.9182 & 0.9187 & 0.9149 \\
+1.645 (95\%) & 0.9160 & 0.9182 & \textbf{0.9116} & 0.9089 \\
+1.960 (97.5\%) & 0.9160 & 0.9149 & 0.9056 & 0.9056 \\
+2.326 (99\%) & 0.9127 & 0.9116 & 0.9022 & 0.8996 \\
+Ablate Cont. ($c=\infty$) & 0.8996 & 0.8996 & 0.8996 & 0.8996 \\
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace{-4pt}
+\end{table*}

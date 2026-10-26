@@ -1,0 +1,66 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{microtype}
+\usepackage{url}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
+
+\title{Supplementary Material: A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation}
+
+\author{Hongjie~Chen$^{1}$, Jianming~Chen$^{2}$, Guanyu~Xiong$^{2}$, Fang~Li$^{2}$, and Fang~Duan$^{1,*}$%
+\thanks{$^{1}$Hongjie Chen and Fang Duan are with the College of Information Science and Engineering, Huaqiao University, Xiamen 361021, China.}%
+\thanks{$^{2}$Jianming Chen, Guanyu Xiong, and Fang Li are with the China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University, Beijing, China.}%
+\thanks{$^{*}$Corresponding author: Fang Duan (e-mail: nkfetsh@gmail.com).}%
+}
+
+\markboth{IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS: SUPPLEMENTARY MATERIAL}%
+{Chen et al.: Bedside Decision Support System for Disorders of Consciousness}
+
+\maketitle
+
+\input{table_s_crrc.tex}
+\input{table_s_matched.tex}
+
+\section*{Supplementary Clinical and Methodological Notes}
+
+\subsection*{A. CRRC Cohort Recruitment and Ethics Compliance}
+The prospective inpatient hospital cohort was evaluated at the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital, Capital Medical University Rehabilitation College). Patients presenting with disorders of consciousness secondary to severe acute brain injury (11 intracerebral hemorrhage [ICH], 4 traumatic brain injury [TBI]) undergoing inpatient neurorehabilitation were enrolled under institutional review board ethical approval (Medical Ethics Committee of China Rehabilitation Research Center, Approval No.~2025-118-01; cohort characteristics and auditory paradigm screening published in Duan et~al.~\cite{duan2026auditory}). Written informed surrogate consent was obtained from legally authorized representatives prior to telemetry recording in accordance with the Declaration of Helsinki. Diagnostic categorization into minimally conscious state (MCS, $N=6$) and vegetative state / unresponsive wakefulness syndrome (VS/UWS, $N=9$) was confirmed via serial Coma Recovery Scale-Revised (CRS-R) evaluations administered by certified neurorehabilitation clinicians (CRS-R scores ranging from 2 to 23). To preclude acute pharmacological confounding, all telemetry recordings adhered to a strict pre-recording clinical protocol requiring a $\ge 48\text{ h}$ sedation-free washout window, ensuring that observed electrophysiological dynamics reflected intrinsic thalamocortical mesocircuit state rather than transient sedative suppression.
+
+\subsection*{B. Telemetry Acquisition and Signal Preprocessing}
+Bedside electroencephalography was acquired using a research-grade NeuSen NSM2 amplifier / EEGCap32-pony system configured at a native sampling rate of 1,000~Hz with active Ag/AgCl electrodes positioned according to the international 10--20 montage (19 channels; see Duan et~al.~\cite{duan2026auditory}). Continuous recordings spanned intermediate monitoring intervals (mean $19.53 \pm 7.96$~minutes; range 7.27 to 39.07~minutes). Raw continuous signals were re-referenced to the Common Average Reference (CAR) and segmented into non-overlapping 4-second blocks (4,000 samples per block). 
+
+To ensure strict zero-leakage evaluation, artifact screening was executed at the single-record level: blocks with peak-to-peak amplitude exceeding $500\,\mu\mathrm{V}$ were flagged as artifactual gaps ($\mathbb{I}_{\text{adj}} = 0$). Homologous electrodes matching the discovery montage (F3, F4, C3, C4, O1, O2) were extracted. 
+
+Two subjects (CRRC\_008 and CRRC\_009) exhibited persistent high-impedance drift isolated to the occipital channel $O_2$. To evaluate clinical resilience objectively, two complementary validation protocols were executed:
+\begin{enumerate}
+    \item \textbf{Protocol 1 (Strict Clean 6-Channel Protocol, $N=13$)}: Excluded the two subjects with localized $O_2$ artifacts, evaluating all records with fully intact 6-channel arrays.
+    \item \textbf{Protocol 2 (Full Sensitivity Protocol, $N=15$)}: Retained all 15 enrolled subjects under an intent-to-screen sensitivity protocol regardless of single-channel electrode impedance.
+\end{enumerate}
+
+\subsection*{C. Matched Cross-Center Preprocessing and Operating Points}
+All matched comparisons use the same feature matrix and source training records for every model. The primary matrix is $[c_{\text{global}},-\mathrm{CV}_\theta,\rho_1,r_{\text{residual}}]$. Source-only inner three-fold cross-validation selects ridge and logistic regularization; LDA uses analytical shrinkage. Full-source feature signs are $\mathbf{s}_{\text{source}}=[+1,+1,+1,-1]^\top$. Model fitting uses source-standardized, sign-coded coordinates.
+
+Frozen-source transfer reuses source means, scales, and signs. Target-standardized transfer computes means and scales from the unlabeled target batch while retaining source signs. CRRC target-aligned transfer uses the same target-standardized matrix and $\mathbf{s}_{\text{target}}=[-1,+1,+1,+1]^\top$ for all models. In raw standardized coordinates, this corresponds to $\operatorname{diag}(-1,+1,+1,-1)$ applied consistently to the target inputs of source-trained supervised models. Target labels enter only the final evaluation. The direction rule is specified for the subacute clinical setting; its prospective deployment requires the rule and calibration batch to be fixed before evaluating later patients.
+
+The primary four-feature score is the arithmetic mean. The fixed-truncation variant averages $\operatorname{clip}(s_kz_k,-1.5,1.5)$ and uses the same calibration state. It yields 0.9291 AUROC in discovery and 0.7963 on the full CRRC cohort, versus 0.9324 and 0.7778 for the untruncated score. Supplementary Table~\ref{tab:matched_comparison} separates this scoring change from the transfer protocols.
+
+Primary decisions use each model's source-training score median. For full-cohort CRRC truncated scoring, sensitivity, specificity, and balanced accuracy are 0.6667, 0.7778, and 0.7222. An auxiliary unlabeled target-median threshold gives 0.8333, 0.6667, and 0.7500. For the Figshare jump-rate score, the source threshold gives 1.0000, 0.1290, and 0.5645, while the auxiliary target median gives 0.8421, 0.7097, and 0.7759. These policies have separate archived thresholds; neither is selected by scanning target labels.
+
+The repository provides per-subject scores, primary decisions, auxiliary operating points, all source and target transforms, regularization-selection traces, and input hashes in \url{results/matched_model_comparison_v1/}. Paired uncertainty uses 10,000 subject-level Dirichlet draws, sharing weights across methods and repeated folds and conditioning on the fitted predictions.
+
+
+\begingroup
+\interlinepenalty=10000
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\endgroup
+
+\end{document}

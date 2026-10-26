@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Matched-input model comparisons (AUROC). All methods share feature columns, source-only parameter selection, scaling, direction coding, and source-training median thresholds within each protocol. Truncation is a fixed scoring-rule variant ($c=1.5$). Target standardization and direction alignment are unlabeled batch adaptations.}
+\label{tab:matched_comparison}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc}
+\hline
+\textbf{Cohort and protocol} & \textbf{Linear} & \textbf{Clipped} & \textbf{Ridge} & \textbf{Logistic} & \textbf{LDA} \\
+\hline
+Mendeley, 25 outer folds & 0.9324 & 0.9291 & 0.8813 & 0.8964 & 0.8769 \\
+CRRC 15, source frozen & 0.5741 & 0.5741 & 0.5556 & 0.5556 & 0.5556 \\
+CRRC 15, target standardized & 0.5000 & 0.5000 & 0.5185 & 0.5185 & 0.5370 \\
+CRRC 15, target aligned & 0.7778 & 0.7963 & 0.7407 & 0.7593 & 0.7593 \\
+CRRC 13, target aligned & 0.7143 & 0.7143 & 0.7143 & 0.6905 & 0.6905 \\
+Figshare 50, $D_1$, source frozen & 0.7691 & 0.7606 & 0.7759 & 0.7674 & 0.7742 \\
+Figshare 50, $D_1$, target standardized & 0.7657 & 0.7606 & 0.7708 & 0.7589 & 0.7691 \\
+\hline
+\end{tabular*}
+\end{table*}

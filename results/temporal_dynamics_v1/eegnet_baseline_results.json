@@ -1,0 +1,199 @@
+{
+  "benchmark": "eegnet_empirical_baseline_25_frozen_folds",
+  "model": {
+    "architecture": "EEGNet-style (temporal conv k128 -> depthwise k32 -> separable k64 -> GAP -> dense)",
+    "n_parameters": 3074,
+    "input": "clean theta block powers, first 1600 blocks, per-channel z-scored, shape (1, 6, T)"
+  },
+  "protocol": {
+    "folds": "25 frozen outer subject-level partitions (fitted_states.json)",
+    "early_stopping": "inner stratified 75/25 subject split, patience 40, max 400 epochs",
+    "optimizer": "Adam lr=1e-3, weight_decay=1e-4, full-batch"
+  },
+  "results": {
+    "fold_macro_auroc": 0.5702,
+    "pooled_oof_auroc": 0.5508,
+    "mean_train_auroc": 0.6649,
+    "overfit_gap_train_minus_test": 0.0946,
+    "reference_orthogonal_suite": 0.9324,
+    "reference_ridge_plus_lag1": 0.83,
+    "runtime_sec": 21.6
+  },
+  "per_fold": [
+    {
+      "seed": 42,
+      "fold": 0,
+      "test_auroc": 0.3889,
+      "train_auroc": 0.4034,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 42,
+      "fold": 1,
+      "test_auroc": 0.0,
+      "train_auroc": 0.5798,
+      "best_val_auroc": 0.8333
+    },
+    {
+      "seed": 42,
+      "fold": 2,
+      "test_auroc": 0.9167,
+      "train_auroc": 0.6723,
+      "best_val_auroc": 0.8889
+    },
+    {
+      "seed": 42,
+      "fold": 3,
+      "test_auroc": 0.5833,
+      "train_auroc": 0.8319,
+      "best_val_auroc": 0.7222
+    },
+    {
+      "seed": 42,
+      "fold": 4,
+      "test_auroc": 0.0667,
+      "train_auroc": 0.4454,
+      "best_val_auroc": 0.7857
+    },
+    {
+      "seed": 142,
+      "fold": 0,
+      "test_auroc": 0.8333,
+      "train_auroc": 0.7731,
+      "best_val_auroc": 0.9167
+    },
+    {
+      "seed": 142,
+      "fold": 1,
+      "test_auroc": 0.6667,
+      "train_auroc": 0.7983,
+      "best_val_auroc": 0.6111
+    },
+    {
+      "seed": 142,
+      "fold": 2,
+      "test_auroc": 0.6667,
+      "train_auroc": 0.6891,
+      "best_val_auroc": 0.7222
+    },
+    {
+      "seed": 142,
+      "fold": 3,
+      "test_auroc": 0.75,
+      "train_auroc": 0.7311,
+      "best_val_auroc": 0.7778
+    },
+    {
+      "seed": 142,
+      "fold": 4,
+      "test_auroc": 0.6667,
+      "train_auroc": 0.7311,
+      "best_val_auroc": 0.9286
+    },
+    {
+      "seed": 242,
+      "fold": 0,
+      "test_auroc": 0.5,
+      "train_auroc": 0.8151,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 242,
+      "fold": 1,
+      "test_auroc": 0.8333,
+      "train_auroc": 0.7479,
+      "best_val_auroc": 0.7778
+    },
+    {
+      "seed": 242,
+      "fold": 2,
+      "test_auroc": 0.9167,
+      "train_auroc": 0.563,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 242,
+      "fold": 3,
+      "test_auroc": 0.25,
+      "train_auroc": 0.8992,
+      "best_val_auroc": 0.8889
+    },
+    {
+      "seed": 242,
+      "fold": 4,
+      "test_auroc": 0.4667,
+      "train_auroc": 0.4538,
+      "best_val_auroc": 0.5
+    },
+    {
+      "seed": 342,
+      "fold": 0,
+      "test_auroc": 0.1111,
+      "train_auroc": 0.6471,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 342,
+      "fold": 1,
+      "test_auroc": 0.25,
+      "train_auroc": 0.4034,
+      "best_val_auroc": 0.8333
+    },
+    {
+      "seed": 342,
+      "fold": 2,
+      "test_auroc": 0.75,
+      "train_auroc": 0.3529,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 342,
+      "fold": 3,
+      "test_auroc": 0.75,
+      "train_auroc": 0.6134,
+      "best_val_auroc": 0.8889
+    },
+    {
+      "seed": 342,
+      "fold": 4,
+      "test_auroc": 0.6667,
+      "train_auroc": 0.6975,
+      "best_val_auroc": 1.0
+    },
+    {
+      "seed": 442,
+      "fold": 0,
+      "test_auroc": 0.3889,
+      "train_auroc": 0.8403,
+      "best_val_auroc": 0.5833
+    },
+    {
+      "seed": 442,
+      "fold": 1,
+      "test_auroc": 1.0,
+      "train_auroc": 0.7143,
+      "best_val_auroc": 0.8333
+    },
+    {
+      "seed": 442,
+      "fold": 2,
+      "test_auroc": 0.8333,
+      "train_auroc": 0.8235,
+      "best_val_auroc": 0.6667
+    },
+    {
+      "seed": 442,
+      "fold": 3,
+      "test_auroc": 0.6667,
+      "train_auroc": 0.5714,
+      "best_val_auroc": 0.8889
+    },
+    {
+      "seed": 442,
+      "fold": 4,
+      "test_auroc": 0.3333,
+      "train_auroc": 0.8235,
+      "best_val_auroc": 0.8571
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "cohorts": {
+    "mendeley": 41,
+    "figshare_pdoc": 50,
+    "figshare_total": 95,
+    "wielek": 23
+  },
+  "outer_partitions": 25,
+  "surrogate_repeats": 10000,
+  "output_files": {
+    "contrasts.csv": "56a32b7dac02a21e518e23af8d9f45afdde593b56d82980501ac88deb27378f3",
+    "contrasts_direct_vs_strongest.json": "9fcaf8d97bf92616c453f868ed52e6237e0fbbaeea4911e256c3c36997b9db75",
+    "eegnet_baseline_results.json": "4f39017cb11d608abc249032b7f6301eb915c99abd2a57cb2575e0ecdac69c64",
+    "engemann_sids_cache.json": "db231f1acc07a4161087443a461a8166a7084975b8edee431c7b116d34cea066",
+    "extended_schemes_summary.json": "a604e0418ea72dd1680147d5915a369c5a85afbabab32935fccefccbeddba01c",
+    "figshare_validation_results.json": "135aa3c12208fa58765f75e60524cebf750c699d9b5ccb6cd1618e856307ad27",
+    "hyperparam_grid_results.json": "0af7947ae1730e52ac856996aec512f6e0604bbe18599d6733ade8e338161cae",
+    "metrics_100_folds.csv": "de7869530b12849abc98042290cb69e91b20e31d3828b01bff0270577e9cefcf",
+    "metrics_100_folds_summary.csv": "68a7b7d51f81044b3b76c484f62e456d89168278ddee67416d6849871a2f0aaf",
+    "metrics_ortho.json": "f9d7060b1b029d87a834abfba217c05c1f1631dabb4291b3c5b5080c9afab041",
+    "metrics_summary.csv": "b82ad77ec8c589016f29f74608bae7fab18afe78598d82786b75ee33201adf81",
+    "shuffle_summary.csv": "7e176b1df9bd2a3940b4a051483ff7ebf4583bea8719ea960acd40fb9af1148f",
+    "shuffle_summary_1000.csv": "a97491caf041ef905f552e27b93c5e690d484e489bc76c7c576cf9593a83fa3e",
+    "shuffle_summary_10000.csv": "7e176b1df9bd2a3940b4a051483ff7ebf4583bea8719ea960acd40fb9af1148f",
+    "shuffle_test_predictions.csv": "35413d1d4e7db4eed48d57fbf0c4d9ef0474e46d2a11167fbe720eee212be15f",
+    "test_predictions.csv": "78eff7fc84598e3c8c31dee94b2727d5225540fa1910f8d414f91f4af49715f2",
+    "wielek_persistence_results.json": "35a6c0edf9411f4e102b9d6e5a78fab15f4b9c8cb5f34ad718dd3032c83eb504",
+    "window_sensitivity.csv": "cc68ef64e20e6b7ebdae58b899cdbe5c3a8736ed02c8712fe7fa77ba6cccb3e3",
+    "window_test_predictions.csv": "055fa1e42c30b9ee0e08d05b32e9c59e22a8d9c1f5ce1115540546935616d610"
+  }
+}

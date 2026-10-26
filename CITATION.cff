@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or empirical data in your research, please cite it as below."
+title: "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation"
+authors:
+  - family-names: "Chen"
+    given-names: "Hongjie"
+  - family-names: "Chen"
+    given-names: "Jianming"
+  - family-names: "Xiong"
+    given-names: "Guanyu"
+  - family-names: "Li"
+    given-names: "Fang"
+  - family-names: "Duan"
+    given-names: "Fang"
+version: 1.0.0
+date-released: 2026-10-17
+license: MIT
+keywords:
+  - disorders-of-consciousness
+  - electroencephalography
+  - temporal-dynamics
+  - mesocircuit-hypothesis
+  - clinical-decision-support
+  - consensus-fusion

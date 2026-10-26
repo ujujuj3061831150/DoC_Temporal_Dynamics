@@ -1,0 +1,292 @@
+{
+  "scheme_1_100_folds_summary": [
+    {
+      "variant": "canonical",
+      "model": "Linear_C",
+      "auroc_mean": 0.8195000000000001,
+      "auroc_std": 0.15986981664497843,
+      "pr_auc_mean": 0.7895833333333333,
+      "bal_acc_med_mean": 0.7253333333333333,
+      "sens_med_mean": 0.83,
+      "spec_med_mean": 0.6206666666666666,
+      "bal_acc_youden_mean": 0.7303333333333335,
+      "sens_youden_mean": 0.6683333333333334,
+      "spec_youden_mean": 0.7923333333333332
+    },
+    {
+      "variant": "canonical",
+      "model": "MDCO_D",
+      "auroc_mean": 0.7983055555555556,
+      "auroc_std": 0.15792837880910127,
+      "pr_auc_mean": 0.7522896825396826,
+      "bal_acc_med_mean": 0.73,
+      "sens_med_mean": 0.825,
+      "spec_med_mean": 0.635,
+      "bal_acc_youden_mean": 0.7378333333333333,
+      "sens_youden_mean": 0.6883333333333335,
+      "spec_youden_mean": 0.7873333333333333
+    },
+    {
+      "variant": "drop_cglobal",
+      "model": "Linear_C",
+      "auroc_mean": 0.9277777777777777,
+      "auroc_std": 0.0905636284297586,
+      "pr_auc_mean": 0.883,
+      "bal_acc_med_mean": 0.8178333333333333,
+      "sens_med_mean": 0.9433333333333332,
+      "spec_med_mean": 0.6923333333333334,
+      "bal_acc_youden_mean": 0.8516666666666667,
+      "sens_youden_mean": 0.8333333333333335,
+      "spec_youden_mean": 0.87
+    },
+    {
+      "variant": "drop_cglobal",
+      "model": "MDCO_D",
+      "auroc_mean": 0.9175277777777778,
+      "auroc_std": 0.08970557677092024,
+      "pr_auc_mean": 0.8536666666666666,
+      "bal_acc_med_mean": 0.8439999999999999,
+      "sens_med_mean": 1.0,
+      "spec_med_mean": 0.6880000000000002,
+      "bal_acc_youden_mean": 0.8789999999999999,
+      "sens_youden_mean": 0.935,
+      "spec_youden_mean": 0.823
+    },
+    {
+      "variant": "drop_cspatial",
+      "model": "Linear_C",
+      "auroc_mean": 0.9305,
+      "auroc_std": 0.08544279230544984,
+      "pr_auc_mean": 0.8920555555555556,
+      "bal_acc_med_mean": 0.805,
+      "sens_med_mean": 0.925,
+      "spec_med_mean": 0.685,
+      "bal_acc_youden_mean": 0.852,
+      "sens_youden_mean": 0.8283333333333335,
+      "spec_youden_mean": 0.8756666666666668
+    },
+    {
+      "variant": "drop_cspatial",
+      "model": "MDCO_D",
+      "auroc_mean": 0.9135277777777777,
+      "auroc_std": 0.09062269429363451,
+      "pr_auc_mean": 0.8543174603174603,
+      "bal_acc_med_mean": 0.8408333333333333,
+      "sens_med_mean": 0.9866666666666667,
+      "spec_med_mean": 0.695,
+      "bal_acc_youden_mean": 0.8234999999999998,
+      "sens_youden_mean": 0.88,
+      "spec_youden_mean": 0.7670000000000001
+    },
+    {
+      "variant": "plus_increment",
+      "model": "Linear_C",
+      "auroc_mean": 0.858777777777778,
+      "auroc_std": 0.131117435979003,
+      "pr_auc_mean": 0.8124603174603174,
+      "bal_acc_med_mean": 0.7478333333333333,
+      "sens_med_mean": 0.8433333333333334,
+      "spec_med_mean": 0.6523333333333333,
+      "bal_acc_youden_mean": 0.7743333333333333,
+      "sens_youden_mean": 0.7183333333333334,
+      "spec_youden_mean": 0.8303333333333331
+    },
+    {
+      "variant": "plus_increment",
+      "model": "MDCO_D",
+      "auroc_mean": 0.845111111111111,
+      "auroc_std": 0.1320198821502011,
+      "pr_auc_mean": 0.7921309523809522,
+      "bal_acc_med_mean": 0.7263333333333333,
+      "sens_med_mean": 0.83,
+      "spec_med_mean": 0.6226666666666665,
+      "bal_acc_youden_mean": 0.7491666666666668,
+      "sens_youden_mean": 0.6983333333333333,
+      "spec_youden_mean": 0.8
+    },
+    {
+      "variant": "plus_lag1",
+      "model": "Linear_C",
+      "auroc_mean": 0.9002222222222221,
+      "auroc_std": 0.08963950748363116,
+      "pr_auc_mean": 0.8542777777777778,
+      "bal_acc_med_mean": 0.7961666666666667,
+      "sens_med_mean": 0.9133333333333334,
+      "spec_med_mean": 0.679,
+      "bal_acc_youden_mean": 0.7551666666666668,
+      "sens_youden_mean": 0.7700000000000001,
+      "spec_youden_mean": 0.7403333333333333
+    },
+    {
+      "variant": "plus_lag1",
+      "model": "MDCO_D",
+      "auroc_mean": 0.8696111111111109,
+      "auroc_std": 0.11410379111373554,
+      "pr_auc_mean": 0.8211706349206348,
+      "bal_acc_med_mean": 0.7233333333333334,
+      "sens_med_mean": 0.82,
+      "spec_med_mean": 0.6266666666666667,
+      "bal_acc_youden_mean": 0.7173333333333334,
+      "sens_youden_mean": 0.6766666666666667,
+      "spec_youden_mean": 0.758
+    },
+    {
+      "variant": "plus_lag1",
+      "model": "T_GECF",
+      "auroc_mean": 0.8830555555555557,
+      "auroc_std": 0.10277777777777779,
+      "pr_auc_mean": 0.8373571428571428,
+      "bal_acc_med_mean": 0.7501666666666668,
+      "sens_med_mean": 0.8550000000000001,
+      "spec_med_mean": 0.6453333333333333,
+      "bal_acc_youden_mean": 0.6816666666666668,
+      "sens_youden_mean": 0.645,
+      "spec_youden_mean": 0.7183333333333333
+    },
+    {
+      "variant": "plus_lag1_residual",
+      "model": "Linear_C",
+      "auroc_mean": 0.8990555555555556,
+      "auroc_std": 0.10268272973294802,
+      "pr_auc_mean": 0.8451507936507936,
+      "bal_acc_med_mean": 0.8008333333333334,
+      "sens_med_mean": 0.9266666666666667,
+      "spec_med_mean": 0.675,
+      "bal_acc_youden_mean": 0.7785000000000001,
+      "sens_youden_mean": 0.8116666666666665,
+      "spec_youden_mean": 0.7453333333333332
+    },
+    {
+      "variant": "plus_lag1_residual",
+      "model": "MDCO_D",
+      "auroc_mean": 0.8908888888888888,
+      "auroc_std": 0.10441680031514741,
+      "pr_auc_mean": 0.8270634920634921,
+      "bal_acc_med_mean": 0.8001666666666667,
+      "sens_med_mean": 0.92,
+      "spec_med_mean": 0.6803333333333331,
+      "bal_acc_youden_mean": 0.8026666666666666,
+      "sens_youden_mean": 0.7933333333333333,
+      "spec_youden_mean": 0.812
+    },
+    {
+      "variant": "plus_lag1_residual",
+      "model": "T_GECF",
+      "auroc_mean": 0.9200555555555557,
+      "auroc_std": 0.0879541728728736,
+      "pr_auc_mean": 0.8623888888888888,
+      "bal_acc_med_mean": 0.8440000000000001,
+      "sens_med_mean": 0.995,
+      "spec_med_mean": 0.693,
+      "bal_acc_youden_mean": 0.8705000000000002,
+      "sens_youden_mean": 0.9166666666666667,
+      "spec_youden_mean": 0.8243333333333333
+    },
+    {
+      "variant": "replace_cv_increment",
+      "model": "Linear_C",
+      "auroc_mean": 0.8686666666666669,
+      "auroc_std": 0.12378230934687431,
+      "pr_auc_mean": 0.8172777777777779,
+      "bal_acc_med_mean": 0.7746666666666665,
+      "sens_med_mean": 0.8950000000000001,
+      "spec_med_mean": 0.6543333333333332,
+      "bal_acc_youden_mean": 0.7711666666666668,
+      "sens_youden_mean": 0.7783333333333333,
+      "spec_youden_mean": 0.764
+    },
+    {
+      "variant": "replace_cv_increment",
+      "model": "MDCO_D",
+      "auroc_mean": 0.858388888888889,
+      "auroc_std": 0.1382425928057055,
+      "pr_auc_mean": 0.8110952380952381,
+      "bal_acc_med_mean": 0.7235,
+      "sens_med_mean": 0.8216666666666668,
+      "spec_med_mean": 0.6253333333333333,
+      "bal_acc_youden_mean": 0.735,
+      "sens_youden_mean": 0.6800000000000002,
+      "spec_youden_mean": 0.7900000000000001
+    },
+    {
+      "variant": "replace_cv_lag1",
+      "model": "Linear_C",
+      "auroc_mean": 0.8867777777777778,
+      "auroc_std": 0.11322010805038571,
+      "pr_auc_mean": 0.8453412698412699,
+      "bal_acc_med_mean": 0.7741666666666669,
+      "sens_med_mean": 0.88,
+      "spec_med_mean": 0.6683333333333333,
+      "bal_acc_youden_mean": 0.7291666666666665,
+      "sens_youden_mean": 0.7533333333333333,
+      "spec_youden_mean": 0.7050000000000002
+    },
+    {
+      "variant": "replace_cv_lag1",
+      "model": "MDCO_D",
+      "auroc_mean": 0.8557222222222223,
+      "auroc_std": 0.12518337964151283,
+      "pr_auc_mean": 0.8092142857142858,
+      "bal_acc_med_mean": 0.7648333333333334,
+      "sens_med_mean": 0.8833333333333333,
+      "spec_med_mean": 0.6463333333333334,
+      "bal_acc_youden_mean": 0.7086666666666666,
+      "sens_youden_mean": 0.6533333333333333,
+      "spec_youden_mean": 0.7639999999999999
+    },
+    {
+      "variant": "residual_corr",
+      "model": "Linear_C",
+      "auroc_mean": 0.8446111111111111,
+      "auroc_std": 0.14081482854141913,
+      "pr_auc_mean": 0.7782896825396824,
+      "bal_acc_med_mean": 0.757,
+      "sens_med_mean": 0.8683333333333333,
+      "spec_med_mean": 0.6456666666666666,
+      "bal_acc_youden_mean": 0.7326666666666668,
+      "sens_youden_mean": 0.825,
+      "spec_youden_mean": 0.6403333333333334
+    },
+    {
+      "variant": "residual_corr",
+      "model": "MDCO_D",
+      "auroc_mean": 0.8042222222222223,
+      "auroc_std": 0.15594012107782207,
+      "pr_auc_mean": 0.7430793650793648,
+      "bal_acc_med_mean": 0.7270000000000002,
+      "sens_med_mean": 0.83,
+      "spec_med_mean": 0.6240000000000001,
+      "bal_acc_youden_mean": 0.7463333333333334,
+      "sens_youden_mean": 0.7483333333333334,
+      "spec_youden_mean": 0.7443333333333331
+    }
+  ],
+  "scheme_2_10_fold_summary": {
+    "canonical": {
+      "Linear_C_auroc": 0.8266666666666667,
+      "MDCO_D_auroc": 0.7991666666666667
+    },
+    "plus_lag1": {
+      "Linear_C_auroc": 0.89,
+      "MDCO_D_auroc": 0.8683333333333334
+    },
+    "plus_lag1_residual": {
+      "Linear_C_auroc": 0.8916666666666666,
+      "MDCO_D_auroc": 0.8970833333333335
+    }
+  },
+  "scheme_2_loocv_summary": {
+    "canonical": {
+      "Linear_C_auroc": 0.8247126436781609,
+      "MDCO_D_auroc": 0.7988505747126438
+    },
+    "plus_lag1": {
+      "Linear_C_auroc": 0.9051724137931034,
+      "MDCO_D_auroc": 0.8778735632183907
+    },
+    "plus_lag1_residual": {
+      "Linear_C_auroc": 0.896551724137931,
+      "MDCO_D_auroc": 0.896551724137931
+    }
+  }
+}

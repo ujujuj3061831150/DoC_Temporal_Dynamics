@@ -1,0 +1,63 @@
+{
+  "cohort": "Figshare_Ling_Xu_2024",
+  "cohort_doi": "10.6084/m9.figshare.23552964",
+  "n_subjects_total": 95,
+  "n_pdoc": 50,
+  "n_mcs": 19,
+  "n_vs": 31,
+  "n_emcs": 13,
+  "n_hc": 32,
+  "zero_shot_external_validation": {
+    "static_linear_canonical": {
+      "auroc": 0.7198641765704584,
+      "bal_acc": 0.564516129032258,
+      "sensitivity": 1.0,
+      "specificity": 0.12903225806451613,
+      "threshold_source_train": 0.06092915653118033
+    },
+    "temporal_linear_d1": {
+      "auroc": 0.7691001697792869,
+      "bal_acc": 0.564516129032258,
+      "sensitivity": 1.0,
+      "specificity": 0.12903225806451613,
+      "threshold_source_train": 0.011076102701147617
+    },
+    "temporal_mdco_d1": {
+      "auroc": 0.6926994906621392,
+      "bal_acc": 0.564516129032258,
+      "sensitivity": 1.0,
+      "specificity": 0.12903225806451613,
+      "threshold_source_train": 0.47560975609756095
+    },
+    "adaptive_gated_tgecf": {
+      "auroc": 0.7436332767402377,
+      "bal_acc": 0.5382003395585738,
+      "sensitivity": 0.9473684210526315,
+      "specificity": 0.12903225806451613,
+      "threshold_source_train": 0.03281276115588818
+    }
+  },
+  "cross_validation_25fold": {
+    "static_linear_cv": {
+      "auroc": 0.7366666666666667,
+      "bal_acc": 0.6447619047619046
+    },
+    "temporal_linear_cv": {
+      "auroc": 0.7771428571428571,
+      "bal_acc": 0.6869047619047619
+    }
+  },
+  "physiological_gradient": {
+    "status": "skipped",
+    "reason": "missing_independent_clinical_diagnoses_csv",
+    "note": "4-tier physiological gradient evaluation requires independent clinical records for HC and EMCS cohorts."
+  },
+  "causal_permutation_test": {
+    "intact_auroc": 0.7691001697792869,
+    "shuffled_mean_auroc": 0.7552631578947369,
+    "shuffled_std_auroc": 0.010935618170013735,
+    "shuffled_max_auroc": 0.7826825127334465,
+    "delta_collapse": 0.013837011884549999,
+    "empirical_p": 0.1
+  }
+}

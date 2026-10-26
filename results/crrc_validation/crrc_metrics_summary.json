@@ -1,0 +1,160 @@
+{
+  "cohort_name": "China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital)",
+  "hardware": "NeuSen NSM2 / EEGCap32 (Neuracle, 32 channels, 1000 Hz, BioSemi-compatible channel layout)",
+  "recording_duration_mean_min": 19.5,
+  "protocol_1_strict_6ch": {
+    "sample_size": 13,
+    "mcs_count": 6,
+    "vs_count": 7,
+    "mcs_composition": "5 MCS, 1 EMCS",
+    "exclusion_reason": "Excluded 2 VS subjects with documented O2 bad channel artifacts",
+    "static_baseline": {
+      "auroc": 0.5952,
+      "ap": 0.5378,
+      "balanced_acc": 0.619,
+      "sensitivity": 0.6667,
+      "specificity": 0.5714,
+      "auroc_ci95": [
+        0.2333,
+        0.925
+      ],
+      "threshold_median": 0.1368
+    },
+    "temporal_lag1": {
+      "auroc": 0.5714,
+      "ap": 0.543,
+      "balanced_acc": 0.619,
+      "sensitivity": 0.6667,
+      "specificity": 0.5714,
+      "auroc_ci95": [
+        0.225,
+        0.9048
+      ],
+      "threshold_median": -0.3827
+    },
+    "orthogonal_4feature_linear": {
+      "auroc": 0.7143,
+      "ap": 0.6479,
+      "balanced_acc": 0.619,
+      "sensitivity": 0.6667,
+      "specificity": 0.5714,
+      "auroc_ci95": [
+        0.3571,
+        1.0
+      ],
+      "threshold_median": 0.0329
+    },
+    "orthogonal_4feature_soft_truncation_c15": {
+      "auroc": 0.7143,
+      "ap": 0.6479,
+      "balanced_acc": 0.619,
+      "sensitivity": 0.6667,
+      "specificity": 0.5714,
+      "auroc_ci95": [
+        0.3571,
+        1.0
+      ],
+      "threshold_median": -0.0871
+    },
+    "paired_contrast_soft_vs_static": {
+      "delta_auroc": 0.119,
+      "delta_ci95": [
+        -0.2,
+        0.4667
+      ],
+      "pr_delta_greater_zero": 0.7464
+    }
+  },
+  "protocol_2_full_sensitivity": {
+    "sample_size": 15,
+    "mcs_count": 6,
+    "vs_count": 9,
+    "mcs_composition": "5 MCS, 1 EMCS",
+    "static_baseline": {
+      "auroc": 0.6481,
+      "ap": 0.5195,
+      "balanced_acc": 0.6111,
+      "sensitivity": 0.6667,
+      "specificity": 0.5556,
+      "auroc_ci95": [
+        0.3393,
+        0.9259
+      ],
+      "threshold_median": -0.1825
+    },
+    "temporal_lag1": {
+      "auroc": 0.6296,
+      "ap": 0.5327,
+      "balanced_acc": 0.75,
+      "sensitivity": 0.8333,
+      "specificity": 0.6667,
+      "auroc_ci95": [
+        0.2955,
+        0.9444
+      ],
+      "threshold_median": -0.4381
+    },
+    "orthogonal_4feature_linear": {
+      "auroc": 0.7778,
+      "ap": 0.6479,
+      "balanced_acc": 0.75,
+      "sensitivity": 0.8333,
+      "specificity": 0.6667,
+      "auroc_ci95": [
+        0.5,
+        1.0
+      ],
+      "threshold_median": -0.0712
+    },
+    "orthogonal_4feature_soft_truncation_c15": {
+      "auroc": 0.7963,
+      "ap": 0.6627,
+      "balanced_acc": 0.75,
+      "sensitivity": 0.8333,
+      "specificity": 0.6667,
+      "auroc_ci95": [
+        0.5,
+        1.0
+      ],
+      "threshold_median": -0.08
+    },
+    "paired_contrast_soft_vs_static": {
+      "delta_auroc": 0.1481,
+      "delta_ci95": [
+        -0.1071,
+        0.44
+      ],
+      "pr_delta_greater_zero": 0.8515
+    }
+  },
+  "supervised_ml_baselines_transfer": {
+    "naive_frozen_source_transfer": {
+      "ridge": {
+        "protocol_1_clean_13_auroc": 0.4762,
+        "protocol_2_full_15_auroc": 0.5185
+      },
+      "logistic": {
+        "protocol_1_clean_13_auroc": 0.4286,
+        "protocol_2_full_15_auroc": 0.5
+      },
+      "lda": {
+        "protocol_1_clean_13_auroc": 0.4762,
+        "protocol_2_full_15_auroc": 0.537
+      }
+    },
+    "identical_direction_aligned_transfer": {
+      "ridge": {
+        "protocol_1_clean_13_auroc": 0.7143,
+        "protocol_2_full_15_auroc": 0.7407
+      },
+      "logistic": {
+        "protocol_1_clean_13_auroc": 0.7143,
+        "protocol_2_full_15_auroc": 0.7778
+      },
+      "lda": {
+        "protocol_1_clean_13_auroc": 0.6905,
+        "protocol_2_full_15_auroc": 0.7593
+      }
+    }
+  }
+}

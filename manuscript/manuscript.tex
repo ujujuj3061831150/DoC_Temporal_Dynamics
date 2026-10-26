@@ -1,0 +1,295 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{bm}
+
+\setlength{\textfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\floatsep}{4pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{4pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{2pt plus 1pt minus 1pt}
+\setlength{\abovedisplayskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{3pt plus 1pt minus 1pt}
+\setlength{\abovedisplayshortskip}{1pt plus 1pt minus 1pt}
+\setlength{\belowdisplayshortskip}{1pt plus 1pt minus 1pt}
+
+
+\begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
+
+\title{A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation}
+
+\author{Hongjie~Chen$^{1}$, Jianming~Chen$^{2}$, Guanyu~Xiong$^{2}$, Fang~Li$^{2}$, and Fang~Duan$^{1,*}$%
+\thanks{$^{1}$Hongjie Chen and Fang Duan are with the College of Information Science and Engineering, Huaqiao University, Xiamen 361021, China (e-mail: chenhj976@gmail.com; nkfetsh@gmail.com).}%
+\thanks{$^{2}$Jianming Chen, Guanyu Xiong, and Fang Li are with the China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University, Beijing, China.}%
+\thanks{$^{*}$Corresponding author: Fang Duan (e-mail: nkfetsh@gmail.com).}%
+}
+
+\markboth{IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS}%
+{Chen et al.: Bedside Decision Support System for Disorders of Consciousness}
+
+\maketitle
+
+\begin{abstract}
+Bedside EEG summaries often discard temporal order, limiting assessment of residual consciousness in small clinical cohorts. We developed an interpretable framework combining physically adjacent lag-1 persistence ($\rho_1$), normalized jump rate ($D_1$), and common-mode-adjusted bilateral correlation ($r_{\text{residual}}$) with fixed-weight consensus scoring. Evaluation comprised three continuous EEG cohorts and one sleep cohort ($N=129$ records). On long-term discovery EEG ($N=41$), the primary four-feature suite achieved 0.9324 AUROC under 25 subject-level outer partitions, compared with 0.8964 for the strongest supervised baseline using identical features and preprocessing (paired gain $+0.0360$, 95\% interval $[+0.0090,+0.0728]$). Sequence dependence of the lag-1 extension was verified by 10,000 synchronous shuffles, reducing its AUROC from 0.8911 to $0.8182\pm0.0049$ while preserving channel marginals and instantaneous spatial covariance. On China Rehabilitation Research Center telemetry ($N=15$), shared unlabeled target standardization and direction alignment yielded 0.7778 AUROC; fixed soft truncation ($c=1.5$) increased this to 0.7963, with matched supervised baselines at 0.7407--0.7593. On 120-s Figshare records ($N=50$), the jump-rate branch achieved 0.7691 AUROC, comparable to matched baselines at 0.7674--0.7759. Sleep-stage transition flexibility in the Wielek cohort ($N=23$) provided complementary evidence across circadian timescales. With $0.42\pm0.08$~ms CPU scoring latency, the framework provides a compact, auditable basis for bedside assessment and prioritization of further multimodal evaluation.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Disorders of consciousness (DoC), electroencephalography (EEG), temporal dynamics, clinical decision support systems (CDSS), mesocircuit hypothesis, consensus fusion.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{S}{evere} acute traumatic brain injury, anoxic-ischemic encephalopathy, and cerebrovascular accidents leave thousands of patients in protracted disorders of consciousness (DoC) worldwide, categorized clinically into the vegetative state/unresponsive wakefulness syndrome (VS/UWS) and the minimally conscious state (MCS)~\cite{giacino2002minimally,giacino2018practice}. Discriminating MCS from VS/UWS is a clinical imperative: diagnostic boundaries guide critical decisions regarding the withdrawal of life-sustaining treatment (WLST), analgesic protocols, and rehabilitation potential. Bedside consensus evaluations carry an established $\sim 40\%$ misdiagnosis rate; although the Coma Recovery Scale-Revised (CRS-R) reduced diagnostic error~\cite{schnakers2009diagnostic}, behavioral exams remain vulnerable to motor impairment and fluctuating arousal~\cite{cruse2011bedside}. Furthermore, prospective studies show 15\%--35\% of behaviorally unresponsive patients exhibit \textit{Cognitive Motor Dissociation} (CMD)~\cite{bodien2024cognitive,cruse2011bedside}, retaining volitional cortical drive despite absent motor output.
+
+Advanced neuroimaging and perturbational protocols (fMRI, $^{18}\text{F}$-FDG PET, TMS-EEG)~\cite{casali2013theoretically,chennu2017brain} confirm that preserved cortical complexity differentiates MCS from VS/UWS, but transport hazards preclude routine bedside deployment. Sparse continuous EEG (4--8 electrodes) remains the practical modality for longitudinal monitoring~\cite{sitt2014large,engemann2018robust,bareham2020spectral}. Beyond static spectral summaries, prior studies explored non-linear complexity~\cite{bandt2002permutation,sitt2014large}, microstate dynamics~\cite{ling2024microstates}, sleep cycling~\cite{wielek2018sleep,xiao2026sleep}, long-range temporal correlations via detrended fluctuation analysis (DFA)~\cite{thiery2018long,wei2023aberrant}, source-space states~\cite{bai2021spontaneous}, and criticality~\cite{toker2022consciousness}. Yet translating these paradigms to routine bedside care faces severe barriers: DFA multi-scale regressions require extended dense montages, inverse reconstruction is clinically prohibitive in the ICU, non-linear entropy markers suffer artifact variance inflation, and flexible predictive models require careful regularization under small clinical sample regimes ($N_{\text{train}} \approx 32$). Bedside assessment has consequently relied on empirical spectral summaries, marginal dispersion ($-\mathrm{CV}_\theta$), and unadjusted correlations~\cite{bareham2020spectral,wielek2018sleep}, bounding discrimination to a moderate plateau (AUROC 0.75--0.82).
+
+\subsection{The Permutation Invariance Defect of Conventional Metrics}
+This persistent performance plateau reflects a fundamental mathematical constraint: strict \textit{permutation invariance}. Standard bedside pipelines characterize cortical activity primarily through summary dispersion, notably power variation ($-\mathrm{CV}_\theta$), and instantaneous bilateral correlations ($r_{\text{interhem}}$) across multi-second epochs. Because sample variance and Pearson correlations are invariant under permutations of the temporal index, arbitrary chronological shuffling preserves their values identically up to numerical precision ($\approx 10^{-15}$). These formulations treat continuous electrophysiological trajectories as unordered observation ensembles, mathematically discarding multi-second sequence continuity and directional temporal reverberation.
+
+\subsection{The Mesocircuit Hypothesis and Autoregressive Memory}
+This methodological blind spot diverges from established neurobiological frameworks of conscious recovery, specifically the anterior forebrain mesocircuit model~\cite{schiff2010recovery}. In this framework, sustained behavioral awareness depends on recurrent reciprocal excitation linking the central thalamus, striatum, and frontoparietal association cortices. We hypothesize that preserved mesocircuit integrity manifests electrophysiologically as multi-second autoregressive continuity, captured by lag-1 autocorrelation ($\rho_1$) across consecutive epochs. Conversely, structural deafferentation and loss of striatal inhibition disinhibiting the internal globus pallidus (GPi) hyper-inhibit the central thalamus in VS/UWS, degrading cortical dynamics into memoryless fluctuations. Differentiating conscious capacity from reflexive unresponsiveness therefore requires operators designed to measure sequential persistence rather than permutation-invariant marginal dispersion. As illustrated in Fig.~\ref{fig:schematic}a, individual theta trajectories in MCS (P36) exhibit continuous multi-second wave-holding, whereas VS/UWS (P25) degrades into decoupled transients; consequently, while static dispersion $-\mathrm{CV}_\theta$ exhibits substantial individual overlap across cohorts (Fig.~\ref{fig:schematic}c), order-aware persistence $\rho_1$ cleanly separates conscious from unresponsive states (Fig.~\ref{fig:schematic}b). While continuous telemetry enables asymptotic estimation of $\rho_1$, rapid emergency triage requires operators capable of evaluating ultra-short recordings ($< 5$~min) where sample autocorrelation exhibits finite-sample estimator variance ($\operatorname{Var}(\hat{\rho}_1) \sim \mathcal{O}(1/M)$), motivating a normalized jump rate ($D_1$) across verified adjacent epochs ($\mathbb{I}_{\text{adj}} = 1$).
+
+\begin{figure*}[t]
+\centering
+\vspace{-4pt}
+\includegraphics[width=0.82\textwidth]{figures/fig1_mesocircuit_memory.pdf}
+\vspace{-4pt}
+\caption{Thalamocortical mesocircuit dynamics in bedside EEG. (a) 4-second theta trajectories in MCS (P36) and VS/UWS (P25). (b) Cohort distributions ($N=41$) of order-aware persistence $\rho_1$ ($p = 0.0227$). (c) Static dispersion $-\mathrm{CV}_\theta$ ($p = 0.0264$) showing individual overlap.}
+\label{fig:schematic}
+\vspace{-4pt}
+\end{figure*}
+
+\subsection{Spurious Bilateral Coupling Driven by Diffuse Slow Waves}
+A second confounding factor in bedside DoC recordings is the contamination of bilateral connectivity by diffuse slow-wave volume conduction. In patients with extensive cortical injury, high-amplitude slow oscillations synchronously drive distant sensors via volume conduction and subcortical pacemaking. Critically, while spatial montage transformations such as Common Average Referencing (CAR) eliminate linear instantaneous voltage offsets, rectified band-power envelopes retain extensive non-linear shared variance driven by subcortical pacemakers ($R^2 \approx 47\%$). This shared background driver inflates unadjusted inter-hemispheric correlations, obscuring bilateral dynamical differentiation. We hypothesize that projecting out this global common mode via orthogonal nuisance regression will unmask regional inter-hemispheric dynamics, distinguishing pathological hyper-synchrony in VS/UWS from modular, functionally differentiated cortical activity in MCS.
+
+\subsection{Contributions of This Work}
+To translate order-aware temporal dynamics into an interpretable bedside clinical decision support system (CDSS), this study delivers three primary contributions:
+\textbf{1) Order-Aware Representation and Volume-Conduction Decoupling}: We formulate multi-scale temporal operators pairing physical lag-1 persistence ($\rho_1$) for continuous telemetry with normalized jump rate ($D_1$) across verified neighbor blocks ($\mathbb{I}_{\text{adj}} = 1$), analytically linking dispersion to temporal decay via $D_1 \approx 2\pi^{-1/2}(-\mathrm{CV}_\theta)(1-\rho_1)^{1/2}$. Sequence dependency is causally confirmed via 10,000 synchronous permutation surrogates collapsing intact temporal discrimination (0.8911 AUROC) to marginal baseline levels ($0.8182 \pm 0.0049$, $p < 0.0001$). An exact OLS orthogonal projection decouples volume-conducted slow-wave envelopes ($R^2 \approx 47\%$) to isolate uncorrupted residual bilateral differentiation ($r_{\text{residual}}$).
+\textbf{2) Parsimonious Fault-Tolerant Bedside Architecture}: The primary four-feature suite $\mathbf{x}_{\text{ortho}}=[c_{\text{global}},-\mathrm{CV}_\theta,\rho_1,r_{\text{residual}}]^\top$ achieves 0.9324 AUROC and 0.8998 AP on discovery telemetry. Its paired gain over the strongest same-feature supervised baseline is $+0.0360$ (95\% interval $[+0.0090,+0.0728]$). Fixed truncation and T-GECF provide complementary scoring variants for extreme feature coordinates.
+\textbf{3) Multicenter Hierarchical Validation and Triage Utility}: CRRC inpatient telemetry ($N=15$) tests shared target calibration across hardware, yielding 0.7778 AUROC for the linear suite and 0.7963 for fixed truncation. The Figshare short-record branch ($N=50$) achieves 0.7691 AUROC, while Wielek sleep transitions ($N=23$) provide complementary circadian evidence. Across these settings, explicit calibration rules and $0.42\pm0.08$~ms CPU scoring support an interpretable workflow for bedside assessment and candidate prioritization.
+
+\section{Mathematical Formulation and Methods}
+
+\subsection{Clinical Cohorts and Ethical Compliance}
+Four multicenter cohorts totaling $N=129$ records were evaluated under institutional ethical approvals:
+
+\textbf{1) Mendeley Primary Discovery Cohort} ($N = 41$): Continuous 6-channel bedside EEG (F3, F4, C3, C4, O1, O2; 256~Hz) from 41 brain-injured patients: 12 MCS (8 $\text{MCS}^+$, 4 $\text{MCS}^-$; $6.00 \pm 0.00$~h) and 29 VS/UWS ($5.97 \pm 0.61$~h) at FRCCICMR Moscow~\cite{nekrasova2020psg}, diagnosed via standardized CRS-R assessments.
+
+\textbf{2) CRRC Inpatient Hospital Cohort} ($N = 15$): Prospective bedside telemetry from 15 subacute male patients (6 MCS, 9 VS/UWS; 11 ICH, 4 TBI; mean age $51.7 \pm 12.3$~years, range $28\text{--}69$; mean duration $19.5 \pm 8.0$~min; Ethics No.~2025-118-01~\cite{duan2026auditory}) at China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital) using a NeuSen NSM2 system (Neuracle, 32 channels, 1000~Hz, BioSemi-compatible montage; 4-second blocks [4,000 samples]; homologous 6 channels evaluated) with consensus CRS-R confirmation. Recordings were conducted under a standardized clinical protocol requiring a $\ge 48$-hour washout of central nervous system depressants and sedatives, ensuring that observed electrophysiological boundaries reflect intrinsic neurological recovery rather than pharmacological sedation. In 2 of 15 patients (CRRC\_008 and CRRC\_009), severe continuous mechanical electrode drift on $O_2$ corrupted bilateral derivation, yielding a pristine 6-channel subgroup of $N = 13$ (6 MCS [including 1 EMCS], 7 VS/UWS).
+
+\textbf{3) Figshare Continuous Cohort} ($N = 50$): High-density resting EEG (250~Hz, 120-s) from 50 patients with prolonged DoC (19 MCS, 31 VS/UWS) at Hangzhou Mingzhou Brain Rehabilitation Hospital~\cite{ling2024microstates,xu2021neural}, benchmarking zero-shot transfer across homologous channels.
+
+\textbf{4) Wielek Circadian PSG Cohort} ($N = 23$): 24-hour polysomnography from 23 post-comatose patients (11 MCS, 12 VS/UWS)~\cite{wielek2018sleep}, providing 30-second hypnograms (Wake, N1, N2, N3, REM) to assess transition persistence across sleep cycles.
+\subsection{EEG Acquisition, Preprocessing, and Physical Adjacency Constraint}
+\input{table1_results.tex}
+\label{sec:preprocessing}
+Continuous 6-channel EEG (256~Hz) was re-referenced to Common Average Reference (CAR) and segmented into non-overlapping 4-second epochs (1,024 samples). Spectral densities were computed across each 4-second epoch via Hann-tapered periodograms ($\Delta f = 0.25$~Hz), extracting theta (4--8~Hz) and alpha (8--13~Hz) band power.
+
+Primary screening at $500\,\mu\mathrm{V}$ retained $5{,}185.5 \pm 595.6$ clean blocks per patient ($96.98\% \pm 3.2\%$, $5.76 \pm 0.66$~h; $2.84\% \pm 2.1\%$ rejected in MCS vs. $3.09\% \pm 3.6\%$ in VS/UWS, $p = 0.82$, Mann-Whitney $U$ test). Tightening rejection to a conservative $150\,\mu\mathrm{V}$ threshold retained $90.14\% \pm 17.87\%$ clean blocks ($4{,}672.9 \pm 1{,}024.7$ adjacent pairs; minimum 668), confirming robust signal retention without myogenic bias.
+
+Let $\mathcal{T} = \{t_1, t_2, \dots, t_N\}$ denote clean epoch indices within a continuous recording session, and let $G_{t_i}$ denote spatial mean theta power across all 6 channels at epoch $t_i$. To prevent spurious concatenation across artifact gaps, the physical adjacency indicator is defined as:
+\begin{equation}
+\mathbb{I}_{\text{adj}}(t_i, t_{i+1}) = 
+\begin{cases}
+1, & \text{if } t_{i+1} - t_i = 1, \\
+0, & \text{otherwise},
+\end{cases}
+\end{equation}
+where 0 denotes an intervening artifact gap, and $\mathbb{I}_{\text{adj}} = 1$ compactly denotes adjacent epoch pairs. Sequential metrics operate strictly over pairs with $\mathbb{I}_{\text{adj}} = 1$, retaining $M = 5{,}133.3 \pm 687.7$ adjacent pairs per patient (minimum 1,678, exceeding calculation threshold $M \ge 10$).
+
+\subsection{Canonical Static Features and Order-Aware Dynamics}
+Four baseline features define $\mathbf{x}_{\text{canonical}} = [c_{\text{global}}, \allowbreak c_{\text{spatial}}, \allowbreak -\mathrm{CV}_\theta, \allowbreak r_{\text{interhem}}]^\top \allowbreak \in \mathbb{R}^4$. We formally define the expanded feature spaces: the 5-feature temporal extension $\mathbf{x}_{+\rho_1} = [c_{\text{global}}, c_{\text{spatial}}, -\mathrm{CV}_\theta, r_{\text{interhem}}, \rho_1]^\top \in \mathbb{R}^5$; the 5-feature combined suite $\mathbf{x}_{\text{combined}} = [c_{\text{global}}, c_{\text{spatial}}, -\mathrm{CV}_\theta, \rho_1, r_{\text{residual}}]^\top \in \mathbb{R}^5$; and the primary parsimonious 4-feature deployment suite $\mathbf{x}_{\text{ortho}} = [c_{\text{global}}, -\mathrm{CV}_\theta, \rho_1, r_{\text{residual}}]^\top \in \mathbb{R}^4$. Theta power (4--8~Hz) serves as primary carrier because thalamocortical mesocircuit projections drive frontoparietal dynamics within this band~\cite{schiff2010recovery}, whereas delta reflects non-specific slowing and alpha is largely abolished in VS/UWS. Let $P_{\theta, t}^{(k)}$ and $P_{\alpha, t}^{(k)}$ denote theta and alpha powers of channel $k \in \{1, \dots, 6\}$ at clean epoch $t \in \{1, \dots, N\}$.
+
+\textbf{1) Global Spectral Contrast ($c_{\text{global}}$)}: Quantifies the ratio of slow to fast power across all channels: $c_{\text{global}} = (\bar{P}_\theta - \bar{P}_\alpha)/(\bar{P}_\theta + \bar{P}_\alpha + \epsilon)$, where $\bar{P}_\theta = \frac{1}{6N}\sum_{k, t} P_{\theta, t}^{(k)}$, $\bar{P}_\alpha = \frac{1}{6N}\sum_{k, t} P_{\alpha, t}^{(k)}$, and $\epsilon = 10^{-12}$.
+
+\textbf{2) Spatial Contrast ($c_{\text{spatial}}$)}: Computes mean slow-to-fast ratio: $c_{\text{spatial}} = \frac{1}{6}\sum_{k=1}^6 (\bar{P}_\theta^{(k)} - \bar{P}_\alpha^{(k)})/(\bar{P}_\theta^{(k)} + \bar{P}_\alpha^{(k)} + \epsilon)$. Pre-specified unsupervised collinearity pruning ($|r| > 0.90$ evaluated strictly on outer training folds without label access) eliminates redundant spectral channels to form the parsimonious 4-feature deployment suite (Section~III-C).
+
+\textbf{3) Negative Theta Dispersion ($-\mathrm{CV}_\theta$)}: Measures temporal variance of mean theta $G_t = \frac{1}{6}\sum_{k=1}^6 P_{\theta, t}^{(k)}$: $-\mathrm{CV}_\theta = - \sqrt{\frac{1}{N-1}\sum_{t=1}^N (G_t - \bar{G})^2}/(\bar{G} + \epsilon)$, with temporal mean $\bar{G} = \frac{1}{N}\sum_{t=1}^N G_t$.
+
+\textbf{4) Inter-Hemispheric Bilateral Correlation ($r_{\text{interhem}}$)}: Averages raw pairwise Pearson correlations across symmetric bilateral pairs: $r_{\text{interhem}} = \frac{1}{3}\sum_{(L, R)} \operatorname{Corr}(\mathbf{y}_L, \mathbf{y}_R)$, where $\mathbf{y}_L, \mathbf{y}_R \in \mathbb{R}^N$ denote the 4-second block theta-power vectors across symmetric pairs $(L, R) \in \{(\text{F3}, \text{F4}), (\text{C3}, \text{C4}), (\text{O1}, \text{O2})\}$.
+
+To capture multi-second sequential continuity, two order-aware temporal representations are formulated on physically adjacent blocks:
+
+\textbf{Lag-1 Memory Persistence ($\rho_1$)}: Quantifies autoregressive temporal persistence across consecutive 4-second blocks:
+\begin{equation}
+\rho_1 = \operatorname{Corr}(\{G_{t_i} \mid \mathbb{I}_{\text{adj}}=1\}, \{G_{t_{i+1}} \mid \mathbb{I}_{\text{adj}}=1\}).
+\end{equation}
+High $\rho_1$ values reflect smooth baseline preservation, whereas low values signify rapid temporal decorrelation.
+
+\textbf{Normalized Adjacent Jump Rate ($D_1$)}: Measures resistance to high-frequency baseline discontinuities:
+\begin{equation}
+D_1 = - \frac{1}{M}\sum_{i: \mathbb{I}_{\text{adj}}=1} |G_{t_{i+1}} - G_{t_i}| / (\bar{G} + \epsilon),
+\end{equation}
+where $\bar{G} = \frac{1}{N}\sum_{t=1}^N G_t$, $M = \sum \mathbb{I}_{\text{adj}}$, and $\epsilon = 10^{-12}$. Under stationary Gaussian increments $\Delta G_t \sim \mathcal{N}(0, 2\sigma^2(1 - \rho_1))$, expected jump magnitude satisfies $\mathbb{E}[|\Delta G_t|] = 2\pi^{-1/2} \sigma (1 - \rho_1)^{1/2}$, establishing $D_1 \approx 2\pi^{-1/2} (-\mathrm{CV}_\theta) (1 - \rho_1)^{1/2}$. Evaluating the continuous jump rate $D_1$ provides an efficient linear streaming proxy; when evaluated on log-transformed power increments $\Delta \log G_t \sim \mathcal{N}$ matching multiplicative neural dynamics, the analytical identity $D_1 \approx 2\pi^{-1/2}(-\mathrm{CV}_\theta)(1-\rho_1)^{1/2}$ accounts for 93.91\% of empirical variance, confirming physical equivalence with autoregressive persistence (Section~\ref{sec:results_ablation}). Under estimator variance $\operatorname{Var}(\hat{\rho}_1) \sim \mathcal{O}(1/M)$, $D_1$ serves as a low-variance proxy for short records below $M^* \approx 75$ epochs, whereas $\rho_1$ achieves asymptotic efficiency.
+
+To test macro-scale persistence on the Wielek PSG cohort ($N=23$), stage stay persistence on 30-s hypnograms $\{s_t\}_{t=1}^L \in \{\text{Wake, N1, N2, N3, REM}\}$ is $P_{\text{stay}} = \frac{1}{L-1}\sum_{t=1}^{L-1} \mathbb{I}(s_{t+1} = s_t)$, with transition flexibility $T_{\text{trans}} = 1 - P_{\text{stay}}$.
+ 
+This establishes a unified, two-tier diagnostic architecture. The four-dimensional feature space is spanned by four complementary physical domains: spectral slowing contrast, marginal envelope dispersion, sequential autoregressive continuity, and residual bilateral differentiation. The parsimonious 4-feature suite $[c_{\text{global}}, -\mathrm{CV}_\theta, \rho_1, r_{\text{residual}}]$ serves as the primary clinical deployment system, while orthogonal factorials and channel ablations systematically verify the independent contribution of each physical operator.
+
+
+\enlargethispage{2\baselineskip}
+\subsection{Residual Bilateral Resonance ($r_{\text{residual}}$)}
+\input{table2_multiscale_hyperparam.tex}
+For each symmetric bilateral pair $(L, R) \in \{(\text{F3}, \text{F4}), (\text{C3}, \text{C4}), (\text{O1}, \text{O2})\}$ with block theta-power vectors $\mathbf{y}_L, \mathbf{y}_R \in \mathbb{R}^M$, the nuisance signal across the remaining 4 channels is $z_t^{(L, R)} = \frac{1}{4}\sum_{k \notin \{L, R\}} P_{\theta, t}^{(k)}$. With standardized $\tilde{\mathbf{z}}^{(L, R)} \in \mathbb{R}^M$ and design matrix $\mathbf{X}_c^{(L, R)} = [\mathbf{1}, \tilde{\mathbf{z}}^{(L, R)}] \in \mathbb{R}^{M \times 2}$, the exact unregularized OLS projection operator $\mathbf{P}_{(L, R)}^\perp = \mathbf{I}_M - \mathbf{X}_c^{(L, R)} (\mathbf{X}_c^{(L, R)})^+ \in \mathbb{R}^{M \times M}$ (strictly rank-deficient with $\operatorname{rank}(\mathbf{P}^\perp) = M - 2$, where $\mathbf{X}_c^+$ denotes the Moore--Penrose pseudoinverse) computes orthogonalized residuals $\boldsymbol{\epsilon}_L^{(L, R)} = \mathbf{P}_{(L, R)}^\perp \mathbf{y}_L$ and $\boldsymbol{\epsilon}_R^{(L, R)} = \mathbf{P}_{(L, R)}^\perp \mathbf{y}_R$. The residual bilateral resonance averages pairwise correlations:
+\begin{equation}
+r_{\text{residual}} = \frac{1}{3} \sum_{(L, R)} \operatorname{Corr}(\boldsymbol{\epsilon}_L^{(L, R)}, \boldsymbol{\epsilon}_R^{(L, R)}).
+\end{equation}
+Whereas CAR eliminates linear instantaneous voltage offsets, theta-band power constitutes a phase-free envelope whose slow-wave modulation retains extensive shared variance across electrodes. The shared 4-channel power envelope accounts for approximately 47\% of raw bilateral variance; decoupling this background regressor in the power domain isolates residual bilateral differentiation.
+
+\subsection{Consensus Operators and Machine Learning Baselines}
+\textbf{Linear Standardized Aggregation (Linear)}:
+Equal-weight consensus follows the fixed-coefficient formulation of Dawes improper linear models~\cite{dawes1979robust}. The score is $S_{\text{linear}}(\mathbf{x})=K^{-1}\sum_{k=1}^{K}s_kz_k$, where $z_k=(x_k-\mu_k^{\text{tr}})/\sigma_k^{\text{tr}}$ and each sign $s_k$ is fitted from the feature--label correlation in the source training partition. Standardization and signs are re-estimated inside every inner and outer training fold. For the full-source four-feature fit, the signs are $[+1,+1,+1,-1]^\top$. CRRC target alignment uses the specified vector $[-1,+1,+1,+1]^\top$ for all models in common oriented coordinates (Supplementary Note~C). A separate soft-truncated score is $K^{-1}\sum_k\operatorname{clip}(s_kz_k,-c,c)$ with fixed $c=1.5$. The primary four-feature model uses $c=\infty$; the five-feature truncation grid and four-feature truncated variant are reported separately.
+
+\textbf{Non-Parametric Rank Consensus ($S_{\text{rank}}$)}:
+Adapted from multi-criteria decision frameworks~\cite{grabisch2009aggregation}, rank consensus maps signed features to empirical cumulative distribution function (CDF) midranks:
+\begin{equation}
+S_{\text{rank}}(\mathbf{x}) = \frac{1}{K} \sum_{k=1}^K \tilde{F}_k(s_k x_k),
+\end{equation}
+where $\tilde{F}_k(u) = \frac{1}{N_{\text{tr}}} \sum_{i=1}^{N_{\text{tr}}} [ \mathbb{I}(s_k x_{i, k}^{\text{tr}} < u) + \frac{1}{2} \mathbb{I}(s_k x_{i, k}^{\text{tr}} = u) ]$. Curvature is fixed to $p = 1.0$ (mean on ranks), ensuring constant marginal substitution without uncalibrated parameters on small cohorts.
+
+\textbf{Adaptive Fluctuation-Gated Hybrid (T-GECF)}:
+As an artifact-resilient safety wrapper against sensor corruption, T-GECF bridges high linear resolution and rank stability via sample-level volatility gating. For signed standardized features $\tilde{x}_k = s_k (x_k - \mu_k^{\text{tr}})/(\sigma_k^{\text{tr}} + \epsilon)$, sample volatility is $v(\mathbf{x}) = \sqrt{\frac{1}{K} \sum_{k=1}^K (\tilde{x}_k - \bar{\tilde{x}})^2}$, standardized to $z_v(\mathbf{x}) = (v(\mathbf{x}) - \mu_v^{\text{tr}})/(\sigma_v^{\text{tr}} + \epsilon)$ against training folds. A continuous Sigmoid gate $\beta(\mathbf{x}) = 1 / (1 + \exp(-\kappa(z_v(\mathbf{x}) - \theta_0)))$ ($\theta_0 = 1.645, \kappa = 2.0$) mixes standardized rank and linear scores:
+\begin{equation}
+S_{\text{T-GECF}}(\mathbf{x}) = \beta(\mathbf{x}) \tilde{S}_{\text{rank}}(\mathbf{x}) + (1 - \beta(\mathbf{x})) \tilde{S}_{\text{linear}}(\mathbf{x}),
+\end{equation}
+where $\tilde{S}_{\text{rank}}$ and $\tilde{S}_{\text{linear}}$ are standardized to zero mean and unit variance using outer fold statistics prior to mixing. Elevated volatility ($z_v(\mathbf{x}) > 1.645$) dynamically shunts decision weight toward bounded rank consensus $\tilde{S}_{\text{rank}}(\mathbf{x})$, wrapping the system against extreme sensor spike corruptions.
+
+\textbf{Supervised Machine Learning and Domain Baselines}:
+Ridge, logistic regression, and shrinkage LDA receive exactly the same feature columns, standardized coordinates, direction coding, and subject partitions as equal-weight scoring. Ridge $\alpha$ and logistic $C$ are selected from $\{10^{-3},10^{-2},10^{-1},1,10,10^2,10^3\}$ using source-only inner three-fold stratified cross-validation; transforms are fitted on each inner training fold. LDA uses analytical shrinkage (\texttt{auto})~\cite{ledoit2004well}. The same source-selected parameters are retained across external protocols. The primary matched comparison uses $\mathbf{x}_{\text{ortho}}$; the short-record branch uses $[c_{\text{global}},c_{\text{spatial}},D_1,r_{\text{interhem}}]^\top$ for every model. Lempel-Ziv complexity, spectral entropy, and an EEGNet-style CNN~\cite{lawhern2018eegnet} provide additional domain baselines under the recorded protocols.
+
+\subsection{Subject-Level Validation Protocol and Decision Thresholds}
+Discovery evaluation uses five random seeds and five stratified subject-level folds per seed, giving 25 frozen outer partitions. Source means, scales, signs, empirical ranks, and hyperparameters are fitted within the appropriate training partitions. AUROC and average precision (AP) are averaged across outer folds; sensitivity, specificity, balanced accuracy, and F1 use pooled outer-test decisions, with each subject contributing once per seed. Each model's operating threshold is its source-training score median. Paired 95\% intervals use 10,000 subject-level Dirichlet Bayesian bootstrap draws~\cite{rubin1981bayesian}, sharing each subject's weight across folds and methods, conditional on the fitted predictions. External evaluation separates frozen-source transfer, unlabeled target-batch standardization, and CRRC target direction alignment. Models share the same target transform within each protocol; external labels enter only final evaluation. Target-batch median operating points are auxiliary results labeled separately from source-training thresholds. Full parameters, transforms, thresholds, and predictions are archived with the comparison code. A cohort-wide logistic regression on standardized $[c_{\text{global}},R^2,\rho_1]$ provides the separate conditional association analysis.
+
+\section{Experimental Results}
+
+\enlargethispage{2\baselineskip}
+\subsection{The $2 \times 2$ Orthogonal Factorial Decomposition}
+
+Table~\ref{tab:main_results} reports classification metrics across model and feature configurations. The $2 \times 2$ factorial decomposition (Fig.~\ref{fig:ablations}a) yields four anchor quadrants: Cell A (Static Baseline, Linear) achieves AUROC = 0.8200; Cell B (Static Baseline, Rank) yields 0.7893; Cell C (Plus Lag-1 $\rho_1$, Linear) attains 0.8911, the highest discrimination among the four factorial configurations, whereas Cell D (Plus Lag-1 $\rho_1$, Rank) achieves 0.8591. The temporal representation net gain is $\Delta_{\text{rep}} = \operatorname{AUC}(\text{Cell C}) - \operatorname{AUC}(\text{Cell A}) = +0.0711$ (95\% CI $[+0.0011, +0.1534]$, probability of positive gain 97.74\%). Linear and rank consensus address complementary objectives ($\Delta_{\text{fuse}} = \operatorname{AUC}(\text{Cell D}) - \operatorname{AUC}(\text{Cell C}) = -0.0320$): linear aggregation maximizes pristine resolution, while rank consensus guarantees bounded stability.
+
+\subsection{Diagnostic Operating Characteristics and Imbalanced Precision-Recall}
+At the pre-specified training median threshold, incorporating $\rho_1$ elevated Balanced Accuracy from 0.7201 to 0.7997 and Sensitivity from 0.8333 to 0.9167 (Table~\ref{tab:main_results}). Combining lag-1 persistence with residual bilateral resonance ($\mathbf{x}_{\text{combined}}$) improved the five-feature extension: under soft truncation ($c=1.5\sigma$), linear aggregation achieved \textbf{0.9149} AUROC (PR-AUC = \textbf{0.8782}, Balanced Accuracy = \textbf{0.8399}, Sensitivity = 0.9833). In rank consensus, this suite elevated AUROC to \textbf{0.8949}, bringing non-parametric rank consensus to near-perfect parity with unconstrained linear aggregation (within $0.0047$ of 0.8996).
+
+\begin{figure}[t]
+\centering
+\vspace{-4pt}
+\includegraphics[width=0.84\columnwidth]{figures/fig2_factorial_ablations.pdf}
+\vspace{-4pt}
+\caption{(a) $2 \times 2$ factorial decomposition separating representation gain ($\Delta_{\text{rep}} = +0.0711$) from consensus mapping ($\Delta_{\text{fuse}} = -0.0320$). (b) Performance across representation ablations (dashed line: canonical baseline 0.8200), highlighting the combined model (0.9149), 4-feature orthogonal model (0.9324), and adaptive gated hybrid (T-GECF, 0.9116).}
+\vspace{-6pt}
+\label{fig:ablations}
+\end{figure}
+Paired Bayesian bootstrap intervals for rank consensus, soft truncation, and T-GECF remain strictly positive ($[+0.0049, \allowbreak +0.1530]$, $[+0.0064, \allowbreak +0.1931]$, and $[+0.0013, \allowbreak +0.1927]$ vs. Canonical Static Baseline 0.8200), demonstrating that combining temporal continuity with spatial de-confounding brings non-parametric rank consensus to parity with linear models.
+
+Stratifying the 12 MCS patients by behavioral subdiagnosis revealed consistent temporal persistence across subtypes: $\text{MCS}^+$ patients ($N=8$, characterized by command following or intelligible verbalization) showed $\rho_1 = 0.4563 \pm 0.2687$ and were correctly identified in 8 of 8 cases (100\% sensitivity), while $\text{MCS}^-$ patients ($N=4$, demonstrating visual pursuit or localization only) exhibited $\rho_1 = 0.4377 \pm 0.1670$ with 3 of 4 cases correctly classified (75\% sensitivity; overall MCS sensitivity 11/12 = 91.67\%). Furthermore, under class imbalance (12 MCS vs. 29 VS/UWS, prevalence baseline $\text{PR-AUC} = 0.2927$), incorporating $\rho_1$ advanced PR-AUC from 0.7823 (Cell A) to \textbf{0.8384} (Cell C), with direct substitution ($\text{Replace CV by } \rho_1$) reaching \textbf{0.8495} and the combined model reaching \textbf{0.8782}, confirming robustness against class skew.
+
+\enlargethispage{2.5\baselineskip}
+\subsection{Feature Ablation and Collinearity Redundancy Analysis}\label{sec:results_ablation}
+Directly replacing $-\mathrm{CV}_\theta$ with order-aware $\rho_1$ within the 4-feature suite yielded 0.8851 AUROC, showing that sequence memory supersedes marginal variance. Across 41 patients, MCS exhibited higher lag-1 persistence ($0.450 \pm 0.250$ vs. $0.287 \pm 0.181$, $p = 0.0227$, AUROC = 0.7299; Fig.~\ref{fig:schematic}b,c) and attenuated normalized adjacent jump rates ($D_1$: $-0.420 \pm 0.089$ vs. $-0.558 \pm 0.168$, $p = 0.0112$, AUROC = 0.7557). Evaluating the continuous jump rate $D_1$ on log-transformed power increments empirically verifies the analytical identity across subjects ($r = 0.9691, p = 2.59 \times 10^{-25}, R^2 = 93.91\%$), demonstrating that adjacent jump magnitude serves as a faithful, variance-reduced proxy for temporal persistence on short records. Finite-sample estimator variance $\operatorname{Var}(\hat{\rho}_1) \sim \mathcal{O}(1/M)$ favors $D_1$ below the empirical crossover horizon $M^* \approx 75$ epochs ($5$~min), where adjacent jump rates offer lower finite-sample variance before asymptotic autoregressive efficiency dominates. Central sensorimotor channels (C3--C4) overlying thalamocortical pathways exhibited highest univariate discrimination ($\rho_1$: $0.3996 \pm 0.1863$ in MCS vs. $0.2611 \pm 0.1631$ in VS/UWS, $p = 0.0132$, AUROC = 0.7500), outperforming frontal (0.6264) and occipital (0.6810) pairs.
+
+Regressing out the global common mode ($r_{\text{residual}}$) improved AUROC from 0.8200 to 0.8433, accounting for $R^2 = 47.27\% \pm 18.43\%$ of raw bilateral variance uniformly across groups ($46.45\%$ in MCS vs. $47.61\%$ in VS/UWS; $p = 0.7418$). Whereas raw bilateral correlation was non-significant ($0.563 \pm 0.168$ in MCS vs. $0.661 \pm 0.146$ in VS/UWS, $p = 0.0605$, AUROC = 0.6897), residualization unmasked residual bilateral differentiation beyond the shared background power envelope ($0.233 \pm 0.080$ vs. $0.376 \pm 0.193$, $p = 0.0211$, AUROC = 0.7328), reflecting modularity in MCS versus hyper-synchrony in VS/UWS. Multivariable logistic regression controlling for $c_{\text{global}}$ ($z = -0.812, p = 0.417$) and common-mode $R^2$ ($z = 0.329, p = 0.742$) confirmed that $\rho_1$ provides significant independent diagnostic value ($z = 2.460, p = 0.0139$, adjusted OR = $4.260$, 95\% CI $[1.343, 13.512]$), demonstrating conditional independence despite low events-per-variable ($\text{EPV} = 12/3 = 4$).
+
+Because $c_{\text{global}}$ and $c_{\text{spatial}}$ display high empirical collinearity ($r = 0.9813, p = 1.58 \times 10^{-29}$), the pre-specified unsupervised pruning criterion ($|r| > 0.90$) flagged this channel redundancy on outer training folds. In the redundancy ablation (Table~\ref{tab:main_results}, Fig.~\ref{fig:ablations}b), removing $c_{\text{spatial}}$ to form the 4-feature deployment suite $[c_{\text{global}}, -\mathrm{CV}_\theta, \rho_1, r_{\text{residual}}]$ elevated linear AUROC to \textbf{0.9324} (PR-AUC = \textbf{0.8998} [Average Precision; 0.8782 trapezoidal integration]; Balanced Accuracy = 0.8101, 95\% CI $[+0.0174, +0.2186]$ vs. baseline, positive gain probability 99.16\%) and raised rank consensus to \textbf{0.9076} (95\% CI $[+0.0137, +0.1725]$, sensitivity 1.0000). Similarly, dropping $c_{\text{global}}$ reached 0.9289 AUROC in linear aggregation and 0.9082 in rank consensus. The four-feature configuration is the primary deployment suite. The five-feature truncated suite (0.9149) provides a complementary ablation for assessing redundancy and bounded-influence scoring.
+
+
+
+\subsection{Temporal-Order Dependency via 10,000 Synchronous Surrogates}
+To verify that performance gains originate strictly from temporal sequence order rather than incidental distributional properties, 10,000 synchronous whole-montage permutation surrogates were executed across all 41 patients, adapting non-linear dynamical testing methodology~\cite{theiler1992testing}. Freezing intact training scales ($\sigma_k^{\text{tr, intact}}$) prevents inverse noise amplification on attenuated shuffled variances. Synchronously destroying chronological order precipitated a decisive collapse in macro AUROC across all temporal configurations (Fig.~\ref{fig:violin}): Plus Lag-1 (Linear) dropped from 0.8911 to $0.8182 \pm 0.0049$ (range: $[0.7902, 0.8369]$, empirical $p < 0.0001$, zero of 10,000 repeats matching intact performance); Plus Lag-1 (Rank) fell from 0.8591 to $0.7732 \pm 0.0416$ (range: $[0.6620, 0.9098]$, empirical $p = 0.0178$); and Plus Jump ($D_1$) degraded from 0.8611 to $0.7783 \pm 0.0040$ ($p < 0.0001$).
+
+\begin{figure}[!b]
+\centering
+\vspace{-4pt}
+\includegraphics[width=0.82\columnwidth]{figures/fig3_permutation_collapse.pdf}
+\vspace{-4pt}
+\caption{Performance under 10,000 synchronous time shuffles vs. intact ordering. Scrambling sequence order collapses linear discrimination to $0.8182 \pm 0.0049$ ($p < 0.0001$, frozen intact scale), falling below the static baseline (dashed line).}
+\vspace{-6pt}
+\label{fig:violin}
+\end{figure}
+
+This frozen scaling bounds all 10,000 shuffled linear iterations strictly below 0.8370. Across $M \approx 5{,}133$ adjacent blocks, the shuffled increment $D_1$ converges to $\mathbb{E}[|X - Y|]$ (variance $\approx 2 \times 10^{-4}$), collapsing to a deterministic marginal quantity below static baseline levels (0.8200). Across configurations, destroying sequence order removed the temporal increment under this ablation, collapsing scores to marginal baseline levels ($0.8182 \pm 0.0049$).
+
+\vspace{-3pt}
+\enlargethispage{4\baselineskip}
+\enlargethispage{4.5\baselineskip}
+\vspace{-3pt}
+\subsection{Comparison with Supervised Machine Learning and Domain Baselines}
+The same four-feature representation allowed a direct comparison of fusion rules (Table~\ref{tab:main_results}). Equal-weight linear scoring achieved 0.9324 AUROC, compared with 0.8813 for source-tuned ridge, 0.8964 for source-tuned logistic regression, and 0.8769 for shrinkage LDA. Its gain over the strongest matched baseline, logistic regression, was $+0.0360$ (paired 95\% interval $[+0.0090,+0.0728]$); gains over ridge and LDA were $+0.0511$ and $+0.0556$, respectively. These comparisons isolate the scoring rule while holding input features and preprocessing constant. Additional domain baselines yielded 0.5136 AUROC for LZC, 0.6953 for spectral entropy, and 0.5702 for the EEGNet-style CNN. The complete matched results, including external transfer protocols, are reported in Supplementary Table~S2.
+
+\vspace{-3pt}
+\subsection{Adaptive Gated Consensus (T-GECF) and Noise Stress Testing}
+On the complete representation $\mathbf{x}_{\text{combined}}$, continuous Sigmoid volatility gating in T-GECF ($\theta_0 = 1.645, \kappa = 2.0$) achieved an AUROC of \textbf{0.9116} (95\% CI $[+0.0013, +0.1927]$ vs. canonical baseline; positive gain probability 97.68\%) with 0.8399 balanced accuracy, 0.9833 sensitivity, 0.6966 specificity, and PR-AUC = \textbf{0.8669} (Table~\ref{tab:main_results}), uniting linear sensitivity with rank stability. On $\mathbf{x}_{+\rho_1}$, T-GECF similarly achieved 0.8828 AUROC ($+0.0237$ over standard rank consensus 0.8591).
+
+To assess resilience against sensor corruption, impulse spike perturbation stress tests introduced outlier spikes ($\pm \delta\sigma$, $\delta \in \{0, 5, 10, 20\}$) into individual feature coordinates across testing partitions. Under extreme $20\sigma$ impulse corruption, unconstrained linear aggregation collapsed from 0.8911 to 0.7404 ($-0.1507$), whereas clip-gated T-GECF shifted weight to bounded rank consensus, maintaining an AUROC of 0.8518 ($+0.1114$ advantage over linear aggregation). Dynamic volatility gating thus delivers verified empirical resilience against extreme impulse corruptions without sacrificing clean-signal precision (where continuous Sigmoid gating yields 0.9116 AUROC).
+
+\vspace{-3pt}
+\subsection{Multiscale Window Sensitivity and Longitudinal Reliability}
+Evaluating observational windows (Table~\ref{tab:multiscale_sensitivity}-A) showed consistent linear discrimination across 2~s (0.8916), 4~s (0.8911), and 8~s (0.8711) partitions, with rank consensus similarly stable (0.8453--0.8591 across 2--8~s windows). Truncating recordings confirmed that a 30-minute record achieved 0.8867 AUROC, matching full-record performance. Test-retest reliability across five 1-hour segments ($N=38$, 190 patient-hours) yielded $\text{ICC}(3,1) = 0.4857$ for $\rho_1$, $0.6433$ for $D_1$, and $0.4511$ for $r_{\text{residual}}$. Higher-order lags exhibited monotonic decay ($\rho_1 = 0.450 \to \rho_2 = 0.401 \to \rho_3 = 0.389$ in MCS; $0.287 \to 0.252 \to 0.208$ in VS/UWS), confirming multi-second persistence. Under adjacency masking $\mathbb{I}_{\text{adj}}$, 50-iteration Monte Carlo dropout confirmed stability ($r = 0.9942 \pm 0.0030$ at 10\% dropout; $r = 0.9199 \pm 0.0308$ at 50\% loss), while tightening artifact rejection to $150\,\mu\mathrm{V}$ preserved 0.8702 AUROC (net gain $+0.1729$ over unrejected baseline 0.6973; $+0.0502$ over unconstrained baseline 0.8200). Contiguous 30-min block removal ($r = 0.9840 \pm 0.0166$) and cross-validation partition depths (10- to 100-fold CV, $0.8900$--$0.9002$) confirmed invariant discrimination.
+
+\vspace{-3pt}
+\subsection{External Waveform Validation and Sleep Macro-Dynamics}
+\textit{1) Rapid Bedside Triage (Figshare, $N=50$)}: On 120-s records, the jump-rate branch achieved 0.7691 AUROC, compared with 0.7199 for the static equal-weight baseline. On identical short-record features, source-tuned ridge, logistic regression, and LDA achieved 0.7759, 0.7674, and 0.7742, respectively (Supplementary Table~S2). The equal-weight--ridge difference was $-0.0068$ (paired 95\% interval $[-0.0319,+0.0125]$). Thus, the temporal representation retained useful cross-center discrimination across simple scoring rules. Source-training and auxiliary target-median thresholds yielded balanced accuracies of 0.5645 and 0.7759, respectively (Table~\ref{tab:multiscale_sensitivity}-B).
+\textit{2) Cross-Hardware Inpatient Validation (CRRC, $N=15$)}: With shared target standardization and direction alignment, the four-feature linear suite achieved 0.7778 AUROC; the fixed $c=1.5$ truncated variant achieved 0.7963. Matched source-tuned ridge, logistic regression, and LDA yielded 0.7407, 0.7593, and 0.7593. In the clean 13-record subset, linear scoring, truncated scoring, and ridge each achieved 0.7143, while logistic regression and LDA achieved 0.6905. Frozen-source equal-weight transfer yielded 0.5741 on the full cohort, increasing to 0.7778 when the shared target adaptation was applied. These protocols and the clipped variant are separated in Supplementary Table~S2. At source-training thresholds, full-cohort truncated scoring yielded sensitivity 0.6667 and specificity 0.7778; the auxiliary target-median operating point yielded sensitivity 0.8333 and specificity 0.6667. The matched comparison therefore distinguishes score transfer, direction alignment, and the chosen operating point.
+\textit{3) Circadian Sleep Macro-Dynamics (Wielek, $N=23$)}: Polysomnography across 24-hour records (11 MCS, 12 VS/UWS) confirmed that temporal persistence governs sleep macro-dynamics: VS/UWS patients exhibited pathological state trapping ($P_{\text{stay}} = 0.8361 \pm 0.1001$), whereas MCS retained transition flexibility ($T_{\text{trans}} = 0.261 \pm 0.099$ vs. $0.164 \pm 0.100$, one-sided $p=0.0302$, AUROC = 0.7348; nocturnal sleep $p=0.0392$, AUROC = 0.7576; Table~\ref{tab:multiscale_sensitivity}-B).
+
+\vspace{-3pt}
+\subsection{Hyperparameter Sensitivity and Gating Grid Evaluation}
+To evaluate hyperparameter stability across regimes, Table~\ref{tab:hyperparam_stability}-A reports systematic benchmarks across truncation thresholds $c$ and continuous Sigmoid gating parameters $(\theta_0, \kappa)$. Varying Winsorized soft truncation from $c = 1.0\sigma$ to unconstrained $c = \infty$ produced stable AUROC bounded within $[0.8958, 0.9149]$ (Table~\ref{tab:hyperparam_stability}-A; balanced accuracy $0.8046$--$0.8399$, sensitivity $0.9333$--$0.9833$), peaking at $c = 1.5\sigma$ ($0.9149$) before smoothly decaying toward linear aggregation ($0.8996$).
+
+Similarly, evaluating T-GECF across a $4 \times 4$ parameter grid crossing Gaussian quantile thresholds $\theta_0 \in \{1.282, \allowbreak 1.645, \allowbreak 1.960, \allowbreak 2.326\}$ (90th--99th percentiles) and slopes $\kappa \in \{0.5, \allowbreak 1.0, \allowbreak 2.0, \allowbreak 5.0\}$ demonstrated stability (Table~\ref{tab:hyperparam_stability}-B). Across all 16 configurations, AUROC remained bounded within $0.8996$--$0.9220$, outperforming canonical baseline (0.8200) by $+0.08$ to $+0.10$. At $\theta_0 = 2.326$ ($\kappa=5.0$), $\beta(\mathbf{x}) \to 0$, smoothly recovering unconstrained linear aggregation ($0.8996$) without threshold sensitivity while preserving empirical resilience against sensor corruption.
+
+\vspace{-2pt}
+\section{Discussion}
+\vspace{-2pt}
+\enlargethispage{4.5\baselineskip}
+\vspace{-2pt}
+\subsection{Physiological Significance of Autoregressive Memory}
+Under the mesocircuit hypothesis~\cite{schiff2010recovery}, reciprocal excitatory loops linking the central thalamus and frontoparietal cortices sustain contiguous multi-second theta continuity in MCS, reflecting active cortical holding. Conversely, severe deafferentation in VS/UWS disrupts these pathways, degrading theta fluctuations into decoupled transients that rapidly decay ($\rho_1 \to 0$). Permutation-invariant dispersion ($-\mathrm{CV}_\theta$) computes only marginal variance, collapsing ordered reverberation and noise into identical scores. Enforcing physical adjacency masking ($\mathbb{I}_{\text{adj}}$) provides a tractable bedside marker for thalamocortical integrity.
+
+The cross-setting results connect temporal representation to two practical recording regimes. Multi-hour EEG supports estimation of $\rho_1$, whereas the absolute-increment branch retained 0.7691 AUROC on short Figshare records. CRRC evaluation further shows that feature direction and site scaling influence transfer alongside the scoring rule. At the circadian scale, greater sleep-stage transition flexibility in MCS complements the continuous EEG findings by describing movement between discrete states. Together, these results motivate scale-specific temporal descriptors with explicitly recorded calibration rules.
+
+\vspace{-3pt}
+\subsection{Resolution of Non-Specific Bilateral Confounding}
+Substituting raw bilateral correlation with residual correlation ($r_{\text{residual}}$, AUROC 0.8433) decouples non-specific global activity, which accounts for $47.27\% \pm 18.43\%$ of raw bilateral variance due to volume conduction. Because diffuse slow-wave envelopes project near-synchronously across hemispheres, raw correlation conflates volume conduction with functional connectivity. Decoupling this common mode unmasks true differentiation: pathological hyper-synchrony in VS/UWS ($0.376 \pm 0.193$) versus preserved modularity in MCS ($0.233 \pm 0.080$, $p = 0.0211$). In subacute rehabilitation (CRRC), higher residual correlation in MCS reflects the restoration of functional bilateral integration post-washout ($\mathbf{s}_{\text{target}} = [-1, +1, +1, +1]^\top$; Supplementary Note~C). In sparse arrays, the 4-channel average $z_t$ generalizes to subspace projection ($\mathbf{P}^\perp = \mathbf{I} - \mathbf{Z}\mathbf{Z}^+$; 46.52\% Mode-1 variance across 62 channels, Table~\ref{tab:multiscale_sensitivity}-B).
+
+\vspace{-3pt}
+\subsection{Operator Dynamics: Rank Consensus vs. Linear Aggregation}
+The matched internal comparison supports fixed-weight aggregation as an effective small-cohort scoring rule: the four-feature linear suite retained an AUROC advantage over models trained on the same inputs. External results were closer, emphasizing the contribution of the representation and calibration conditions. Truncation increased full-cohort CRRC AUROC from 0.7778 to 0.7963, while the corresponding discovery AUROC was 0.9291 versus 0.9324 without clipping. This pattern makes truncation a bounded-influence scoring variant with a setting-dependent trade-off. T-GECF provides a separate route to combining linear resolution with rank stability; its impulse-noise experiment evaluates the stated gate and feature configuration.
+
+\vspace{-4pt}
+\subsection{Clinical Scope, Cognitive Motor Dissociation, and Multimodal Triage}
+For bedside triage, scores and operating thresholds serve distinct roles. The primary discovery model attained sensitivity 0.9167 at the source-training median. Auxiliary target-median operating points yielded sensitivity 0.8333 in CRRC and 0.8421 in Figshare; the source-threshold results are reported separately in Supplementary Note~C. Using the discovery prevalence ($12/41$), sensitivity 0.9167, and specificity 0.7034, the referral scenario $\Delta_{\text{referral}}=1-[P_{\text{MCS}}\,\mathrm{Sens}+(1-P_{\text{MCS}})(1-\mathrm{Spec})]$ projects 52.2\% fewer referrals than universal transfer. This is a specified decision scenario. EEG-based candidate prioritization can be evaluated against confirmatory active-task EEG, fMRI/PET, or perturbational TMS-EEG in the context of covert awareness~\cite{cruse2011bedside,bodien2024cognitive,casali2013theoretically}.
+
+\vspace{-4pt}
+\subsection{Translational Deployment Hierarchy and Multicenter Scalability}
+The three continuous EEG cohorts span multi-hour discovery recordings ($N=41$), intermediate-duration CRRC telemetry ($N=15$), and short Figshare records ($N=50$). Wielek polysomnography ($N=23$) adds complementary sleep-state evidence, giving 129 records across four cohorts. The primary four-feature suite, its clipped variant, and the short-record jump-rate branch therefore address distinct acquisition settings. Their explicit feature and calibration rules, together with sub-millisecond score computation, support integration into a testable bedside assessment workflow.
+
+\vspace{-4pt}
+\subsection{Limitations}
+The discovery cohort contains 41 patients, including 12 MCS cases, and the operators were developed on these data. External CRRC and Figshare results establish performance under their stated transfer protocols, including target-batch adaptation in CRRC. Single-session reliability of $\rho_1$ was moderate ($\mathrm{ICC}=0.4857$), favoring repeated or multi-hour assessment. Clinical endpoints concern cross-sectional state classification; prospective multimodal and longitudinal evaluations will determine the value of candidate prioritization and the referral scenario. The present CRRC sample also provides limited resolution for etiology-specific and sedation-related analyses.
+
+\vspace{-6pt}
+\section{Conclusion}
+Order-aware temporal descriptors and common-mode-adjusted bilateral information provide a compact EEG representation for bedside consciousness assessment. On identical four-feature inputs, equal-weight scoring achieved 0.9324 discovery AUROC versus 0.8964 for the strongest matched supervised baseline. Shared CRRC target adaptation yielded 0.7778 AUROC, increasing to 0.7963 with fixed truncation; the short-record Figshare branch achieved 0.7691 with performance close to matched supervised models. Together with explicit calibration rules and $0.42$~ms CPU scoring, these results support an interpretable framework for bedside assessment and prioritization of further multimodal evaluation.
+
+\vspace{-8pt}
+\section*{Declarations}
+{\fontsize{7.0pt}{8.0pt}\selectfont
+\textbf{Ethics and Consent:} Secondary analyses complied with Declaration of Helsinki, approved by institutional ethics committees: FRCCICMR Moscow~\cite{nekrasova2020psg}, Salzburg Ethics Commission (No.~415-E/1517/14-2013)~\cite{wielek2018sleep}, Hangzhou Mingzhou Hospital~\cite{ling2024microstates}, and China Rehabilitation Research Center (CRRC, Ethics No.~2025-118-01)~\cite{duan2026auditory}, with written surrogate consent. \textbf{Data and Code Availability:} Public data: Mendeley~\cite{nekrasova2020psg} and Figshare~\cite{ling2024microstates,xu2021neural}. De-identified CRRC tabular feature matrices and replication scripts: \url{https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}. Raw clinical telemetry from CRRC is restricted by institutional patient confidentiality regulations. \textbf{Conflict of Interest:} The authors declare no competing interests.\par}
+
+\newpage
+\IEEEtriggeratref{15}
+\def\IEEEbibitemsep{-2.2pt}
+\def\BIBdecl{\fontsize{7.0pt}{8.0pt}\selectfont}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,233 @@
+{
+  "verification": "orthogonal_4feature_suite_25_frozen_folds",
+  "protocol": {
+    "folds_source": "results/multiscale_matched_v2/fitted_states.json (cohort=mendeley, method=C)",
+    "outer_partitions": 25,
+    "threshold_rule": "outer-training-fold median",
+    "macro_metric": "mean of per-(seed,fold) AUROC / AP",
+    "bootstrap": "Dirichlet(exponential) x 10,000 draws, seed 20261014"
+  },
+  "summary": {
+    "canonical__C": {
+      "macro_auroc": 0.82,
+      "macro_pr_auc": 0.7823,
+      "balanced_accuracy": 0.7201,
+      "sensitivity": 0.8333,
+      "specificity": 0.6069,
+      "f1_score": 0.5988
+    },
+    "canonical__D": {
+      "macro_auroc": 0.7893,
+      "macro_pr_auc": 0.7299,
+      "balanced_accuracy": 0.727,
+      "sensitivity": 0.8333,
+      "specificity": 0.6207,
+      "f1_score": 0.6061
+    },
+    "drop_c_spatial__C": {
+      "macro_auroc": 0.9324,
+      "macro_pr_auc": 0.8998,
+      "balanced_accuracy": 0.8101,
+      "sensitivity": 0.9167,
+      "specificity": 0.7034,
+      "f1_score": 0.6962
+    },
+    "drop_c_spatial__D": {
+      "macro_auroc": 0.9076,
+      "macro_pr_auc": 0.8548,
+      "balanced_accuracy": 0.8448,
+      "sensitivity": 1.0,
+      "specificity": 0.6897,
+      "f1_score": 0.7273
+    },
+    "drop_c_global__C": {
+      "macro_auroc": 0.9289,
+      "macro_pr_auc": 0.8851,
+      "balanced_accuracy": 0.8184,
+      "sensitivity": 0.9333,
+      "specificity": 0.7034,
+      "f1_score": 0.7044
+    },
+    "drop_c_global__D": {
+      "macro_auroc": 0.9082,
+      "macro_pr_auc": 0.8413,
+      "balanced_accuracy": 0.8414,
+      "sensitivity": 1.0,
+      "specificity": 0.6828,
+      "f1_score": 0.7229
+    }
+  },
+  "contrasts_vs_canonical_C": {
+    "canonical__D": {
+      "point_difference": -0.0307,
+      "ci_lower_95": -0.0619,
+      "ci_upper_95": -0.0076,
+      "prob_positive": 0.0041
+    },
+    "drop_c_spatial__C": {
+      "point_difference": 0.1124,
+      "ci_lower_95": 0.0174,
+      "ci_upper_95": 0.2186,
+      "prob_positive": 0.9916
+    },
+    "drop_c_spatial__D": {
+      "point_difference": 0.0876,
+      "ci_lower_95": 0.0137,
+      "ci_upper_95": 0.1725,
+      "prob_positive": 0.9916
+    },
+    "drop_c_global__C": {
+      "point_difference": 0.1089,
+      "ci_lower_95": 0.0135,
+      "ci_upper_95": 0.2133,
+      "prob_positive": 0.9891
+    },
+    "drop_c_global__D": {
+      "point_difference": 0.0882,
+      "ci_lower_95": 0.0124,
+      "ci_upper_95": 0.1767,
+      "prob_positive": 0.9902
+    }
+  },
+  "comparison_vs_manuscript": {
+    "canonical__C": {
+      "recomputed": {
+        "macro_auroc": 0.82,
+        "macro_pr_auc": 0.7823,
+        "balanced_accuracy": 0.7201,
+        "sensitivity": 0.8333,
+        "specificity": 0.6069,
+        "f1_score": 0.5988
+      },
+      "manuscript": {
+        "auroc": 0.82,
+        "pr_auc": 0.7823
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    },
+    "canonical__D": {
+      "recomputed": {
+        "macro_auroc": 0.7893,
+        "macro_pr_auc": 0.7299,
+        "balanced_accuracy": 0.727,
+        "sensitivity": 0.8333,
+        "specificity": 0.6207,
+        "f1_score": 0.6061
+      },
+      "manuscript": {
+        "auroc": 0.7893
+      },
+      "contrast_vs_canonical_C": {
+        "point_difference": -0.0307,
+        "ci_lower_95": -0.0619,
+        "ci_upper_95": -0.0076,
+        "prob_positive": 0.0041
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    },
+    "drop_c_spatial__C": {
+      "recomputed": {
+        "macro_auroc": 0.9324,
+        "macro_pr_auc": 0.8998,
+        "balanced_accuracy": 0.8101,
+        "sensitivity": 0.9167,
+        "specificity": 0.7034,
+        "f1_score": 0.6962
+      },
+      "manuscript": {
+        "auroc": 0.9324,
+        "pr_auc": 0.8998,
+        "bal_acc": 0.8101,
+        "sens": 0.9167,
+        "spec": 0.7034,
+        "ci": [
+          0.0174,
+          0.2186
+        ],
+        "prob_pos": 0.9916
+      },
+      "contrast_vs_canonical_C": {
+        "point_difference": 0.1124,
+        "ci_lower_95": 0.0174,
+        "ci_upper_95": 0.2186,
+        "prob_positive": 0.9916
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    },
+    "drop_c_spatial__D": {
+      "recomputed": {
+        "macro_auroc": 0.9076,
+        "macro_pr_auc": 0.8548,
+        "balanced_accuracy": 0.8448,
+        "sensitivity": 1.0,
+        "specificity": 0.6897,
+        "f1_score": 0.7273
+      },
+      "manuscript": {
+        "auroc": 0.9076,
+        "pr_auc": 0.8548,
+        "bal_acc": 0.8448,
+        "sens": 1.0,
+        "spec": 0.6897,
+        "ci": [
+          0.0137,
+          0.1725
+        ]
+      },
+      "contrast_vs_canonical_C": {
+        "point_difference": 0.0876,
+        "ci_lower_95": 0.0137,
+        "ci_upper_95": 0.1725,
+        "prob_positive": 0.9916
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    },
+    "drop_c_global__C": {
+      "recomputed": {
+        "macro_auroc": 0.9289,
+        "macro_pr_auc": 0.8851,
+        "balanced_accuracy": 0.8184,
+        "sensitivity": 0.9333,
+        "specificity": 0.7034,
+        "f1_score": 0.7044
+      },
+      "manuscript": {
+        "auroc": 0.9289
+      },
+      "contrast_vs_canonical_C": {
+        "point_difference": 0.1089,
+        "ci_lower_95": 0.0135,
+        "ci_upper_95": 0.2133,
+        "prob_positive": 0.9891
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    },
+    "drop_c_global__D": {
+      "recomputed": {
+        "macro_auroc": 0.9082,
+        "macro_pr_auc": 0.8413,
+        "balanced_accuracy": 0.8414,
+        "sensitivity": 1.0,
+        "specificity": 0.6828,
+        "f1_score": 0.7229
+      },
+      "manuscript": {
+        "auroc": 0.9082
+      },
+      "contrast_vs_canonical_C": {
+        "point_difference": 0.0882,
+        "ci_lower_95": 0.0124,
+        "ci_upper_95": 0.1767,
+        "prob_positive": 0.9902
+      },
+      "auroc_abs_diff": 0.0,
+      "reproduced": true
+    }
+  },
+  "all_anchors_reproduced": true
+}

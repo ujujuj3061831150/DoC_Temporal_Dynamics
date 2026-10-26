@@ -1,0 +1,2435 @@
+{
+  "protocol": {
+    "features": {
+      "canonical": [
+        "c_global",
+        "c_spatial",
+        "neg_cv",
+        "r_interhem"
+      ],
+      "orthogonal_lag1": [
+        "c_global",
+        "neg_cv",
+        "lag1",
+        "residual_corr"
+      ],
+      "short_increment": [
+        "c_global",
+        "c_spatial",
+        "neg_increment",
+        "r_interhem"
+      ]
+    },
+    "methods": [
+      "equal_mean",
+      "equal_mean_c15",
+      "ridge",
+      "logistic",
+      "lda_shrinkage"
+    ],
+    "inner_cv": "3-fold stratified; source-only",
+    "parameter_grids": {
+      "ridge": [
+        0.001,
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0,
+        1000.0
+      ],
+      "logistic": [
+        0.001,
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0,
+        1000.0
+      ]
+    },
+    "threshold": "source-training score median for every model and protocol",
+    "soft_truncation": "equal_mean_c15 clips shared oriented coordinates at fixed c=1.5 within its scoring rule; learned models receive the same unmodified coordinates",
+    "internal_aggregation": "fold-macro AUROC/AP; pooled decisions across 5 repeats",
+    "external_calibration": "source_frozen is inductive; target_standardized/target_aligned are unlabeled batch adaptation",
+    "crrc_target_prior": [
+      -1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "auxiliary_threshold": "Separately labeled unlabeled target-batch median; never used for source-only tuning or primary predictions",
+    "bootstrap": {
+      "type": "paired subject-level Dirichlet, conditional on fitted scores",
+      "draws": 10000,
+      "seed": 20261026
+    },
+    "source_parameters": "Re-selected inside each outer training fold; full-source selection reused across external protocols"
+  },
+  "evaluations": {
+    "mendeley/canonical": {
+      "subjects": 41,
+      "prediction_rows": 205,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.82,
+          "average_precision": 0.7822539682539683,
+          "balanced_accuracy": 0.7201149425287356,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6068965517241379,
+          "f1": 0.5988023952095808,
+          "auroc_ci95": [
+            0.7151128889402271,
+            0.916911391905886
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.8017777777777778,
+          "average_precision": 0.7604126984126984,
+          "balanced_accuracy": 0.7201149425287356,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6068965517241379,
+          "f1": 0.5988023952095808,
+          "auroc_ci95": [
+            0.6927095749814223,
+            0.9040726734724275
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7653333333333333,
+          "average_precision": 0.7193015873015872,
+          "balanced_accuracy": 0.6660919540229886,
+          "sensitivity": 0.7666666666666667,
+          "specificity": 0.5655172413793104,
+          "f1": 0.5443786982248521,
+          "auroc_ci95": [
+            0.6519311977572884,
+            0.8748091662842318
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7722222222222223,
+          "average_precision": 0.7236349206349207,
+          "balanced_accuracy": 0.6916666666666667,
+          "sensitivity": 0.7833333333333333,
+          "specificity": 0.6,
+          "f1": 0.5696969696969697,
+          "auroc_ci95": [
+            0.6578193953826577,
+            0.8793163840185368
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7708888888888891,
+          "average_precision": 0.7252380952380952,
+          "balanced_accuracy": 0.6626436781609195,
+          "sensitivity": 0.7666666666666667,
+          "specificity": 0.5586206896551724,
+          "f1": 0.5411764705882353,
+          "auroc_ci95": [
+            0.6586672086740938,
+            0.881839288940756
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.01822222222222214,
+          "ci95": [
+            0.004648878341008742,
+            0.03686750931826777
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.05466666666666664,
+          "ci95": [
+            0.013667090239724311,
+            0.09916878109748538
+          ],
+          "prob_positive": 0.9961
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.0477777777777777,
+          "ci95": [
+            0.006597072426732348,
+            0.09541064124744902
+          ],
+          "prob_positive": 0.9872
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.04911111111111088,
+          "ci95": [
+            0.016266202692013128,
+            0.08803178304859326
+          ],
+          "prob_positive": 0.9987
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.01822222222222214,
+          "ci95": [
+            -0.03686750931826778,
+            -0.004648878341008746
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.0364444444444445,
+          "ci95": [
+            -0.008912377623238623,
+            0.08279082432067121
+          ],
+          "prob_positive": 0.9479
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.029555555555555557,
+          "ci95": [
+            -0.01403061135096082,
+            0.07784523839914888
+          ],
+          "prob_positive": 0.9036
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.030888888888888744,
+          "ci95": [
+            -0.006735560416539074,
+            0.070621497502821
+          ],
+          "prob_positive": 0.9479
+        }
+      }
+    },
+    "mendeley/orthogonal_lag1": {
+      "subjects": 41,
+      "prediction_rows": 205,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.9324444444444445,
+          "average_precision": 0.8997777777777778,
+          "balanced_accuracy": 0.8100574712643678,
+          "sensitivity": 0.9166666666666666,
+          "specificity": 0.7034482758620689,
+          "f1": 0.6962025316455697,
+          "auroc_ci95": [
+            0.8669687393502321,
+            0.9783043483047295
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.9291111111111111,
+          "average_precision": 0.8915555555555557,
+          "balanced_accuracy": 0.8433908045977011,
+          "sensitivity": 0.9833333333333333,
+          "specificity": 0.7034482758620689,
+          "f1": 0.7283950617283951,
+          "auroc_ci95": [
+            0.8661871698672895,
+            0.9748291406522388
+          ]
+        },
+        "ridge": {
+          "auroc": 0.8813333333333333,
+          "average_precision": 0.8392698412698413,
+          "balanced_accuracy": 0.782471264367816,
+          "sensitivity": 0.9166666666666666,
+          "specificity": 0.6482758620689655,
+          "f1": 0.6626506024096386,
+          "auroc_ci95": [
+            0.8054347531246375,
+            0.9435649395471762
+          ]
+        },
+        "logistic": {
+          "auroc": 0.8964444444444445,
+          "average_precision": 0.8524444444444444,
+          "balanced_accuracy": 0.8080459770114943,
+          "sensitivity": 0.9333333333333333,
+          "specificity": 0.6827586206896552,
+          "f1": 0.691358024691358,
+          "auroc_ci95": [
+            0.822360493116137,
+            0.9546839401955831
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.8768888888888889,
+          "average_precision": 0.8423809523809525,
+          "balanced_accuracy": 0.7859195402298851,
+          "sensitivity": 0.9166666666666666,
+          "specificity": 0.6551724137931034,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.800000617011292,
+            0.9413515839181424
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0033333333333334103,
+          "ci95": [
+            -0.01851375658331503,
+            0.03203915660156337
+          ],
+          "prob_positive": 0.594
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.05111111111111122,
+          "ci95": [
+            0.018430583820734227,
+            0.08996759936668913
+          ],
+          "prob_positive": 0.9997
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.03600000000000003,
+          "ci95": [
+            0.008978286024232052,
+            0.07278951342698316
+          ],
+          "prob_positive": 0.9981
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.05555555555555558,
+          "ci95": [
+            0.020224928410273284,
+            0.09754934221048547
+          ],
+          "prob_positive": 0.9998
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.0033333333333334103,
+          "ci95": [
+            -0.032039156601563375,
+            0.018513756583315024
+          ],
+          "prob_positive": 0.406
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.04777777777777781,
+          "ci95": [
+            0.0002421889341195923,
+            0.09787261840253214
+          ],
+          "prob_positive": 0.9757
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.03266666666666662,
+          "ci95": [
+            -0.005864568001884757,
+            0.07674229674926696
+          ],
+          "prob_positive": 0.9519
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.05222222222222217,
+          "ci95": [
+            0.007827674031519839,
+            0.10251310433537153
+          ],
+          "prob_positive": 0.9903
+        }
+      }
+    },
+    "mendeley/short_increment": {
+      "subjects": 41,
+      "prediction_rows": 205,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.8720000000000002,
+          "average_precision": 0.8096507936507936,
+          "balanced_accuracy": 0.7775862068965518,
+          "sensitivity": 0.9,
+          "specificity": 0.6551724137931034,
+          "f1": 0.6585365853658537,
+          "auroc_ci95": [
+            0.7814179081891636,
+            0.9474502611661345
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.8517777777777777,
+          "average_precision": 0.7935873015873017,
+          "balanced_accuracy": 0.764367816091954,
+          "sensitivity": 0.8666666666666667,
+          "specificity": 0.6620689655172414,
+          "f1": 0.6459627329192547,
+          "auroc_ci95": [
+            0.7536840296735411,
+            0.936230730120217
+          ]
+        },
+        "ridge": {
+          "auroc": 0.8144444444444444,
+          "average_precision": 0.7465396825396826,
+          "balanced_accuracy": 0.7672413793103449,
+          "sensitivity": 0.9,
+          "specificity": 0.6344827586206897,
+          "f1": 0.6467065868263473,
+          "auroc_ci95": [
+            0.7045897603416094,
+            0.9083651147167745
+          ]
+        },
+        "logistic": {
+          "auroc": 0.8217777777777777,
+          "average_precision": 0.7545396825396827,
+          "balanced_accuracy": 0.7520114942528735,
+          "sensitivity": 0.8833333333333333,
+          "specificity": 0.6206896551724138,
+          "f1": 0.6309523809523809,
+          "auroc_ci95": [
+            0.7166564981536371,
+            0.9121130639911458
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.8311111111111111,
+          "average_precision": 0.7665396825396826,
+          "balanced_accuracy": 0.7721264367816092,
+          "sensitivity": 0.9166666666666666,
+          "specificity": 0.6275862068965518,
+          "f1": 0.650887573964497,
+          "auroc_ci95": [
+            0.7265143803470117,
+            0.9204992828710277
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.020222222222222475,
+          "ci95": [
+            0.004170112213003213,
+            0.04767113617608455
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.057555555555555804,
+          "ci95": [
+            0.025231339135771413,
+            0.09708397201889092
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.0502222222222225,
+          "ci95": [
+            0.020177940105357055,
+            0.08826913293599357
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.040888888888889086,
+          "ci95": [
+            0.01505809468708986,
+            0.0754438997801707
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.020222222222222475,
+          "ci95": [
+            -0.04767113617608456,
+            -0.004170112213003218
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.03733333333333333,
+          "ci95": [
+            0.007151615724741721,
+            0.0729718337390849
+          ],
+          "prob_positive": 0.9921
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.030000000000000027,
+          "ci95": [
+            0.004497981156328931,
+            0.062213015137071496
+          ],
+          "prob_positive": 0.9928
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.02066666666666661,
+          "ci95": [
+            -0.0024124996234444994,
+            0.051369141281849676
+          ],
+          "prob_positive": 0.9593
+        }
+      }
+    },
+    "crrc_full15/orthogonal_lag1/source_frozen": {
+      "subjects": 15,
+      "prediction_rows": 15,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.5740740740740742,
+          "average_precision": 0.47671957671957665,
+          "balanced_accuracy": 0.4722222222222222,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.1111111111111111,
+          "f1": 0.5263157894736842,
+          "auroc_ci95": [
+            0.26319234044364065,
+            0.8448724837044993
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.5740740740740742,
+          "average_precision": 0.47671957671957665,
+          "balanced_accuracy": 0.4722222222222222,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.1111111111111111,
+          "f1": 0.5263157894736842,
+          "auroc_ci95": [
+            0.26319234044364065,
+            0.8448724837044993
+          ]
+        },
+        "ridge": {
+          "auroc": 0.5555555555555556,
+          "average_precision": 0.4648148148148148,
+          "balanced_accuracy": 0.5833333333333334,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.3333333333333333,
+          "f1": 0.5882352941176471,
+          "auroc_ci95": [
+            0.2490453504991092,
+            0.829499351101345
+          ]
+        },
+        "logistic": {
+          "auroc": 0.5555555555555556,
+          "average_precision": 0.4648148148148148,
+          "balanced_accuracy": 0.4722222222222222,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.1111111111111111,
+          "f1": 0.5263157894736842,
+          "auroc_ci95": [
+            0.2490453504991092,
+            0.829499351101345
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.5555555555555556,
+          "average_precision": 0.4648148148148148,
+          "balanced_accuracy": 0.4722222222222222,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.1111111111111111,
+          "f1": 0.5263157894736842,
+          "auroc_ci95": [
+            0.2490453504991092,
+            0.829499351101345
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.0185185185185186,
+          "ci95": [
+            0.00011372153145086037,
+            0.09628718841354496
+          ],
+          "prob_positive": 1.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.2689478628680042,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "equal_mean_c15": {
+          "threshold": 0.2689478628680042,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "ridge": {
+          "threshold": -0.25961402423296676,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "logistic": {
+          "threshold": -0.876334555122771,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "lda_shrinkage": {
+          "threshold": -0.6096489281843375,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        }
+      }
+    },
+    "crrc_full15/orthogonal_lag1/target_standardized": {
+      "subjects": 15,
+      "prediction_rows": 15,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.5,
+          "average_precision": 0.4369047619047619,
+          "balanced_accuracy": 0.6666666666666666,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.6666666666666666,
+          "f1": 0.6153846153846154,
+          "auroc_ci95": [
+            0.20767159154867304,
+            0.7882521239258209
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.5,
+          "average_precision": 0.4369047619047619,
+          "balanced_accuracy": 0.5833333333333333,
+          "sensitivity": 0.5,
+          "specificity": 0.6666666666666666,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.20767159154867304,
+            0.7882521239258209
+          ]
+        },
+        "ridge": {
+          "auroc": 0.5185185185185185,
+          "average_precision": 0.4388888888888889,
+          "balanced_accuracy": 0.5833333333333333,
+          "sensitivity": 0.5,
+          "specificity": 0.6666666666666666,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.2227159380408551,
+            0.8012555149032531
+          ]
+        },
+        "logistic": {
+          "auroc": 0.5185185185185185,
+          "average_precision": 0.4432178932178932,
+          "balanced_accuracy": 0.5833333333333333,
+          "sensitivity": 0.5,
+          "specificity": 0.6666666666666666,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.2203440776151131,
+            0.8005024062096621
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.537037037037037,
+          "average_precision": 0.45079365079365075,
+          "balanced_accuracy": 0.5833333333333333,
+          "sensitivity": 0.5,
+          "specificity": 0.6666666666666666,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.2334866925630482,
+            0.8198793617618371
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.01851851851851849,
+          "ci95": [
+            -0.14535402131175104,
+            0.08366765704016707
+          ],
+          "prob_positive": 0.336
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": -0.01851851851851849,
+          "ci95": [
+            -0.09417348710337581,
+            -0.0001154378041742207
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": -0.03703703703703698,
+          "ci95": [
+            -0.15446737022359627,
+            -0.0006218762316620039
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.01851851851851849,
+          "ci95": [
+            -0.14535402131175104,
+            0.08366765704016707
+          ],
+          "prob_positive": 0.336
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": -0.01851851851851849,
+          "ci95": [
+            -0.09417348710337581,
+            -0.0001154378041742207
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": -0.03703703703703698,
+          "ci95": [
+            -0.15446737022359627,
+            -0.0006218762316620039
+          ],
+          "prob_positive": 0.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": -0.032596329683754505,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "equal_mean_c15": {
+          "threshold": -0.032596329683754505,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "ridge": {
+          "threshold": -0.4351865179239206,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "logistic": {
+          "threshold": -0.8831404541892289,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        },
+        "lda_shrinkage": {
+          "threshold": -1.5199963721578444,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5555555555555556,
+          "balanced_accuracy": 0.6111111111111112
+        }
+      }
+    },
+    "crrc_full15/orthogonal_lag1/target_aligned": {
+      "subjects": 15,
+      "prediction_rows": 15,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.7777777777777778,
+          "average_precision": 0.6478535353535354,
+          "balanced_accuracy": 0.6666666666666666,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.6666666666666666,
+          "f1": 0.6153846153846154,
+          "auroc_ci95": [
+            0.5012988457034884,
+            0.9539279479672713
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.7962962962962963,
+          "average_precision": 0.6627344877344877,
+          "balanced_accuracy": 0.7222222222222222,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7777777777777778,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.5212724222197336,
+            0.9630081360283558
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7407407407407408,
+          "average_precision": 0.7117063492063492,
+          "balanced_accuracy": 0.7222222222222222,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7777777777777778,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.42856243290757073,
+            0.9445226745467139
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7592592592592593,
+          "average_precision": 0.6402777777777778,
+          "balanced_accuracy": 0.6666666666666666,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.6666666666666666,
+          "f1": 0.6153846153846154,
+          "auroc_ci95": [
+            0.47373442403811206,
+            0.9479001027794459
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7592592592592593,
+          "average_precision": 0.6402777777777778,
+          "balanced_accuracy": 0.7222222222222222,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7777777777777778,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.47373442403811206,
+            0.9479001027794459
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": -0.01851851851851849,
+          "ci95": [
+            -0.09234659171669385,
+            -0.00011654876481804539
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.03703703703703698,
+          "ci95": [
+            -0.07382903975555744,
+            0.20615085191136498
+          ],
+          "prob_positive": 0.751
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.01851851851851849,
+          "ci95": [
+            0.00012236018901862767,
+            0.09776707112578231
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.01851851851851849,
+          "ci95": [
+            0.00012236018901862767,
+            0.09776707112578231
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.01851851851851849,
+          "ci95": [
+            0.00011654876481804471,
+            0.0923465917166938
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.05555555555555547,
+          "ci95": [
+            -0.062043039928629785,
+            0.22464840378950374
+          ],
+          "prob_positive": 0.846
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.03703703703703698,
+          "ci95": [
+            0.002052490798207907,
+            0.13437113622607977
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.03703703703703698,
+          "ci95": [
+            0.002052490798207907,
+            0.13437113622607977
+          ],
+          "prob_positive": 1.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": -0.07119498826766163,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.75
+        },
+        "equal_mean_c15": {
+          "threshold": -0.08002968083879705,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.75
+        },
+        "ridge": {
+          "threshold": -0.5699903250766675,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.75
+        },
+        "logistic": {
+          "threshold": -0.8858266594376065,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.75
+        },
+        "lda_shrinkage": {
+          "threshold": -1.9088329587374944,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.75
+        }
+      }
+    },
+    "crrc_clean13/orthogonal_lag1/source_frozen": {
+      "subjects": 13,
+      "prediction_rows": 13,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.5238095238095237,
+          "average_precision": 0.49855006105006106,
+          "balanced_accuracy": 0.48809523809523814,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.14285714285714285,
+          "f1": 0.5882352941176471,
+          "auroc_ci95": [
+            0.20529050549402353,
+            0.8319853063597327
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.5238095238095237,
+          "average_precision": 0.49855006105006106,
+          "balanced_accuracy": 0.48809523809523814,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.14285714285714285,
+          "f1": 0.5882352941176471,
+          "auroc_ci95": [
+            0.20529050549402353,
+            0.8319853063597327
+          ]
+        },
+        "ridge": {
+          "auroc": 0.5238095238095237,
+          "average_precision": 0.49855006105006106,
+          "balanced_accuracy": 0.6309523809523809,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.42857142857142855,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.20529050549402353,
+            0.8319853063597327
+          ]
+        },
+        "logistic": {
+          "auroc": 0.5238095238095237,
+          "average_precision": 0.49855006105006106,
+          "balanced_accuracy": 0.48809523809523814,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.14285714285714285,
+          "f1": 0.5882352941176471,
+          "auroc_ci95": [
+            0.20529050549402353,
+            0.8319853063597327
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.5238095238095237,
+          "average_precision": 0.49855006105006106,
+          "balanced_accuracy": 0.48809523809523814,
+          "sensitivity": 0.8333333333333334,
+          "specificity": 0.14285714285714285,
+          "f1": 0.5882352941176471,
+          "auroc_ci95": [
+            0.20529050549402353,
+            0.8319853063597327
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.2711144525154791,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "equal_mean_c15": {
+          "threshold": 0.2711144525154791,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "ridge": {
+          "threshold": -0.25961402423296676,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "logistic": {
+          "threshold": -0.876334555122771,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "lda_shrinkage": {
+          "threshold": -0.6096489281843375,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        }
+      }
+    },
+    "crrc_clean13/orthogonal_lag1/target_standardized": {
+      "subjects": 13,
+      "prediction_rows": 13,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.4285714285714286,
+          "average_precision": 0.4534743034743035,
+          "balanced_accuracy": 0.5357142857142857,
+          "sensitivity": 0.5,
+          "specificity": 0.5714285714285714,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.1456495818141265,
+            0.7469078933677242
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.4285714285714286,
+          "average_precision": 0.4534743034743035,
+          "balanced_accuracy": 0.5357142857142857,
+          "sensitivity": 0.5,
+          "specificity": 0.5714285714285714,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.1456495818141265,
+            0.7469078933677242
+          ]
+        },
+        "ridge": {
+          "auroc": 0.4761904761904763,
+          "average_precision": 0.47030932030932027,
+          "balanced_accuracy": 0.5357142857142857,
+          "sensitivity": 0.5,
+          "specificity": 0.5714285714285714,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.17478812890651835,
+            0.7897554338854462
+          ]
+        },
+        "logistic": {
+          "auroc": 0.4761904761904763,
+          "average_precision": 0.47030932030932027,
+          "balanced_accuracy": 0.5357142857142857,
+          "sensitivity": 0.5,
+          "specificity": 0.5714285714285714,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.17478812890651835,
+            0.7897554338854462
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.4761904761904763,
+          "average_precision": 0.47030932030932027,
+          "balanced_accuracy": 0.5357142857142857,
+          "sensitivity": 0.5,
+          "specificity": 0.5714285714285714,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.17478812890651835,
+            0.7897554338854462
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": -0.04761904761904767,
+          "ci95": [
+            -0.19681837018827197,
+            -0.0009748138719550253
+          ],
+          "prob_positive": 0.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.040469656213218685,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "equal_mean_c15": {
+          "threshold": 0.040469656213218685,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "ridge": {
+          "threshold": -0.45222427814165533,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "logistic": {
+          "threshold": -0.882090423906256,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "lda_shrinkage": {
+          "threshold": -1.4043276466184789,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        }
+      }
+    },
+    "crrc_clean13/orthogonal_lag1/target_aligned": {
+      "subjects": 13,
+      "prediction_rows": 13,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.7142857142857143,
+          "average_precision": 0.6478535353535354,
+          "balanced_accuracy": 0.6904761904761905,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7142857142857143,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.39633786251635955,
+            0.9369098121527897
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.7142857142857143,
+          "average_precision": 0.6478535353535354,
+          "balanced_accuracy": 0.7619047619047619,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.8571428571428571,
+          "f1": 0.7272727272727273,
+          "auroc_ci95": [
+            0.39633786251635955,
+            0.9369098121527897
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7142857142857143,
+          "average_precision": 0.7236111111111111,
+          "balanced_accuracy": 0.6904761904761905,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7142857142857143,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.39637869047332697,
+            0.9385452275905488
+          ]
+        },
+        "logistic": {
+          "auroc": 0.6904761904761906,
+          "average_precision": 0.6402777777777778,
+          "balanced_accuracy": 0.6904761904761905,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7142857142857143,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.3646870622080492,
+            0.9292993537060826
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.6904761904761906,
+          "average_precision": 0.6402777777777778,
+          "balanced_accuracy": 0.6904761904761905,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.7142857142857143,
+          "f1": 0.6666666666666666,
+          "auroc_ci95": [
+            0.3646870622080492,
+            0.9292993537060826
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            -0.11213801007931483,
+            0.11404196283915319
+          ],
+          "prob_positive": 0.5038
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.023809523809523725,
+          "ci95": [
+            0.0001695330285109209,
+            0.12283336685899765
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.023809523809523725,
+          "ci95": [
+            0.0001695330285109209,
+            0.12283336685899765
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "prob_positive": 0.0
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            -0.11213801007931483,
+            0.11404196283915319
+          ],
+          "prob_positive": 0.5038
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.023809523809523725,
+          "ci95": [
+            0.0001695330285109209,
+            0.12283336685899765
+          ],
+          "prob_positive": 1.0
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.023809523809523725,
+          "ci95": [
+            0.0001695330285109209,
+            0.12283336685899765
+          ],
+          "prob_positive": 1.0
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.03285880958515616,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "equal_mean_c15": {
+          "threshold": -0.08712537060572673,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "ridge": {
+          "threshold": -0.4348612524137662,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "logistic": {
+          "threshold": -0.8820319285979932,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        },
+        "lda_shrinkage": {
+          "threshold": -1.3898047756470784,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.6190476190476191
+        }
+      }
+    },
+    "figshare50/canonical/source_frozen": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.7198641765704584,
+          "average_precision": 0.6670575356272257,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.5645902327702129,
+            0.8477684641111748
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.6960950764006791,
+          "average_precision": 0.6303416977343272,
+          "balanced_accuracy": 0.5382003395585738,
+          "sensitivity": 0.9473684210526315,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5625,
+          "auroc_ci95": [
+            0.5389985328982931,
+            0.8286615335086629
+          ]
+        },
+        "ridge": {
+          "auroc": 0.769100169779287,
+          "average_precision": 0.6949214501505405,
+          "balanced_accuracy": 0.5967741935483871,
+          "sensitivity": 1.0,
+          "specificity": 0.1935483870967742,
+          "f1": 0.6031746031746031,
+          "auroc_ci95": [
+            0.6275249031176501,
+            0.8810319424095245
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7402376910016978,
+          "average_precision": 0.6813789921775015,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.5906714502740892,
+            0.8620776436486816
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7385398981324278,
+          "average_precision": 0.6768260516438556,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.5864962108284798,
+            0.8614185566100182
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.02376910016977929,
+          "ci95": [
+            -0.010873625953773421,
+            0.06945521132556741
+          ],
+          "prob_positive": 0.9123
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.04923599320882854,
+          "ci95": [
+            -0.10306672447185289,
+            -0.001915232814234059
+          ],
+          "prob_positive": 0.0204
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": -0.02037351443123936,
+          "ci95": [
+            -0.051030780937831574,
+            0.00887379043497958
+          ],
+          "prob_positive": 0.0661
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": -0.018675721561969394,
+          "ci95": [
+            -0.049058846518161864,
+            0.0080308667064628
+          ],
+          "prob_positive": 0.0719
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.02376910016977929,
+          "ci95": [
+            -0.06945521132556741,
+            0.010873625953773409
+          ],
+          "prob_positive": 0.0877
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.07300509337860783,
+          "ci95": [
+            -0.13921176476209932,
+            -0.014929900336312396
+          ],
+          "prob_positive": 0.0071
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": -0.04414261460101865,
+          "ci95": [
+            -0.09475429575318632,
+            -0.004185847811609067
+          ],
+          "prob_positive": 0.0163
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": -0.04244482173174868,
+          "ci95": [
+            -0.09605054231475214,
+            -2.8171540023191195e-05
+          ],
+          "prob_positive": 0.0249
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.6784358581544897,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "equal_mean_c15": {
+          "threshold": 0.6730520920550123,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "ridge": {
+          "threshold": -0.0005996245344327134,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "balanced_accuracy": 0.733446519524618
+        },
+        "logistic": {
+          "threshold": 0.4005210122088668,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "lda_shrinkage": {
+          "threshold": 0.39596629231734515,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "balanced_accuracy": 0.6910016977928692
+        }
+      }
+    },
+    "figshare50/canonical/target_standardized": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.7283531409168081,
+          "average_precision": 0.6978278403467562,
+          "balanced_accuracy": 0.6808149405772496,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6774193548387096,
+          "f1": 0.6190476190476191,
+          "auroc_ci95": [
+            0.5750208495834456,
+            0.8559060150085613
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.7283531409168081,
+          "average_precision": 0.691310226477815,
+          "balanced_accuracy": 0.6808149405772496,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6774193548387096,
+          "f1": 0.6190476190476191,
+          "auroc_ci95": [
+            0.5768500043573396,
+            0.8548026721080122
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7300509337860781,
+          "average_precision": 0.6741565598724621,
+          "balanced_accuracy": 0.6383701188455009,
+          "sensitivity": 0.631578947368421,
+          "specificity": 0.6451612903225806,
+          "f1": 0.5714285714285714,
+          "auroc_ci95": [
+            0.5768203221264406,
+            0.8550991097546522
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7351443123938879,
+          "average_precision": 0.6925511411320757,
+          "balanced_accuracy": 0.6018675721561969,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.6774193548387096,
+          "f1": 0.5128205128205128,
+          "auroc_ci95": [
+            0.5834071410561804,
+            0.859252151994053
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7232597623089982,
+          "average_precision": 0.6703349746885214,
+          "balanced_accuracy": 0.5857385398981324,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.6451612903225806,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.5686986810896993,
+            0.8499717937246067
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            -0.013646066717236416,
+            0.011511888017427677
+          ],
+          "prob_positive": 0.5363
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.001697792869269965,
+          "ci95": [
+            -0.0826511062893994,
+            0.06649155415632883
+          ],
+          "prob_positive": 0.5041
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": -0.006791171477079749,
+          "ci95": [
+            -0.05363059491664297,
+            0.030147987841972305
+          ],
+          "prob_positive": 0.3876
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.005093378607809895,
+          "ci95": [
+            -0.0580525051433214,
+            0.05859499691586124
+          ],
+          "prob_positive": 0.6041
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            -0.011511888017427682,
+            0.013646066717236413
+          ],
+          "prob_positive": 0.4637
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.001697792869269965,
+          "ci95": [
+            -0.08328271668424012,
+            0.06649747302067888
+          ],
+          "prob_positive": 0.5053
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": -0.006791171477079749,
+          "ci95": [
+            -0.05534070046871948,
+            0.031561199251868524
+          ],
+          "prob_positive": 0.3974
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.005093378607809895,
+          "ci95": [
+            -0.05830490265002414,
+            0.05927211265809013
+          ],
+          "prob_positive": 0.6056
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.03342444349892723,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "equal_mean_c15": {
+          "threshold": 0.03342444349892723,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "ridge": {
+          "threshold": -0.413319196820792,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        },
+        "logistic": {
+          "threshold": -1.516071079985608,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "balanced_accuracy": 0.6910016977928692
+        },
+        "lda_shrinkage": {
+          "threshold": -1.2540843059725315,
+          "sensitivity": 0.6842105263157895,
+          "specificity": 0.6129032258064516,
+          "balanced_accuracy": 0.6485568760611206
+        }
+      }
+    },
+    "figshare50/orthogonal_lag1/source_frozen": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.5161290322580645,
+          "average_precision": 0.4012639563883824,
+          "balanced_accuracy": 0.5297113752122241,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.3225806451612903,
+          "f1": 0.5185185185185185,
+          "auroc_ci95": [
+            0.35359140056378285,
+            0.6741661462414558
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.5432937181663837,
+          "average_precision": 0.40675129207567484,
+          "balanced_accuracy": 0.5721561969439728,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.3548387096774194,
+          "f1": 0.5555555555555556,
+          "auroc_ci95": [
+            0.38242583827423343,
+            0.6951651460793099
+          ]
+        },
+        "ridge": {
+          "auroc": 0.5127334465195246,
+          "average_precision": 0.3943016788997892,
+          "balanced_accuracy": 0.5636672325976231,
+          "sensitivity": 0.5789473684210527,
+          "specificity": 0.5483870967741935,
+          "f1": 0.5,
+          "auroc_ci95": [
+            0.3508607541877242,
+            0.6707127000823424
+          ]
+        },
+        "logistic": {
+          "auroc": 0.5161290322580645,
+          "average_precision": 0.4013623413084991,
+          "balanced_accuracy": 0.5942275042444821,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.45161290322580644,
+          "f1": 0.56,
+          "auroc_ci95": [
+            0.3537465809804533,
+            0.6738480791157405
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.5144312393887945,
+          "average_precision": 0.39960795534358684,
+          "balanced_accuracy": 0.5942275042444821,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.45161290322580644,
+          "f1": 0.56,
+          "auroc_ci95": [
+            0.3524163263481548,
+            0.672270239141834
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": -0.02716468590831922,
+          "ci95": [
+            -0.08839033675555126,
+            0.03469041245163959
+          ],
+          "prob_positive": 0.1688
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.00339558573853993,
+          "ci95": [
+            -0.0059114268255042205,
+            0.01654696683907946
+          ],
+          "prob_positive": 0.8144
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.0,
+          "ci95": [
+            -0.008123880261176265,
+            0.00833219135206416
+          ],
+          "prob_positive": 0.5024
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.001697792869269965,
+          "ci95": [
+            -0.007159254533196774,
+            0.013179700294088253
+          ],
+          "prob_positive": 0.712
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": 0.02716468590831922,
+          "ci95": [
+            -0.03469041245163959,
+            0.08839033675555126
+          ],
+          "prob_positive": 0.8312
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.03056027164685915,
+          "ci95": [
+            -0.029212539418953302,
+            0.08839417047443535
+          ],
+          "prob_positive": 0.8652
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.02716468590831922,
+          "ci95": [
+            -0.03289844125592778,
+            0.08535616432565005
+          ],
+          "prob_positive": 0.8407
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.028862478777589184,
+          "ci95": [
+            -0.031643317309182684,
+            0.08716810869624383
+          ],
+          "prob_positive": 0.8524
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.1649547506090492,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "equal_mean_c15": {
+          "threshold": 0.19290587698378436,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "ridge": {
+          "threshold": -0.3717608326629203,
+          "sensitivity": 0.5789473684210527,
+          "specificity": 0.5483870967741935,
+          "balanced_accuracy": 0.5636672325976231
+        },
+        "logistic": {
+          "threshold": -0.8790230129338787,
+          "sensitivity": 0.5789473684210527,
+          "specificity": 0.5483870967741935,
+          "balanced_accuracy": 0.5636672325976231
+        },
+        "lda_shrinkage": {
+          "threshold": -0.9949221670792915,
+          "sensitivity": 0.5789473684210527,
+          "specificity": 0.5483870967741935,
+          "balanced_accuracy": 0.5636672325976231
+        }
+      }
+    },
+    "figshare50/orthogonal_lag1/target_standardized": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.6027164685908319,
+          "average_precision": 0.5282106962736617,
+          "balanced_accuracy": 0.5050933786078098,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.4838709677419355,
+          "f1": 0.4444444444444444,
+          "auroc_ci95": [
+            0.4401110040274901,
+            0.753436179119133
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.5891341256366722,
+          "average_precision": 0.52003150170324,
+          "balanced_accuracy": 0.4949066213921901,
+          "sensitivity": 0.47368421052631576,
+          "specificity": 0.5161290322580645,
+          "f1": 0.4186046511627907,
+          "auroc_ci95": [
+            0.42521948955724215,
+            0.7417234023112473
+          ]
+        },
+        "ridge": {
+          "auroc": 0.5314091680814941,
+          "average_precision": 0.4504503104847664,
+          "balanced_accuracy": 0.5475382003395586,
+          "sensitivity": 0.5789473684210527,
+          "specificity": 0.5161290322580645,
+          "f1": 0.4888888888888889,
+          "auroc_ci95": [
+            0.368451341043601,
+            0.6868747445218399
+          ]
+        },
+        "logistic": {
+          "auroc": 0.5772495755517827,
+          "average_precision": 0.5012088455394037,
+          "balanced_accuracy": 0.4949066213921901,
+          "sensitivity": 0.47368421052631576,
+          "specificity": 0.5161290322580645,
+          "f1": 0.4186046511627907,
+          "auroc_ci95": [
+            0.4140432367817706,
+            0.7307228607902088
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.5772495755517827,
+          "average_precision": 0.5012578185466345,
+          "balanced_accuracy": 0.5110356536502546,
+          "sensitivity": 0.47368421052631576,
+          "specificity": 0.5483870967741935,
+          "f1": 0.42857142857142855,
+          "auroc_ci95": [
+            0.4139128266378945,
+            0.7301687405590389
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.01358234295415972,
+          "ci95": [
+            -0.01724407968278409,
+            0.046625705612390766
+          ],
+          "prob_positive": 0.8398
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": 0.07130730050933787,
+          "ci95": [
+            -0.006721510124920045,
+            0.15682920048708235
+          ],
+          "prob_positive": 0.964
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.025466893039049254,
+          "ci95": [
+            -0.012121216429462242,
+            0.06957300786915963
+          ],
+          "prob_positive": 0.9097
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": 0.025466893039049254,
+          "ci95": [
+            -0.013871241889224619,
+            0.07159005439389635
+          ],
+          "prob_positive": 0.8993
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.01358234295415972,
+          "ci95": [
+            -0.046625705612390794,
+            0.017244079682784085
+          ],
+          "prob_positive": 0.1602
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": 0.05772495755517815,
+          "ci95": [
+            -0.0228479374733291,
+            0.14284252414231827
+          ],
+          "prob_positive": 0.9207
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.011884550084889534,
+          "ci95": [
+            -0.03373716651743629,
+            0.05789524892420324
+          ],
+          "prob_positive": 0.7022
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": 0.011884550084889534,
+          "ci95": [
+            -0.03508484857610709,
+            0.05875189725754801
+          ],
+          "prob_positive": 0.7002
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.0660816434936349,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "equal_mean_c15": {
+          "threshold": 0.0660816434936349,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "ridge": {
+          "threshold": -0.3562681542656207,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "logistic": {
+          "threshold": -0.880786460276818,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        },
+        "lda_shrinkage": {
+          "threshold": -1.1977117798103176,
+          "sensitivity": 0.5263157894736842,
+          "specificity": 0.5161290322580645,
+          "balanced_accuracy": 0.5212224108658743
+        }
+      }
+    },
+    "figshare50/short_increment/source_frozen": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.7691001697792869,
+          "average_precision": 0.7037680638491417,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.6219855169361977,
+            0.8842358033152541
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.7606112054329371,
+          "average_precision": 0.6722963311117254,
+          "balanced_accuracy": 0.5382003395585738,
+          "sensitivity": 0.9473684210526315,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5625,
+          "auroc_ci95": [
+            0.6133794068401197,
+            0.8773928661089675
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7758913412563667,
+          "average_precision": 0.7002103574249892,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.6318976512498051,
+            0.8877462014835524
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7674023769100169,
+          "average_precision": 0.705253665299733,
+          "balanced_accuracy": 0.5382003395585738,
+          "sensitivity": 0.9473684210526315,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5625,
+          "auroc_ci95": [
+            0.6193531563072253,
+            0.8827058775446962
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7741935483870966,
+          "average_precision": 0.6984903711848791,
+          "balanced_accuracy": 0.564516129032258,
+          "sensitivity": 1.0,
+          "specificity": 0.12903225806451613,
+          "f1": 0.5846153846153846,
+          "auroc_ci95": [
+            0.6293267223455776,
+            0.8866714537370076
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.008488964346349714,
+          "ci95": [
+            -0.010581514156884402,
+            0.038154386571849094
+          ],
+          "prob_positive": 0.788
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.00679117147707986,
+          "ci95": [
+            -0.03190516524183945,
+            0.012464387309774897
+          ],
+          "prob_positive": 0.2352
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.001697792869269965,
+          "ci95": [
+            -0.013561728916408652,
+            0.021387846788294904
+          ],
+          "prob_positive": 0.5654
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": -0.005093378607809784,
+          "ci95": [
+            -0.028955163044445467,
+            0.01335619434304474
+          ],
+          "prob_positive": 0.2852
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.008488964346349714,
+          "ci95": [
+            -0.0381543865718491,
+            0.010581514156884391
+          ],
+          "prob_positive": 0.212
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.015280135823429575,
+          "ci95": [
+            -0.04958017545599302,
+            0.007995330176018672
+          ],
+          "prob_positive": 0.105
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": -0.006791171477079749,
+          "ci95": [
+            -0.037326345303073674,
+            0.01630049878013314
+          ],
+          "prob_positive": 0.2803
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": -0.013582342954159499,
+          "ci95": [
+            -0.04644715101237471,
+            0.00893788641638506
+          ],
+          "prob_positive": 0.1244
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.6657700838216922,
+          "sensitivity": 0.8421052631578947,
+          "specificity": 0.7096774193548387,
+          "balanced_accuracy": 0.7758913412563667
+        },
+        "equal_mean_c15": {
+          "threshold": 0.6589003862515544,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "balanced_accuracy": 0.733446519524618
+        },
+        "ridge": {
+          "threshold": 0.19669338180829016,
+          "sensitivity": 0.8421052631578947,
+          "specificity": 0.7096774193548387,
+          "balanced_accuracy": 0.7758913412563667
+        },
+        "logistic": {
+          "threshold": -0.1245749262345372,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "balanced_accuracy": 0.733446519524618
+        },
+        "lda_shrinkage": {
+          "threshold": 0.9677115793038014,
+          "sensitivity": 0.8421052631578947,
+          "specificity": 0.7096774193548387,
+          "balanced_accuracy": 0.7758913412563667
+        }
+      }
+    },
+    "figshare50/short_increment/target_standardized": {
+      "subjects": 50,
+      "prediction_rows": 50,
+      "metrics": {
+        "equal_mean": {
+          "auroc": 0.765704584040747,
+          "average_precision": 0.7054345857549518,
+          "balanced_accuracy": 0.733446519524618,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "f1": 0.6818181818181818,
+          "auroc_ci95": [
+            0.6146890413642194,
+            0.8815336157756299
+          ]
+        },
+        "equal_mean_c15": {
+          "auroc": 0.7606112054329371,
+          "average_precision": 0.6833966599126782,
+          "balanced_accuracy": 0.7071307300509337,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6774193548387096,
+          "f1": 0.6511627906976745,
+          "auroc_ci95": [
+            0.6119486648257406,
+            0.8765631711027632
+          ]
+        },
+        "ridge": {
+          "auroc": 0.7707979626485568,
+          "average_precision": 0.6755239413394631,
+          "balanced_accuracy": 0.701188455008489,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6129032258064516,
+          "f1": 0.6521739130434783,
+          "auroc_ci95": [
+            0.6235157034263222,
+            0.8852246029226418
+          ]
+        },
+        "logistic": {
+          "auroc": 0.7589134125636672,
+          "average_precision": 0.679855630766901,
+          "balanced_accuracy": 0.6910016977928692,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "f1": 0.6363636363636364,
+          "auroc_ci95": [
+            0.6082176664282084,
+            0.8759342667874102
+          ]
+        },
+        "lda_shrinkage": {
+          "auroc": 0.7691001697792869,
+          "average_precision": 0.6729903458695796,
+          "balanced_accuracy": 0.7275042444821731,
+          "sensitivity": 0.8421052631578947,
+          "specificity": 0.6129032258064516,
+          "f1": 0.6808510638297872,
+          "auroc_ci95": [
+            0.6215997814126816,
+            0.8845788621288355
+          ]
+        }
+      },
+      "paired_contrasts": {
+        "equal_mean_minus_equal_mean_c15": {
+          "auroc_difference": 0.005093378607809895,
+          "ci95": [
+            -0.010844016476570972,
+            0.02361970173130245
+          ],
+          "prob_positive": 0.793
+        },
+        "equal_mean_minus_ridge": {
+          "auroc_difference": -0.005093378607809784,
+          "ci95": [
+            -0.05049315076567963,
+            0.034361563085031056
+          ],
+          "prob_positive": 0.4107
+        },
+        "equal_mean_minus_logistic": {
+          "auroc_difference": 0.00679117147707986,
+          "ci95": [
+            -0.01873651793778035,
+            0.035377624976800276
+          ],
+          "prob_positive": 0.7353
+        },
+        "equal_mean_minus_lda_shrinkage": {
+          "auroc_difference": -0.003395585738539819,
+          "ci95": [
+            -0.040553520423360634,
+            0.029804586181551962
+          ],
+          "prob_positive": 0.4298
+        },
+        "equal_mean_c15_minus_equal_mean": {
+          "auroc_difference": -0.005093378607809895,
+          "ci95": [
+            -0.023619701731302456,
+            0.010844016476570956
+          ],
+          "prob_positive": 0.207
+        },
+        "equal_mean_c15_minus_ridge": {
+          "auroc_difference": -0.01018675721561968,
+          "ci95": [
+            -0.05933803505269794,
+            0.03094504343414882
+          ],
+          "prob_positive": 0.3306
+        },
+        "equal_mean_c15_minus_logistic": {
+          "auroc_difference": 0.001697792869269965,
+          "ci95": [
+            -0.03239020767292465,
+            0.03282064613778787
+          ],
+          "prob_positive": 0.5692
+        },
+        "equal_mean_c15_minus_lda_shrinkage": {
+          "auroc_difference": -0.008488964346349714,
+          "ci95": [
+            -0.050243729694912205,
+            0.026078773810171332
+          ],
+          "prob_positive": 0.3331
+        }
+      },
+      "auxiliary_target_median_operating_points": {
+        "equal_mean": {
+          "threshold": 0.019718537536494496,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "balanced_accuracy": 0.733446519524618
+        },
+        "equal_mean_c15": {
+          "threshold": 0.019718537536494496,
+          "sensitivity": 0.7894736842105263,
+          "specificity": 0.6774193548387096,
+          "balanced_accuracy": 0.733446519524618
+        },
+        "ridge": {
+          "threshold": -0.40195324062799725,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "balanced_accuracy": 0.6910016977928692
+        },
+        "logistic": {
+          "threshold": -0.9718340539801305,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "balanced_accuracy": 0.6910016977928692
+        },
+        "lda_shrinkage": {
+          "threshold": -1.4184128976179509,
+          "sensitivity": 0.7368421052631579,
+          "specificity": 0.6451612903225806,
+          "balanced_accuracy": 0.6910016977928692
+        }
+      }
+    }
+  }
+}
