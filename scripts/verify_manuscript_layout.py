@@ -10,7 +10,7 @@ def verify_layout(pdf_path, expected_pages=None):
         if "supplementary" in str(pdf_path).lower():
             expected_pages = 2
         else:
-            expected_pages = 8
+            expected_pages = 9
     assert total_pages == expected_pages, f"Expected {expected_pages} pages, got {total_pages}"
 
     for i, page in enumerate(doc):
@@ -22,7 +22,7 @@ def verify_layout(pdf_path, expected_pages=None):
         y_min = min(b[1] for b in text_blocks)
         print(f"Page {i+1}: y_min={y_min:.1f}, y_max={y_max:.1f}")
 
-    # Check last page column balance (page 8 for main, page 2 for supplementary)
+    # Check last page column balance (page 9 for main, page 2 for supplementary)
     last_page = doc[total_pages - 1]
     blocks = last_page.get_text("blocks")
     mid_x = last_page.rect.width / 2
@@ -32,7 +32,7 @@ def verify_layout(pdf_path, expected_pages=None):
     col2_bottom = max((b[3] for b in col2_blocks), default=0)
     col_diff = abs(col1_bottom - col2_bottom)
     print(f"Page {total_pages}: col1_bottom={col1_bottom:.1f}, col2_bottom={col2_bottom:.1f}, diff={col_diff:.1f} pt")
-    if expected_pages == 8:
+    if expected_pages == 9:
         assert col_diff <= 35.0, f"Page {total_pages} column diff {col_diff:.1f} pt exceeds 35 pt threshold!"
 
     # Check word/line overlaps

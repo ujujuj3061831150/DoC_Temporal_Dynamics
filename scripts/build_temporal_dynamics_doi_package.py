@@ -77,13 +77,14 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
+[![Release Tag](https://img.shields.io/badge/Release-v1.0.1-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.1)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-23%2F23%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-100%25%20Self--Contained-success)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026.
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.1`).
 
 ---
 
@@ -190,7 +191,7 @@ DoC_Temporal_Dynamics_v1.0.0/
 Python 3.9+ (tested on Python 3.10 and 3.11) is required.
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics.git
 cd DoC_Temporal_Dynamics_v1.0.0
 pip install -r requirements.txt
 ```
@@ -214,7 +215,13 @@ python scripts/run_temporal_mdco_benchmark.py --output results/temporal_dynamics
 ```
 Computes the 2x2 factorial decomposition (Cells A--D), supervised ML baselines, 10,000-iteration Dirichlet Bayesian bootstrap confidence intervals, and 32-repeat surrogate tests.
 
-### Matched-Input Model Comparisons (Table 1 and Supplementary Table S2)
+### 4.2 Run 10,000 Synchronous Permutation Null Benchmark
+```bash
+python scripts/run_10000_shuffles_and_export.py
+```
+Executes the full 10,000 synchronous whole-channel time-scrambling surrogate permutations preserving instantaneous spatial covariance while destroying chronological sequence order under Frozen Intact Scales ($p < 0.0001$).
+
+### 4.3 Matched-Input Model Comparisons (Table 1 and Supplementary Table S2)
 ```bash
 python scripts/run_matched_model_comparison.py --output results/matched_model_comparison_v1
 ```
@@ -226,13 +233,19 @@ This comparison uses the same feature columns and coordinate transforms for equa
 
 Primary classification thresholds are source-training medians. Unlabeled target-batch median operating points are saved separately as auxiliary results. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
 
-### 4.2 Run Figshare Independent Zero-Shot External Validation
+### 4.4 Run CRRC Hospital Inpatient Cohort Evaluation
+```bash
+python scripts/evaluate_crrc_cohort.py
+```
+Evaluates the prospective inpatient hospital cohort from China Rehabilitation Research Center ($N=15$, NeuSen NSM2 / EEGCap32-pony 1000 Hz) under Protocol 1 (Strict 6-channel clean subset, $N=13$, AUROC 0.7143) and Protocol 2 (Full cohort with target alignment and fixed $c=1.5$ clipping, $N=15$, AUROC 0.7963).
+
+### 4.5 Run Figshare Independent Zero-Shot External Validation
 ```bash
 python scripts/run_figshare_external_validation.py
 ```
 Applies models trained exclusively on the Mendeley 6-channel cohort onto the independent Figshare 62-channel cohort without fine-tuning, strictly evaluating on training-set median thresholds.
 
-### 4.3 Re-Generate Manuscript Vector Figures
+### 4.6 Re-Generate Manuscript Vector Figures
 ```bash
 python scripts/generate_temporal_figures.py --input results/temporal_dynamics_v1 --output manuscript/figures
 ```
@@ -244,8 +257,9 @@ Recreates `fig1_mesocircuit_memory.pdf`, `fig2_factorial_ablations.pdf`, and `fi
 
 All underlying raw electrophysiological data originate from publicly available, open-access, de-identified scientific repositories approved by their respective institutional review boards:
 1. **Mendeley Bedside Cohort ($N=41$)**: Open-access under CC-BY 4.0; Federal Research and Clinical Center of Intensive Care Medicine and Rehabilitation, Moscow ethics approval. DOI: [10.17632/6wx4n25h4v.1](https://doi.org/10.17632/6wx4n25h4v.1).
-2. **Figshare Continuous Cohort ($N=50$)**: Open-access under CC-BY 4.0; institutional ethics approval from University of Liège / Coma Science Group. DOI: [10.6084/m9.figshare.23552964.v1](https://doi.org/10.6084/m9.figshare.23552964.v1).
-3. **Wielek Polysomnography Cohort ($N=23$)**: Open-access; Paris Lodron University of Salzburg ethics approval (415-E/1721/4-2013). DOI: [10.6084/m9.figshare.5669641.v1](https://doi.org/10.6084/m9.figshare.5669641.v1).
+2. **Figshare Continuous Cohort ($N=50$)**: Open-access under CC-BY 4.0; institutional ethics approval from Hangzhou Mingzhou Brain Rehabilitation Hospital (institutional ethics approval cited in Ling et al., 2024; Xu et al., 2021). DOI: [10.6084/m9.figshare.23552964.v1](https://doi.org/10.6084/m9.figshare.23552964.v1).
+3. **Wielek Polysomnography Cohort ($N=23$)**: Open-access; Salzburg Ethics Commission (No. 415-E/1517/14-2013). DOI: [10.6084/m9.figshare.5669641.v1](https://doi.org/10.6084/m9.figshare.5669641.v1).
+4. **CRRC Inpatient Hospital Cohort ($N=15$)**: Medical Ethics Committee of China Rehabilitation Research Center (Approval No. 2025-118-01; Duan et al., 2026). Fully de-identified tabular feature matrices are open-source in `results/crrc_validation/crrc_deidentified_features.csv`. Raw clinical telemetry is restricted by institutional patient confidentiality regulations.
 
 No identifiable protected health information (PHI) is present in this release.
 
@@ -263,7 +277,7 @@ If you use this codebase or methodology in your academic work, please cite:
   author={Chen, Hongjie and Chen, Jianming and Xiong, Guanyu and Li, Fang and Duan, Fang},
   journal={IEEE Journal of Biomedical and Health Informatics (Under Review)},
   year={2026},
-  doi={10.5281/zenodo.XXXXXXXX}
+  url={https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}
 }
 ```
 '''
@@ -307,7 +321,7 @@ This release is dual-licensed under open-source and open-access standards:
 ZENODO_JSON = {
     "title": "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation",
     "upload_type": "software",
-    "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 8-page IEEE JBHI manuscript and 2-page supplementary material.",
+    "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 9-page IEEE JBHI manuscript and 2-page supplementary material.",
     "creators": [
         {
             "name": "Chen, Hongjie",
@@ -341,7 +355,14 @@ ZENODO_JSON = {
         "reproducible research"
     ],
     "license": "MIT",
-    "access_right": "open"
+    "access_right": "open",
+    "related_identifiers": [
+        {
+            "relation": "isSupplementTo",
+            "identifier": "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics",
+            "scheme": "url"
+        }
+    ]
 }
 
 
@@ -351,16 +372,23 @@ title: "A Bedside Decision Support System for Disorders of Consciousness: Multi-
 authors:
   - family-names: "Chen"
     given-names: "Hongjie"
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Chen"
     given-names: "Jianming"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Xiong"
     given-names: "Guanyu"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Li"
     given-names: "Fang"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Duan"
     given-names: "Fang"
-version: 1.0.0
-date-released: 2026-10-17
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
+version: 1.0.1
+date-released: 2026-10-26
+repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
+url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT
 keywords:
   - disorders-of-consciousness
@@ -618,7 +646,15 @@ if __name__ == "__main__":
 
 def build_package():
     print(f"[*] Starting DOI Release Package Build for: {PKG_NAME}")
-    if STAGE_DIR.exists():
+    if (STAGE_DIR / ".git").exists():
+        for item in STAGE_DIR.iterdir():
+            if item.name == ".git":
+                continue
+            if item.is_dir():
+                shutil.rmtree(item, onerror=remove_readonly)
+            else:
+                item.unlink()
+    elif STAGE_DIR.exists():
         shutil.rmtree(STAGE_DIR, onerror=remove_readonly)
     STAGE_DIR.mkdir(parents=True, exist_ok=True)
     
@@ -636,10 +672,12 @@ def build_package():
     # 2. Manuscript Package
     print("[2/8] Packaging manuscript, tables, figures, and LaTeX sources...")
     shutil.copyfile(ROOT / "v3/manuscript_temporal/manuscript.pdf", ROOT / "manuscript.pdf")
+    shutil.copyfile(ROOT / "v3/manuscript_temporal/manuscript.pdf", ROOT / "v3/manuscript.pdf")
     if (ROOT / "manuscript_temporal/manuscript.pdf").exists():
         shutil.copyfile(ROOT / "v3/manuscript_temporal/manuscript.pdf", ROOT / "manuscript_temporal/manuscript.pdf")
     if (ROOT / "v3/manuscript_temporal/supplementary_material.pdf").exists():
         shutil.copyfile(ROOT / "v3/manuscript_temporal/supplementary_material.pdf", ROOT / "supplementary_material.pdf")
+        shutil.copyfile(ROOT / "v3/manuscript_temporal/supplementary_material.pdf", ROOT / "v3/supplementary_material.pdf")
         if (ROOT / "manuscript_temporal/supplementary_material.pdf").exists():
             shutil.copyfile(ROOT / "v3/manuscript_temporal/supplementary_material.pdf", ROOT / "manuscript_temporal/supplementary_material.pdf")
     copy_file(ROOT / "v3/manuscript_temporal/manuscript.pdf", "manuscript/manuscript.pdf")
@@ -664,6 +702,10 @@ def build_package():
 
     # 4. Benchmarking Scripts
     print("[4/8] Packaging reproduction and execution scripts...")
+    if (ROOT / "scripts/build_temporal_dynamics_doi_package.py").exists():
+        shutil.copyfile(ROOT / "scripts/build_temporal_dynamics_doi_package.py", ROOT / "v3/scripts/build_temporal_dynamics_doi_package.py")
+    if (ROOT / "scripts/verify_manuscript_layout.py").exists():
+        shutil.copyfile(ROOT / "scripts/verify_manuscript_layout.py", ROOT / "v3/scripts/verify_manuscript_layout.py")
     copy_tree(ROOT / "v3/scripts", "scripts")
     write_file("scripts/__init__.py", '"""Benchmark and reproduction scripts."""\n')
 
@@ -747,7 +789,7 @@ def build_package():
     with zipfile.ZipFile(ZIP_PATH, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for file_path in STAGE_DIR.rglob("*"):
             if file_path.is_file():
-                if "__pycache__" in file_path.parts or ".pytest_cache" in file_path.parts or file_path.suffix == ".pyc":
+                if "__pycache__" in file_path.parts or ".pytest_cache" in file_path.parts or ".git" in file_path.parts or file_path.suffix == ".pyc":
                     continue
                 rel_path = file_path.relative_to(STAGE_DIR.parent)
                 zf.write(file_path, arcname=rel_path)
