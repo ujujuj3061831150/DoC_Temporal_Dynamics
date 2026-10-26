@@ -37,7 +37,7 @@ We express our sincere gratitude to the Reviewers and Editor for their exception
    - A standalone Supplementary Material document (`supplementary_material.pdf`) has been compiled, providing complete de-identified individual profiles, clinical notes, and protocol comparisons for all 15 CRRC inpatients (Supplementary Table S1).
 
 8. **Strict Physical Layout Compliance**:
-   - The main manuscript strictly complies with the **8-page layout** in standard IEEE Transactions double-column format, with Page 8 column height difference $\Delta y = 10.8\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 20 unit tests passing in 2.10s.
+   - The main manuscript strictly complies with the **9-page layout** in standard IEEE Transactions double-column format, with Page 9 column height difference $\Delta y = 29.7\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 23 unit tests passing.
 
 ---
 
@@ -133,7 +133,7 @@ We have compiled `supplementary_material.pdf` (2 pages, IEEE format) containing:
 
 | Deliverable Artifact | Description | Verification Status |
 | :--- | :--- | :--- |
-| `manuscript.pdf` | Main 8-page IEEE double-column research manuscript | Strictly 8 pages, $\Delta y = 10.8\text{ pt} \le 35\text{ pt}$, 0 overlaps |
+| `manuscript.pdf` | Main 9-page IEEE double-column research manuscript | Strictly 9 pages, $\Delta y = 29.7\text{ pt} \le 35\text{ pt}$, 0 overlaps |
 | `supplementary_material.pdf` | Supplementary Fig. S1, Table S1 & Clinical Notes | Compiled, 2 pages, verified |
 | `output/doi_release/DoC_Temporal_Dynamics_v1.0.0.zip` | Complete standalone reproducible archive | SHA-256 verified, 100% reproducible |
-| Unit Test Suite (`pytest v3/tests -v`) | 20 automated unit and stress tests | 20/20 passed |
+| Unit Test Suite (`pytest v3/tests -v`) | 23 automated unit and stress tests | 23/23 passed |
