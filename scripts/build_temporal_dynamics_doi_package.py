@@ -78,9 +78,9 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
 [![Release Tag](https://img.shields.io/badge/Release-v1.0.1-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.1)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-23%2F23%20Passed-brightgreen)](tests/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
-[![Reproducibility](https://img.shields.io/badge/Artifact-100%25%20Self--Contained-success)](verify_artifact.py)
+[![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
@@ -192,7 +192,7 @@ Python 3.9+ (tested on Python 3.10 and 3.11) is required.
 
 ```bash
 git clone https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics.git
-cd DoC_Temporal_Dynamics_v1.0.0
+cd DoC_Temporal_Dynamics
 pip install -r requirements.txt
 ```
 
@@ -204,6 +204,17 @@ python verify_artifact.py
 ```
 
 The verifier reports the hashes checked, the collected test count, PDF page counts, and selected recomputed metrics. This check does not rerun the full 10,000-surrogate experiment.
+
+### 3.3 Optional Bedside Power-Block Replay
+
+```bash
+python scripts/run_bedside_playback.py --subject Nekrasova_P36 --speed 0
+python scripts/run_bedside_playback.py --subject Nekrasova_P25 --speed 0
+python scripts/build_bedside_playback_demo.py
+python scripts/render_playback_animation.py
+```
+
+Open `docs/bedside_cdss_demo.html` for the standalone dashboard. It reads actual cached power/QC/score trajectories with archived source means, scales, signs and training-median thresholds. The source-training examples verify engineering consistency and are not held-out clinical validation. Event-level timing and numerical tolerances are documented in `results/bedside_playback_demo/BEDSIDE_PLAYBACK_VERIFICATION_REPORT.md`.
 
 ---
 
@@ -233,6 +244,12 @@ This comparison uses the same feature columns and coordinate transforms for equa
 
 Primary classification thresholds are source-training medians. Unlabeled target-batch median operating points are saved separately as auxiliary results. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
 
+### Domain Baseline Operating Metrics
+```bash
+python scripts/recompute_domain_baseline_metrics.py
+```
+Recomputes LZC and spectral-entropy metrics from the included unchanged feature cache and the same 25 frozen subject partitions. Signs and median thresholds are fitted on outer-training subjects only. AUROC/AP use fold means; operating metrics pool the repeated outer-test decisions. Subject predictions, fitted thresholds, paired Dirichlet intervals and input hashes are in `results/domain_baseline_metrics_v1/`.
+
 ### 4.4 Run CRRC Hospital Inpatient Cohort Evaluation
 ```bash
 python scripts/evaluate_crrc_cohort.py
@@ -255,7 +272,7 @@ Recreates `fig1_mesocircuit_memory.pdf`, `fig2_factorial_ablations.pdf`, and `fi
 
 ## 5. Ethical Statement & Data Availability
 
-All underlying raw electrophysiological data originate from publicly available, open-access, de-identified scientific repositories approved by their respective institutional review boards:
+The release combines three public datasets with de-identified CRRC features. Cohort-specific access and ethics information is listed below:
 1. **Mendeley Bedside Cohort ($N=41$)**: Open-access under CC-BY 4.0; Federal Research and Clinical Center of Intensive Care Medicine and Rehabilitation, Moscow ethics approval. DOI: [10.17632/6wx4n25h4v.1](https://doi.org/10.17632/6wx4n25h4v.1).
 2. **Figshare Continuous Cohort ($N=50$)**: Open-access under CC-BY 4.0; institutional ethics approval from Hangzhou Mingzhou Brain Rehabilitation Hospital (institutional ethics approval cited in Ling et al., 2024; Xu et al., 2021). DOI: [10.6084/m9.figshare.23552964.v1](https://doi.org/10.6084/m9.figshare.23552964.v1).
 3. **Wielek Polysomnography Cohort ($N=23$)**: Open-access; Salzburg Ethics Commission (No. 415-E/1517/14-2013). DOI: [10.6084/m9.figshare.5669641.v1](https://doi.org/10.6084/m9.figshare.5669641.v1).
@@ -406,6 +423,7 @@ pandas>=1.5.0
 scikit-learn>=1.2.0
 matplotlib>=3.6.0
 pytest>=7.0.0
+PyMuPDF>=1.23.0
 torch>=2.0.0  # optional: EEGNet deep baseline (scripts/run_eegnet_baseline.py)
 '''
 
@@ -427,7 +445,7 @@ Performs:
 1. Python environment and dependency validation.
 2. Cryptographic SHA-256 verification against results/temporal_dynamics_v1/manifest.json.
 3. Execution of the complete automated unit test suite (pytest tests/).
-4. Verification of the 9-page IEEEtran manuscript PDF.
+4. Verification of the main and supplementary PDF page counts.
 5. Printing executive reproduction table.
 """
 
@@ -456,7 +474,7 @@ def main():
     # 1. Environment & Dependencies
     print("[1/5] Checking Python environment and dependencies...")
     missing = []
-    for pkg in ["numpy", "scipy", "pandas", "sklearn", "matplotlib", "pytest"]:
+    for pkg in ["numpy", "scipy", "pandas", "sklearn", "matplotlib", "pytest", "fitz"]:
         try:
             __import__(pkg)
         except ImportError:
@@ -515,9 +533,19 @@ def main():
         # Fallback reading /Type /Page
         content = pdf_path.read_bytes()
         page_count = content.count(b"/Type /Page\n") + content.count(b"/Type /Page ") + content.count(b"/Type/Page")
-    compliant = page_count in range(8, 11)
-    status_msg = "Verified compliant with IEEE Transactions standard 8-10 page budget" if compliant else "Exceeds standard page budget"
-    print(f"  -> manuscript/manuscript.pdf: {page_count} pages ({status_msg}).")
+    import fitz
+    with fitz.open(pdf_path) as main_doc:
+        page_count = len(main_doc)
+    supplement_path = ROOT / "manuscript/supplementary_material.pdf"
+    if not supplement_path.exists():
+        raise FileNotFoundError(supplement_path)
+    with fitz.open(supplement_path) as supplement_doc:
+        supplement_pages = len(supplement_doc)
+    total_pages = page_count + supplement_pages
+    if total_pages > 14:
+        raise ValueError(f"JBHI regular-paper limit: {total_pages} > 14 pages including supplement")
+    print(f"  -> Main {page_count} + supplement {supplement_pages} = {total_pages} pages; within JBHI's 14-page submission limit (checked 2026-10-29).")
+    print("     Overlength charges and other submission requirements require separate review.")
 
     # 5. Dynamic Core Scientific Findings Verification
     print("\n[5/5] Dynamic In-Situ Metric Verification from Saved Artifacts:")
@@ -601,20 +629,24 @@ def main():
 
     # 5.4 Wielek Sleep Macro-Dynamics
     wielek_json = ROOT / "results/temporal_dynamics_v1/wielek_persistence_results.json"
+    if not wielek_json.exists():
+        raise FileNotFoundError(wielek_json)
     if wielek_json.exists():
         with open(wielek_json, "r") as f:
             wdata = json.load(f)
-        auc_wielek = wdata.get("transition_rate_auroc", 0.7348)
+        auc_wielek = wdata["transition_rate_auroc"]
         assert np.isclose(auc_wielek, 0.7348, atol=1e-3)
         print(f"  Wielek Sleep State Transition AUC    {auc_wielek:.4f}    0.7348    Verified (Dynamic)")
 
     # 5.5 CRRC External Hospital Validation Cohort
     crrc_json = ROOT / "results/crrc_validation/crrc_metrics_summary.json"
+    if not crrc_json.exists():
+        raise FileNotFoundError(crrc_json)
     if crrc_json.exists():
         with open(crrc_json, "r") as f:
             cdata = json.load(f)
-        auc_p1 = cdata["protocol_1_strict_6ch"].get("orthogonal_4feature_linear", cdata["protocol_1_strict_6ch"].get("orthogonal_4feature_suite", {})).get("auroc", 0.7143)
-        auc_p2 = cdata["protocol_2_full_sensitivity"].get("orthogonal_4feature_soft_truncation_c15", cdata["protocol_2_full_sensitivity"].get("orthogonal_4feature_linear", {})).get("auroc", 0.7963)
+        auc_p1 = cdata["protocol_1_strict_6ch"]["orthogonal_4feature_linear"]["auroc"]
+        auc_p2 = cdata["protocol_2_full_sensitivity"]["orthogonal_4feature_soft_truncation_c15"]["auroc"]
         assert np.isclose(auc_p1, 0.7143, atol=1e-3)
         assert np.isclose(auc_p2, 0.7963, atol=1e-3) or np.isclose(auc_p2, 0.7778, atol=1e-3)
         print(f"  CRRC Hospital Suite (Clean N=13)     {auc_p1:.4f}    0.7143    Verified (Dynamic)")
@@ -634,9 +666,25 @@ def main():
         assert np.isclose(matched["crrc_full15/orthogonal_lag1/target_aligned"]["metrics"]["equal_mean_c15"]["auroc"], 0.7963, atol=1e-4)
         print("  Matched comparisons: output/script hashes and revised headline metrics verified")
 
+    domain_dir = ROOT / "results/domain_baseline_metrics_v1"
+    if domain_dir.exists():
+        domain_manifest = json.loads((domain_dir / "manifest.json").read_text(encoding="utf-8"))
+        for name, expected in domain_manifest["outputs"].items():
+            assert hashlib.sha256((domain_dir / name).read_bytes()).hexdigest() == expected
+        for name, expected in domain_manifest["inputs"].items():
+            assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected
+        assert hashlib.sha256((ROOT / "scripts/recompute_domain_baseline_metrics.py").read_bytes()).hexdigest() == domain_manifest["script_sha256"]
+        domain_run = subprocess.run([sys.executable, "scripts/recompute_domain_baseline_metrics.py"], cwd=str(ROOT), capture_output=True, text=True)
+        assert domain_run.returncode == 0, domain_run.stdout + domain_run.stderr
+        domain_metrics = json.loads((domain_dir / "summary.json").read_text(encoding="utf-8"))["metrics"]
+        assert np.isclose(domain_metrics["lzc"]["balanced_accuracy"], 0.5267241379310346)
+        assert np.isclose(domain_metrics["spectral_entropy"]["balanced_accuracy"], 0.6721264367816092)
+        print("  Domain baseline training-threshold metrics recomputed and verified")
+
     print("  " + "-" * 72)
     print("\n" + "=" * 72)
-    print("  SUCCESS: DYNAMIC ARTIFACT REPRODUCIBILITY AUDIT PASSED (100% REPRODUCIBLE)")
+    print("  SUCCESS: PACKAGED TESTS, CHECKSUMS AND SELECTED CACHED METRIC CHECKS PASSED")
+    print("  This does not verify raw-data provenance, clinical claims or every manuscript result.")
     print("=" * 72)
 
 if __name__ == "__main__":
@@ -719,6 +767,16 @@ def build_package():
     copy_file(ROOT / "v3/docs/TEMPORAL_DYNAMICS_RESEARCH_PLAN.md", "docs/TEMPORAL_DYNAMICS_RESEARCH_PLAN.md")
     copy_file(ROOT / "v3/docs/TEMPORAL_DYNAMICS_AUDIT_REPORT.md", "docs/TEMPORAL_DYNAMICS_AUDIT_REPORT.md")
     copy_file(ROOT / "v3/manuscript_temporal/Author_Response_to_Reviewers.md", "docs/Author_Response_to_Reviewers.md")
+    # Keep the optional engineering replay runnable in the standalone artifact.
+    for name in ("bedside_cdss_demo.html", "bedside_playback_demo.gif", "bedside_playback_demo.png"):
+        if (ROOT / "v3/docs" / name).exists():
+            copy_file(ROOT / "v3/docs" / name, "docs/" + name)
+    if (ROOT / "v3/docs/research_protocols").exists():
+        copy_tree(ROOT / "v3/docs/research_protocols", "docs/research_protocols")
+    if (ROOT / "v3/docs/author_data_requests").exists():
+        copy_tree(ROOT / "v3/docs/author_data_requests", "docs/author_data_requests")
+    if (ROOT / "v3/results/bedside_playback_demo").exists():
+        copy_tree(ROOT / "v3/results/bedside_playback_demo", "results/bedside_playback_demo")
 
     # 7. Benchmark Results, Pre-extracted Profiles & Validation Data
     print("[7/8] Packaging results, pre-extracted profiles, and cohort caches...")
@@ -726,6 +784,8 @@ def build_package():
     copy_tree(ROOT / "v3/results/crrc_validation", "results/crrc_validation")
     if (ROOT / "v3/results/matched_model_comparison_v1").exists():
         copy_tree(ROOT / "v3/results/matched_model_comparison_v1", "results/matched_model_comparison_v1")
+    if (ROOT / "v3/results/followup_analysis_v1").exists():
+        copy_tree(ROOT / "v3/results/followup_analysis_v1", "results/followup_analysis_v1")
     copy_file(ROOT / "scripts/evaluate_crrc_cohort.py", "scripts/evaluate_crrc_cohort.py")
     copy_file(ROOT / "results/multiscale_matched_v2/features.json", "results/multiscale_matched_v2/features.json")
     if (ROOT / "results/multiscale_matched_v2/fitted_states.json").exists():
@@ -740,6 +800,11 @@ def build_package():
     copy_file(ROOT / "figshare_23552964_meta.json", "figshare_23552964_meta.json")
     copy_file(ROOT / "data/figshare_clinical_diagnoses.csv", "data/figshare_clinical_diagnoses.csv")
     copy_tree(ROOT / "figshare_6ch_cache", "figshare_6ch_cache")
+
+    if (ROOT / "v3/results/domain_baseline_metrics_v1").exists():
+        copy_tree(ROOT / "v3/results/domain_baseline_metrics_v1", "results/domain_baseline_metrics_v1")
+    if (ROOT / "v3/manuscript_temporal/cover_letter_jbhi.md").exists():
+        copy_file(ROOT / "v3/manuscript_temporal/cover_letter_jbhi.md", "manuscript/cover_letter_jbhi.md")
 
     # Update manifest.json with full SHA-256 for all current result files
     res_dir = STAGE_DIR / "results/temporal_dynamics_v1"
@@ -811,7 +876,7 @@ def build_package():
         "size_bytes": ZIP_PATH.stat().st_size,
         "size_mb": round(zip_size_mb, 2),
         "sha256": zip_sha,
-        "manuscript_pages": 9,
+        "manuscript_pages": len(__import__("fitz").open(STAGE_DIR / "manuscript/manuscript.pdf")),
         "unit_tests_passed": int(re.search(r"(\d+) passed", res.stdout).group(1)),
         "timestamp": datetime.now(timezone.utc).isoformat()
     }

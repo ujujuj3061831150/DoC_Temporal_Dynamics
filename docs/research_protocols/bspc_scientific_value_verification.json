@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "full_replay": true,
+  "inner_candidate_fits": 29250,
+  "tuned_outer_models": 375,
+  "inner_partitions_checked": 1125,
+  "hashed_inputs": 45,
+  "replayed_output_files": 19
+}

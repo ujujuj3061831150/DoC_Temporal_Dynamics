@@ -1,0 +1,20 @@
+{
+  "scope": "Post-hoc training-only threshold selection on previously inspected development patients; no external validation",
+  "source": "results/multiscale_matched_v2",
+  "output": "results/bspc_threshold_diagnostics_v1",
+  "methods": ["C", "D", "lda_shrinkage_standard", "logistic_standard"],
+  "inner_folds": 3,
+  "inner_seeds": [1701, 1702, 1703, 1704, 1705],
+  "threshold_quantiles": [0.25, 0.275, 0.3, 0.325, 0.35, 0.375, 0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675, 0.7, 0.725, 0.75],
+  "selection": "Mean balanced accuracy of complete inner OOF predictions across five repeats; among quantiles within 0.02 of the maximum choose nearest 0.5, then lower quantile for an exact tie",
+  "plateau_tolerance": 0.02,
+  "shrinkage_weight": 0.5,
+  "primary": "stabilized: q=0.5+0.5*(selected_q-0.5)",
+  "secondary": ["unshrunk_selected_q", "fixed_training_median_q_0.5"],
+  "transfer": "A quantile specifies the cutoff of each training-score distribution; use numpy quantile(method=linear). Reconstruct frozen outer model scores on outer training patients, compute its training quantile, and classify untouched outer test scores >= cutoff as MCS",
+  "positive_class": "MCS=1; VS/UWS=0",
+  "estimand": "Within each seed concatenate its five held-out folds, compute sensitivity and specificity then balanced accuracy; average these rates over five seeds. This differs from mean within-fold AUROC.",
+  "uncertainty": {"draws": 3000, "seed": 20261003, "method": "Patient-paired exponential Dirichlet weights shared across five test appearances, methods and threshold strategies; independent cohort streams; equal cohort macro", "conditional_on_fitted_models_and_selected_thresholds": true, "selection_bias_corrected": false},
+  "stability": "Report outer threshold quantile SD, raw-cutoff IQR and range, and seed metric range. Shrinkage halves quantile SD by construction; it does not guarantee smaller raw-cutoff variability or higher test performance.",
+  "stopping": "Freeze this complete menu before execution; do not adjust grid, tolerance, shrinkage or method choice based on outer results. Preserve adverse outcomes. Refuse overwriting existing outputs."
+}

@@ -58,7 +58,6 @@
       1.0,
       1.0
     ],
-    "auxiliary_threshold": "Separately labeled unlabeled target-batch median; never used for source-only tuning or primary predictions",
     "bootstrap": {
       "type": "paired subject-level Dirichlet, conditional on fitted scores",
       "draws": 10000,
@@ -593,38 +592,6 @@
           ],
           "prob_positive": 1.0
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.2689478628680042,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "equal_mean_c15": {
-          "threshold": 0.2689478628680042,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "ridge": {
-          "threshold": -0.25961402423296676,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "logistic": {
-          "threshold": -0.876334555122771,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "lda_shrinkage": {
-          "threshold": -0.6096489281843375,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        }
       }
     },
     "crrc_full15/orthogonal_lag1/target_standardized": {
@@ -756,38 +723,6 @@
             -0.0006218762316620039
           ],
           "prob_positive": 0.0
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": -0.032596329683754505,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "equal_mean_c15": {
-          "threshold": -0.032596329683754505,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "ridge": {
-          "threshold": -0.4351865179239206,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "logistic": {
-          "threshold": -0.8831404541892289,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
-        },
-        "lda_shrinkage": {
-          "threshold": -1.5199963721578444,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5555555555555556,
-          "balanced_accuracy": 0.6111111111111112
         }
       }
     },
@@ -921,38 +856,6 @@
           ],
           "prob_positive": 1.0
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": -0.07119498826766163,
-          "sensitivity": 0.8333333333333334,
-          "specificity": 0.6666666666666666,
-          "balanced_accuracy": 0.75
-        },
-        "equal_mean_c15": {
-          "threshold": -0.08002968083879705,
-          "sensitivity": 0.8333333333333334,
-          "specificity": 0.6666666666666666,
-          "balanced_accuracy": 0.75
-        },
-        "ridge": {
-          "threshold": -0.5699903250766675,
-          "sensitivity": 0.8333333333333334,
-          "specificity": 0.6666666666666666,
-          "balanced_accuracy": 0.75
-        },
-        "logistic": {
-          "threshold": -0.8858266594376065,
-          "sensitivity": 0.8333333333333334,
-          "specificity": 0.6666666666666666,
-          "balanced_accuracy": 0.75
-        },
-        "lda_shrinkage": {
-          "threshold": -1.9088329587374944,
-          "sensitivity": 0.8333333333333334,
-          "specificity": 0.6666666666666666,
-          "balanced_accuracy": 0.75
-        }
       }
     },
     "crrc_clean13/orthogonal_lag1/source_frozen": {
@@ -1084,38 +987,6 @@
             0.0
           ],
           "prob_positive": 0.0
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.2711144525154791,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "equal_mean_c15": {
-          "threshold": 0.2711144525154791,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "ridge": {
-          "threshold": -0.25961402423296676,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "logistic": {
-          "threshold": -0.876334555122771,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "lda_shrinkage": {
-          "threshold": -0.6096489281843375,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
         }
       }
     },
@@ -1249,38 +1120,6 @@
           ],
           "prob_positive": 0.0
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.040469656213218685,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "equal_mean_c15": {
-          "threshold": 0.040469656213218685,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "ridge": {
-          "threshold": -0.45222427814165533,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "logistic": {
-          "threshold": -0.882090423906256,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "lda_shrinkage": {
-          "threshold": -1.4043276466184789,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        }
       }
     },
     "crrc_clean13/orthogonal_lag1/target_aligned": {
@@ -1412,38 +1251,6 @@
             0.12283336685899765
           ],
           "prob_positive": 1.0
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.03285880958515616,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "equal_mean_c15": {
-          "threshold": -0.08712537060572673,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "ridge": {
-          "threshold": -0.4348612524137662,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "logistic": {
-          "threshold": -0.8820319285979932,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
-        },
-        "lda_shrinkage": {
-          "threshold": -1.3898047756470784,
-          "sensitivity": 0.6666666666666666,
-          "specificity": 0.5714285714285714,
-          "balanced_accuracy": 0.6190476190476191
         }
       }
     },
@@ -1577,38 +1384,6 @@
           ],
           "prob_positive": 0.0249
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.6784358581544897,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "equal_mean_c15": {
-          "threshold": 0.6730520920550123,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "ridge": {
-          "threshold": -0.0005996245344327134,
-          "sensitivity": 0.7894736842105263,
-          "specificity": 0.6774193548387096,
-          "balanced_accuracy": 0.733446519524618
-        },
-        "logistic": {
-          "threshold": 0.4005210122088668,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "lda_shrinkage": {
-          "threshold": 0.39596629231734515,
-          "sensitivity": 0.7368421052631579,
-          "specificity": 0.6451612903225806,
-          "balanced_accuracy": 0.6910016977928692
-        }
       }
     },
     "figshare50/canonical/target_standardized": {
@@ -1740,38 +1515,6 @@
             0.05927211265809013
           ],
           "prob_positive": 0.6056
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.03342444349892723,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "equal_mean_c15": {
-          "threshold": 0.03342444349892723,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "ridge": {
-          "threshold": -0.413319196820792,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
-        },
-        "logistic": {
-          "threshold": -1.516071079985608,
-          "sensitivity": 0.7368421052631579,
-          "specificity": 0.6451612903225806,
-          "balanced_accuracy": 0.6910016977928692
-        },
-        "lda_shrinkage": {
-          "threshold": -1.2540843059725315,
-          "sensitivity": 0.6842105263157895,
-          "specificity": 0.6129032258064516,
-          "balanced_accuracy": 0.6485568760611206
         }
       }
     },
@@ -1905,38 +1648,6 @@
           ],
           "prob_positive": 0.8524
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.1649547506090492,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "equal_mean_c15": {
-          "threshold": 0.19290587698378436,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "ridge": {
-          "threshold": -0.3717608326629203,
-          "sensitivity": 0.5789473684210527,
-          "specificity": 0.5483870967741935,
-          "balanced_accuracy": 0.5636672325976231
-        },
-        "logistic": {
-          "threshold": -0.8790230129338787,
-          "sensitivity": 0.5789473684210527,
-          "specificity": 0.5483870967741935,
-          "balanced_accuracy": 0.5636672325976231
-        },
-        "lda_shrinkage": {
-          "threshold": -0.9949221670792915,
-          "sensitivity": 0.5789473684210527,
-          "specificity": 0.5483870967741935,
-          "balanced_accuracy": 0.5636672325976231
-        }
       }
     },
     "figshare50/orthogonal_lag1/target_standardized": {
@@ -2068,38 +1779,6 @@
             0.05875189725754801
           ],
           "prob_positive": 0.7002
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.0660816434936349,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "equal_mean_c15": {
-          "threshold": 0.0660816434936349,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "ridge": {
-          "threshold": -0.3562681542656207,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "logistic": {
-          "threshold": -0.880786460276818,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
-        },
-        "lda_shrinkage": {
-          "threshold": -1.1977117798103176,
-          "sensitivity": 0.5263157894736842,
-          "specificity": 0.5161290322580645,
-          "balanced_accuracy": 0.5212224108658743
         }
       }
     },
@@ -2233,38 +1912,6 @@
           ],
           "prob_positive": 0.1244
         }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.6657700838216922,
-          "sensitivity": 0.8421052631578947,
-          "specificity": 0.7096774193548387,
-          "balanced_accuracy": 0.7758913412563667
-        },
-        "equal_mean_c15": {
-          "threshold": 0.6589003862515544,
-          "sensitivity": 0.7894736842105263,
-          "specificity": 0.6774193548387096,
-          "balanced_accuracy": 0.733446519524618
-        },
-        "ridge": {
-          "threshold": 0.19669338180829016,
-          "sensitivity": 0.8421052631578947,
-          "specificity": 0.7096774193548387,
-          "balanced_accuracy": 0.7758913412563667
-        },
-        "logistic": {
-          "threshold": -0.1245749262345372,
-          "sensitivity": 0.7894736842105263,
-          "specificity": 0.6774193548387096,
-          "balanced_accuracy": 0.733446519524618
-        },
-        "lda_shrinkage": {
-          "threshold": 0.9677115793038014,
-          "sensitivity": 0.8421052631578947,
-          "specificity": 0.7096774193548387,
-          "balanced_accuracy": 0.7758913412563667
-        }
       }
     },
     "figshare50/short_increment/target_standardized": {
@@ -2396,38 +2043,6 @@
             0.026078773810171332
           ],
           "prob_positive": 0.3331
-        }
-      },
-      "auxiliary_target_median_operating_points": {
-        "equal_mean": {
-          "threshold": 0.019718537536494496,
-          "sensitivity": 0.7894736842105263,
-          "specificity": 0.6774193548387096,
-          "balanced_accuracy": 0.733446519524618
-        },
-        "equal_mean_c15": {
-          "threshold": 0.019718537536494496,
-          "sensitivity": 0.7894736842105263,
-          "specificity": 0.6774193548387096,
-          "balanced_accuracy": 0.733446519524618
-        },
-        "ridge": {
-          "threshold": -0.40195324062799725,
-          "sensitivity": 0.7368421052631579,
-          "specificity": 0.6451612903225806,
-          "balanced_accuracy": 0.6910016977928692
-        },
-        "logistic": {
-          "threshold": -0.9718340539801305,
-          "sensitivity": 0.7368421052631579,
-          "specificity": 0.6451612903225806,
-          "balanced_accuracy": 0.6910016977928692
-        },
-        "lda_shrinkage": {
-          "threshold": -1.4184128976179509,
-          "sensitivity": 0.7368421052631579,
-          "specificity": 0.6451612903225806,
-          "balanced_accuracy": 0.6910016977928692
         }
       }
     }

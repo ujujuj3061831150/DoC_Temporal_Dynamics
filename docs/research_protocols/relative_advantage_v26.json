@@ -1,0 +1,229 @@
+{
+  "protocol_version": "v26_calibrated",
+  "frozen_at": "2026-10-02T02:45:00+08:00",
+  "run_completion": "2026-10-02T02:41:09+08:00",
+  "calibrated_at": "2026-10-02T11:20:00+08:00",
+  "frozen_commit": "fe175f306dd57cda87972cb445aa7c2e7a7e1657",
+  "historical_reference_commit": "5f3362a02064a4c5e16316176f967b673f57730a",
+  "protocol_nature": "POST_HOC_DEVELOPMENT_PROTOCOL_CALIBRATION",
+  "evaluation_status": "POST_HOC_DEVELOPMENT_EVALUATION",
+  "protocol_disclosure": "Retrospective formalization note: Pipeline execution completed at 2026-10-02T02:41:09+08:00; protocol recording completed at 02:45:00+08:00. In accordance with open science practices and independent audit findings, this study is transparently reported as a development candidate evaluation rather than a prospectively blinded trial. Both uhndi_v26_unified_tuned (joint 50-candidate search) and arco_v26_tuned (32-candidate search) are reported without selective cherry-picking. Neither qualifies for replacing Path B default without external independent cohort confirmation.",
+  "target_journal": "Biomedical Signal Processing and Control (BSPC)",
+  "study_title": "Relative Advantage v26: Unified Consensus Operators with Directional Collinearity Suppression and Synergistic Coupling on Disorder of Consciousness Cohorts",
+  "data_provenance": {
+    "cohorts": [
+      {
+        "name": "binder",
+        "description": "Binder fMRI cohort (N=45, 24 MCS / 21 UWS)",
+        "features": [
+          "phi_rec (steady)",
+          "phi_base (noise)",
+          "phi_feed (dynamic)"
+        ],
+        "stream_mapping": {
+          "s": "phi_rec",
+          "d": "phi_feed",
+          "w": "phi_base"
+        },
+        "anchor": 0.0,
+        "n_patients": 45
+      },
+      {
+        "name": "wielek",
+        "description": "Wielek sleep EEG cohort (N=23, 11 MCS / 12 UWS)",
+        "features": [
+          "fraction_N1 (steady)",
+          "corrected_sw_rate (dynamic)"
+        ],
+        "stream_mapping": {
+          "s": "fraction_N1",
+          "d": "corrected_sw_rate",
+          "w": 0.0
+        },
+        "anchor": 0.0,
+        "n_patients": 23
+      },
+      {
+        "name": "mendeley",
+        "description": "Mendeley spectral EEG cohort (N=41, 12 MCS / 29 UWS)",
+        "features": [
+          "c_global (theta-alpha global contrast)",
+          "c_spatial_mean (6-channel mean contrast)"
+        ],
+        "stream_mapping": {
+          "s": "c_global",
+          "d": "c_spatial_mean",
+          "w": 0.0
+        },
+        "anchor": 1.0,
+        "n_patients": 41
+      }
+    ],
+    "total_patients": 109,
+    "outer_seeds": [
+      42,
+      142,
+      242,
+      342,
+      442
+    ],
+    "outer_folds": 5,
+    "inner_folds": 3,
+    "total_outer_folds_per_cohort": 25,
+    "total_evaluations_across_cohorts": 75,
+    "patient_isolation": "Strict subject-level partition; 0 patient leakage between train/test and inner_train/inner_validation."
+  },
+  "algorithm_hypotheses": {
+    "hypothesis_1_primary": {
+      "name": "Adaptive Regularized Consensus Operator (ARCO)",
+      "formula": "S(u, v, w) = (w_s * u^p + w_d * v^p)^(1/p) - lambda * w",
+      "weight_logic": "Continuous directional collinearity suppression inherited from v24/v25 core: if F_d > F_s, w_s = gamma_s*(1-act), w_d = gamma_d*(1+act); else w_s = gamma_s*(1+act), w_d = gamma_d*(1-act). act = clamp((r - theta)/(1 - theta), 0, 1). gamma = (F / F_sum)^alpha.",
+      "parameter_grid": {
+        "p": [
+          1.4,
+          1.6
+        ],
+        "alpha": [
+          0.0,
+          0.05
+        ],
+        "lambda": [
+          0.0,
+          0.1,
+          0.15,
+          0.2
+        ],
+        "theta": [
+          0.8,
+          0.88
+        ]
+      },
+      "grid_size": 32
+    },
+    "hypothesis_2_auxiliary": {
+      "name": "Bounded Synergistic Harmonic Consensus Operator (BSHCO)",
+      "formula": "S(u, v, w) = (w_s * u^p + w_d * v^p)^(1/p) + eta * (2*u*v)/(u + v + 1e-6) - lambda * w",
+      "weight_logic": "Harmonic interaction coupling term eta * 2uv/(u + v + 1e-6) under baseline collinearity gating (theta=0.88, alpha=0.05). Note: with epsilon=1e-6, the term is approximately degree-1 homogeneous away from zero and bounded on standard feature scales, but lacks strict global mathematical homogeneity. Negative empirical results show harmonic synergy did not improve AUC on this representation and grid, but do not prove physiological orthogonality or neural pathway dissociation.",
+      "parameter_grid": {
+        "p": [
+          1.4,
+          1.6
+        ],
+        "eta": [
+          0.0,
+          0.1,
+          0.2,
+          0.3
+        ],
+        "lambda": [
+          0.0,
+          0.1,
+          0.2
+        ]
+      },
+      "grid_size": 24,
+      "active_harmonic_configs": 18,
+      "eta0_control_configs": 6
+    },
+    "total_search_budget_configs": 50,
+    "budget_limit": 60,
+    "unified_candidate": {
+      "name": "uhndi_v26_unified_tuned",
+      "description": "Unified inner-CV selection over the joint 50-configuration set (32 ARCO + 18 BSHCO with eta > 0)."
+    }
+  },
+  "tuning_and_tie_breaking": {
+    "objective": "Mean inner-validation AUC across 3 inner folds",
+    "tie_breaking_mode": "canonical_complexity_ascending",
+    "tie_tolerance": 1e-07,
+    "complexity_priority": [
+      "1. Structural simplicity: eta=0.0 (ARCO) preferred over eta > 0.0 (BSHCO)",
+      "2. Gating conservatism: higher theta=0.88 preferred over theta=0.80",
+      "3. Curvature centrality: p=1.4 preferred over p=1.6",
+      "4. Equal base weighting: alpha=0.0 preferred over alpha=0.05",
+      "5. Minimal penalty: lambda=0.0 preferred over lambda > 0.0"
+    ]
+  },
+  "primary_evaluation_metric": {
+    "metric": "Macro-averaged outer fold AUC across 3 cohorts (Binder, Wielek, Mendeley)",
+    "aggregation": "Mean of 25 outer folds per cohort, followed by unweighted macro-average across the 3 cohorts",
+    "prohibited_substitutions": [
+      "Direct concatenation pooled OOF AUC across folds without explicit qualification",
+      "Cohort weighting alterations",
+      "Post-hoc seed removal"
+    ]
+  },
+  "comparators_and_baselines": {
+    "anchors": [
+      "raw_t",
+      "original_uhndi",
+      "mean_normalized_sum",
+      "zscore_standardized_sum"
+    ],
+    "historical_frozen": [
+      "v20_1_canonical (macro 0.787185)",
+      "uhndi_v21_primary (binder 0.826000)",
+      "v21_denoised_synergy (binder 0.828000, macro 0.794519)",
+      "v22_2_denoised_crco_power (binder 0.838000, macro 0.812222)",
+      "gpco_v23_tuned (binder 0.826000, macro 0.808222)",
+      "hmsco_v24_tuned (binder 0.836000, macro 0.811556)",
+      "rmsco_v25_tuned (binder 0.836000, macro 0.811556)"
+    ],
+    "machine_learning_baselines": [
+      "LogisticRegression (tuned)",
+      "Shrinkage-LDA (tuned)",
+      "RandomForest (tuned)",
+      "TabPFN v2 (Nature 2025)",
+      "ETMC Vector (IEEE TPAMI 2023)",
+      "RoBoSS Paper (IEEE TPAMI 2025)"
+    ],
+    "historical_preservation_target": "51 historical methods strictly verified via 1-to-1 key joins with frozen v24 release (max error <= 1e-12)"
+  },
+  "scientific_promotion_gates": {
+    "gate_1_macro_gain": {
+      "target": "Candidate macro AUC >= 0.806333",
+      "threshold": 0.806333,
+      "unified_tuned_observed": 0.811556,
+      "arco_tuned_observed": 0.812222
+    },
+    "gate_2_binder_strong_baseline": {
+      "target": "Candidate Binder AUC >= 0.828000 (exceeds v21 strong reference)",
+      "threshold": 0.828,
+      "unified_tuned_observed": 0.836,
+      "arco_tuned_observed": 0.838
+    },
+    "gate_3_wielek_dominance": {
+      "target": "Candidate Wielek AUC >= 0.840000",
+      "threshold": 0.84,
+      "unified_tuned_observed": 0.843333,
+      "arco_tuned_observed": 0.843333
+    },
+    "gate_4_mendeley_dilution": {
+      "target": "Candidate Mendeley AUC >= 0.755333",
+      "threshold": 0.755333,
+      "unified_tuned_observed": 0.755333,
+      "arco_tuned_observed": 0.755333
+    },
+    "gate_5_seed_robustness": {
+      "target": "Macro AUC strictly exceeds Raw T and original uHNDI on 5/5 outer seeds (42, 142, 242, 342, 442)",
+      "threshold": 5,
+      "unified_tuned_observed": "5/5",
+      "arco_tuned_observed": "5/5"
+    },
+    "gate_6_historical_preservation": {
+      "target": "Full 51 historical methods verified against frozen v24 snapshot (commit 5f3362a02064a4c5e16316176f967b673f57730a) with 0 missing, 0 extra, max diff <= 1e-12 across 3825 fold metrics and 27795 predictions",
+      "validator": "src/public_validation/historical_preservation.py"
+    }
+  },
+  "default_replacement_criteria": {
+    "engineering_passed": "Engineering integrity, patient quarantine, and historical preservation gates 100% PASS",
+    "incremental_gain_passed": "Candidate macro AUC strictly > 0.811556 (v24/v25 benchmark) and Binder strictly > 0.836000 with statistically confirmed paired gain",
+    "external_confirmation": "Requires external prospective/independent patient cohort confirmation. Without external validation, retained as research candidate and mainline research module, preserving existing default uHNDI Path B behavior."
+  },
+  "uncertainty_and_statistics": {
+    "unit_of_analysis": "Patient-level clustered paired resampling preserving cross-seed correlation (109 patients, 1,000 bootstrap draws)",
+    "reporting": "Point estimate, 95% bootstrap CI, paired delta vs rmsco_v25_tuned, empirical two-tailed bootstrap p-value, and 75-fold win/tie/loss counts",
+    "aggregation_mechanics": "Patient-level clustered resampling with replacement. In small test fold partitions (e.g. Wielek N=23 with ~4.6 test patients per fold), resampled folds frequently contain only one class (all 0 or all 1) or 0 subjects, making ROC AUC mathematically undefined. Such undefined folds are skipped and remaining valid folds in that draw are averaged. Only 8/1000 resamples retain all 75 folds across cohorts. This cluster score resampling distribution conditional on frozen predictions estimates sampling variability and must be distinguished from the fixed-partition 75-fold macro AUC. The empirical p=1.0 arises from discrete zero-differences (74 ties out of 75 folds) and does not prove equivalence between algorithms.",
+    "findings": "arco_v26_tuned point delta vs v25 is +0.000667 with 95% CI [0.000000, 0.004011], p=1.0; uhndi_v26_unified_tuned point delta is 0.000000 with 95% CI [-0.003472, 0.003969], p=1.0. Incremental advantage is within statistical sampling uncertainty."
+  }
+}

@@ -6,7 +6,7 @@ Performs:
 1. Python environment and dependency validation.
 2. Cryptographic SHA-256 verification against results/temporal_dynamics_v1/manifest.json.
 3. Execution of the complete automated unit test suite (pytest tests/).
-4. Verification of the 9-page IEEEtran manuscript PDF.
+4. Verification of the main and supplementary PDF page counts.
 5. Printing executive reproduction table.
 """
 
@@ -35,7 +35,7 @@ def main():
     # 1. Environment & Dependencies
     print("[1/5] Checking Python environment and dependencies...")
     missing = []
-    for pkg in ["numpy", "scipy", "pandas", "sklearn", "matplotlib", "pytest"]:
+    for pkg in ["numpy", "scipy", "pandas", "sklearn", "matplotlib", "pytest", "fitz"]:
         try:
             __import__(pkg)
         except ImportError:
@@ -94,9 +94,19 @@ def main():
         # Fallback reading /Type /Page
         content = pdf_path.read_bytes()
         page_count = content.count(b"/Type /Page\n") + content.count(b"/Type /Page ") + content.count(b"/Type/Page")
-    compliant = page_count in range(8, 11)
-    status_msg = "Verified compliant with IEEE Transactions standard 8-10 page budget" if compliant else "Exceeds standard page budget"
-    print(f"  -> manuscript/manuscript.pdf: {page_count} pages ({status_msg}).")
+    import fitz
+    with fitz.open(pdf_path) as main_doc:
+        page_count = len(main_doc)
+    supplement_path = ROOT / "manuscript/supplementary_material.pdf"
+    if not supplement_path.exists():
+        raise FileNotFoundError(supplement_path)
+    with fitz.open(supplement_path) as supplement_doc:
+        supplement_pages = len(supplement_doc)
+    total_pages = page_count + supplement_pages
+    if total_pages > 14:
+        raise ValueError(f"JBHI regular-paper limit: {total_pages} > 14 pages including supplement")
+    print(f"  -> Main {page_count} + supplement {supplement_pages} = {total_pages} pages; within JBHI's 14-page submission limit (checked 2026-10-29).")
+    print("     Overlength charges and other submission requirements require separate review.")
 
     # 5. Dynamic Core Scientific Findings Verification
     print("\n[5/5] Dynamic In-Situ Metric Verification from Saved Artifacts:")
@@ -180,20 +190,24 @@ def main():
 
     # 5.4 Wielek Sleep Macro-Dynamics
     wielek_json = ROOT / "results/temporal_dynamics_v1/wielek_persistence_results.json"
+    if not wielek_json.exists():
+        raise FileNotFoundError(wielek_json)
     if wielek_json.exists():
         with open(wielek_json, "r") as f:
             wdata = json.load(f)
-        auc_wielek = wdata.get("transition_rate_auroc", 0.7348)
+        auc_wielek = wdata["transition_rate_auroc"]
         assert np.isclose(auc_wielek, 0.7348, atol=1e-3)
         print(f"  Wielek Sleep State Transition AUC    {auc_wielek:.4f}    0.7348    Verified (Dynamic)")
 
     # 5.5 CRRC External Hospital Validation Cohort
     crrc_json = ROOT / "results/crrc_validation/crrc_metrics_summary.json"
+    if not crrc_json.exists():
+        raise FileNotFoundError(crrc_json)
     if crrc_json.exists():
         with open(crrc_json, "r") as f:
             cdata = json.load(f)
-        auc_p1 = cdata["protocol_1_strict_6ch"].get("orthogonal_4feature_linear", cdata["protocol_1_strict_6ch"].get("orthogonal_4feature_suite", {})).get("auroc", 0.7143)
-        auc_p2 = cdata["protocol_2_full_sensitivity"].get("orthogonal_4feature_soft_truncation_c15", cdata["protocol_2_full_sensitivity"].get("orthogonal_4feature_linear", {})).get("auroc", 0.7963)
+        auc_p1 = cdata["protocol_1_strict_6ch"]["orthogonal_4feature_linear"]["auroc"]
+        auc_p2 = cdata["protocol_2_full_sensitivity"]["orthogonal_4feature_soft_truncation_c15"]["auroc"]
         assert np.isclose(auc_p1, 0.7143, atol=1e-3)
         assert np.isclose(auc_p2, 0.7963, atol=1e-3) or np.isclose(auc_p2, 0.7778, atol=1e-3)
         print(f"  CRRC Hospital Suite (Clean N=13)     {auc_p1:.4f}    0.7143    Verified (Dynamic)")
@@ -213,9 +227,25 @@ def main():
         assert np.isclose(matched["crrc_full15/orthogonal_lag1/target_aligned"]["metrics"]["equal_mean_c15"]["auroc"], 0.7963, atol=1e-4)
         print("  Matched comparisons: output/script hashes and revised headline metrics verified")
 
+    domain_dir = ROOT / "results/domain_baseline_metrics_v1"
+    if domain_dir.exists():
+        domain_manifest = json.loads((domain_dir / "manifest.json").read_text(encoding="utf-8"))
+        for name, expected in domain_manifest["outputs"].items():
+            assert hashlib.sha256((domain_dir / name).read_bytes()).hexdigest() == expected
+        for name, expected in domain_manifest["inputs"].items():
+            assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected
+        assert hashlib.sha256((ROOT / "scripts/recompute_domain_baseline_metrics.py").read_bytes()).hexdigest() == domain_manifest["script_sha256"]
+        domain_run = subprocess.run([sys.executable, "scripts/recompute_domain_baseline_metrics.py"], cwd=str(ROOT), capture_output=True, text=True)
+        assert domain_run.returncode == 0, domain_run.stdout + domain_run.stderr
+        domain_metrics = json.loads((domain_dir / "summary.json").read_text(encoding="utf-8"))["metrics"]
+        assert np.isclose(domain_metrics["lzc"]["balanced_accuracy"], 0.5267241379310346)
+        assert np.isclose(domain_metrics["spectral_entropy"]["balanced_accuracy"], 0.6721264367816092)
+        print("  Domain baseline training-threshold metrics recomputed and verified")
+
     print("  " + "-" * 72)
     print("\n" + "=" * 72)
-    print("  SUCCESS: DYNAMIC ARTIFACT REPRODUCIBILITY AUDIT PASSED (100% REPRODUCIBLE)")
+    print("  SUCCESS: PACKAGED TESTS, CHECKSUMS AND SELECTED CACHED METRIC CHECKS PASSED")
+    print("  This does not verify raw-data provenance, clinical claims or every manuscript result.")
     print("=" * 72)
 
 if __name__ == "__main__":

@@ -1,0 +1,61 @@
+{
+  "protocol_name": "relative_advantage_v20_revised",
+  "version": "20.1.0",
+  "date": "2026-10-01",
+  "author": "Antigravity Research Team",
+  "review_reference": "docs/Relative_Advantage_V20_Acceptance.md",
+  "core_objectives": [
+    "Eliminate floating-point tie-breaking artifacts in sleep dwell scoring via exact fractional arithmetic",
+    "Ground mathematical interpretations in empirical cross-patient sample statistics rather than unverified white-noise variance doubling",
+    "Implement symmetric inner-fold hyperparameter optimization for all baseline classifiers (Logistic, LDA, RF)",
+    "Incorporate established quantitative EEG ratio baselines (Log-Ratio and Normalized Difference Index)",
+    "Guarantee strict execution idempotency, overwrite protection, and full manifest fingerprinting"
+  ],
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "cohorts": [
+    {
+      "name": "binder",
+      "n_patients": 45,
+      "task_type": "binary_auditory_envelope_itpc",
+      "input_dimension": 3,
+      "features": ["phi_rec", "phi_base", "phi_feed"]
+    },
+    {
+      "name": "wielek",
+      "n_patients": 23,
+      "task_type": "sleep_stage_dwell_proportions",
+      "input_dimension": 5,
+      "features": ["p_Wake", "p_N1", "p_N2", "p_N3", "p_REM"],
+      "primary_target": "p_N1"
+    },
+    {
+      "name": "mendeley",
+      "n_patients": 41,
+      "task_type": "continuous_resting_spectral_power",
+      "input_dimension": 2,
+      "features": ["theta_power", "alpha_power"]
+    }
+  ],
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "log_ratio_spectral",
+    "normalized_diff_ndi",
+    "cobn_canonical",
+    "uhndi_v20_revised",
+    "tuned_logistic_regression",
+    "tuned_shrinkage_lda",
+    "tuned_random_forest"
+  ],
+  "evaluation_criteria": {
+    "tie_handling": "exact_fractional_arithmetic",
+    "scale_homogeneity_tolerance": 1e-12,
+    "primary_metric": "5_seed_macro_auc",
+    "dual_benchmark_reporting": {
+      "vs_raw_t": true,
+      "vs_fixed_measurement_anchor": true
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "study_id":"information_source_audit_v13",
+  "client_date":"2026-10-01",
+  "scope":"Outcome-blind feasibility audit after negative v12; not a performance experiment or preregistration",
+  "cohorts":["binder","wielek","mendeley"],
+  "patient_policy":"Read retained public subject IDs only, never diagnosis, CRS-R, manual stage labels or previous patient predictions. Retain original45/23/41 identities. Do not remove subjects missing the optional opt2 condition.",
+  "binder":"Verify opt2 ITPC/envelope identity, exact released trace reconstruction with available original channels, overlap with retained opt5 IDs, and opt5 finite full-frequency response regions. Second stimulus is an optional view, never a basis for restricting the primary cohort. No single-trial or voltage data implied.",
+  "wielek":"Count boundary-safe lag1/2/4/8 stage pairs using only myPredict, time and time_record; do not bridge any intervening nonconsecutive epoch or record boundary. Report automatic stage-stream availability, not raw-EEG signal availability.",
+  "mendeley":"Inspect complete frozen per-block six-channel theta/alpha matrices and boundary-safe clean adjacent pairs. Audit contains no new raw preprocessing or QC choices.",
+  "reporting":"Availability, axis sizes and numerical reconstruction errors only; no label-conditioned feature selection, AUC or performance conclusion. Freeze source/code hashes and preserve all old results/manuscript."
+}

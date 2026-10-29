@@ -1,0 +1,179 @@
+{
+  "study_id": "distribution_kernel_v16a",
+  "client_date": "2026-10-01",
+  "status": "Technical solver revision after v16 terminated during inner training; first Binder outer fold calculated but not persisted. Same scientific design and selection menu; not independent confirmation.",
+  "cohorts": [
+    "binder",
+    "wielek",
+    "mendeley"
+  ],
+  "primary_method": "projected_distribution_rank",
+  "anchor": "Fixed existing assignment: T for Binder/Wielek, original uHNDI for Mendeley. Gains from this assignment are not supplemental-information gains.",
+  "binder": {
+    "channels": [
+      "Fz",
+      "FCz",
+      "FC2",
+      "C1",
+      "Cz",
+      "C2",
+      "CPz",
+      "Pz"
+    ],
+    "frequency_edges_hz": [
+      20,
+      30,
+      40,
+      50,
+      60
+    ],
+    "time_edges_s": [
+      0,
+      0.1,
+      0.2,
+      0.35,
+      0.5,
+      0.7
+    ],
+    "baseline_s": [
+      -0.4,
+      -0.3
+    ],
+    "features": "Four frequency views. Per actual common channel: five ITPC response/baseline contrasts (response-baseline)/(response+baseline), plus baseline ITPC. 192 fixed fields. Average channel/time contrast and average channel baseline form each view's two marginal-control fields. All windows left-inclusive/right-exclusive. No optional stimulus, raw voltage, new patient exclusions or fine physiological latency claims. Aggregate 500ms-window ITPC samples overlap."
+  },
+  "wielek": {
+    "states": [
+      "wake",
+      "N1",
+      "N2",
+      "N3",
+      "REM"
+    ],
+    "lags": [
+      1,
+      4,
+      16
+    ],
+    "pseudocount": 4.0,
+    "features": "Square-root stage occupancy (5 fields) and square-root full 5x5 lagged joint probabilities at each lag (75 fields). Add 4 times the patient-local independent left/right occupancy prior before normalizing each joint count matrix. Every intervening edge must be valid, consecutive and within the same time_record. No manual stage, eyes, CRS-R, timestamps as classifier values, demographics or duration inputs. Marginal-only control uses the same five occupancy values.",
+    "limit": "Released automatic stages, not raw EEG or independently observed consciousness labels. Smoothing precision may depend on observation support; quality controls cannot establish absence of confounding."
+  },
+  "mendeley": {
+    "band_edges_hz": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        13
+      ],
+      [
+        13,
+        30
+      ],
+      [
+        30,
+        45
+      ]
+    ],
+    "quantiles": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "peak_threshold_uv": 500.0,
+    "features": "Original v3 clean chronological four-second blocks, same six-channel mean PSD. Convert density to band power by exact band width, divide each block by its five-band total, then concatenate nine linear-interpolation quantiles and the mean per band (50 fields). Each band is one kernel view. Marginal-only control retains five mean relative powers. No new EDF exclusion, PSD frontend, re-referencing, artifact threshold or temporal-order claim. Fixed-QC common power gain cancels in these extras, not in the full method that also contains T."
+  },
+  "algorithm": "Per cohort fit train-only robust median/IQR scaling (std then1 fallback), asinh two anchors and tanh extras. Average equal-weight RBF kernels over fixed views, each width=median positive off-diagonal train squared distance divided by view dimension (fallback1 if all0). Project the kernel's feature map away from span[1,normalizedT,normalizeduHNDI] using training-only Moore-Penrose inverse. H=I-AA+, Kperp=HKH, Kqueryperp=(Kquery-Aquery A+ K)H. Eigenfeatures retain eigenvalues above 1e-10 times the positive maximum. Fit with deterministic damped Newton, analytic gradient/Hessian, Armijo backtracking and gradient tolerance1e-8; at most100 Newton steps and60 backtracking halvings. Fit convex within-cohort positive-negative pair logistic loss with fixed anchor offset and ridge ||beta||^2/2. Main prediction=anchor+kernel correction. This removes only the training linear anchor span, not all conditional dependence; nonlinear anchor-only control is mandatory.",
+  "ridge_grid": [
+    1.0,
+    0.1,
+    0.01
+  ],
+  "include_zero_correction": true,
+  "selection": "Four main/control candidates: anchor-only first, then ridge1,.1,.01. Mean three-inner-fold AUC, tie1e-12 retains earlier candidate. Each cohort trained separately. No outer-label sign adjustment, best-seed reporting or tuning after these results.",
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "measurement_anchor",
+    "projected_distribution_rank",
+    "unprojected_distribution_rank",
+    "marginal_distribution_rank",
+    "anchor_only_kernel_rank",
+    "standalone_distribution_rank",
+    "same_input_logistic",
+    "same_input_shrinkage_lda",
+    "same_input_random_forest",
+    "quality_only_logistic",
+    "etmc_vector_adaptation",
+    "roboss_paper_lbfgs",
+    "tabpfn_v2_official"
+  ],
+  "controls": "Unprojected uses same kernel and anchor offset, without span projection. Marginal uses only disclosed marginal fields and new learner. Anchor-only uses two normalized anchor columns and the same projected kernel learner. Standalone is kernel pair ranking without anchor offset or projection. Same-input classics and all three recent methods receive exactly asinh-normalized T/uHNDI plus train-normalized full extras, without kernel residualization. Quality-only LR gets four v10 support/retention quantities only. No direct quality values in signal models.",
+  "classic_grids": {
+    "logistic_C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "rf_max_depth": [
+      2,
+      3,
+      null
+    ],
+    "rf_estimators": 200,
+    "rf_min_leaf": 3
+  },
+  "etmc": {
+    "epochs_grid": [
+      100,
+      300
+    ],
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "annealing_epochs": 10,
+    "views": "Two-anchor view, every fixed signal kernel view and concatenated pseudo-view. Disclosed vector adaptation, not a full original image model."
+  },
+  "roboss": {
+    "C_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "a": 1.4,
+    "bound": 1.8,
+    "implementation": "Paper objective with Gaussian kernel and deterministic L-BFGS adaptation; not original NAG solver."
+  },
+  "tabpfn": {
+    "version": "2.0.9",
+    "checkpoint": ".model_cache/tabpfn-v2-classifier.ckpt",
+    "n_estimators": 4,
+    "execution": "Official local v2 context, all same-input columns; original float bytes retained in NPZ for prediction replay."
+  },
+  "outer_seeds": [
+    42,
+    142,
+    242,
+    342,
+    442
+  ],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "splits": "Exactly the existing v10 per-cohort train/test and inner roles, no held-out patient enters any fitted scaler, kernel, eigenspace, width or optimizer.",
+  "metric": "Mean outer-fold AUC, then five-seed mean, then equal-cohort macro. Pooled calibrated OOF AUC is not the primary metric.",
+  "performance_target": "Positive macro delta against T and originaluHNDI for each of five seeds; positive five-seed mean delta against both in each cohort; positive mean macro delta against measurement_anchor, marginal_distribution_rank and anchor_only_kernel_rank. Full same-input comparisons retained; no superiority claim without those comparisons and independent confirmation.",
+  "novelty_limit": "Candidate combination of distributed signal views and baseline-span projected kernel ranking. No constituent priority, clinical mechanism, guaranteed AUC gain or three-center external validation claim. Known cohorts repeatedly inspected; independent patients remain necessary for confirmation.",
+  "protection": "Frozen protocol and source code before outer predictions; fingerprint original sources, dependencies, all old completed results and manuscripts. Outputs guarded against overwrite. No promotion of favorable control or rewriting negative primary results.",
+  "technical_revision": "L-BFGS reported abnormal line-search termination in v16. No cohort/feature/hyperparameter/metric/target changes."
+}

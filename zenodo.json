@@ -1,7 +1,7 @@
 {
   "title": "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation",
   "upload_type": "software",
-  "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 9-page IEEE JBHI manuscript and 2-page supplementary material.",
+  "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 10-page IEEE JBHI manuscript and 2-page supplementary material.",
   "creators": [
     {
       "name": "Chen, Hongjie",
@@ -42,5 +42,7 @@
       "identifier": "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics",
       "scheme": "url"
     }
-  ]
+  ],
+  "version": "1.0.2",
+  "publication_date": "2026-10-29"
 }

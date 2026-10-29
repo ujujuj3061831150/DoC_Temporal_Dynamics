@@ -1,0 +1,22 @@
+{
+  "study_id":"episode_support_v8","client_date":"2026-10-01",
+  "status":"development after v7a failure, previously inspected cohorts; not independent confirmation",
+  "cohorts":["binder","wielek","mendeley"],
+  "primary_method":"episode_supported_contrast",
+  "algorithm":"For positive target evidence runs of L consecutive valid observations in a stream of n valid observations, support=(L/n)/(L/n+tau). Weight target by support and average; keep original reference/floor; apply original contrast equation. Mix with original uHNDI using eta.",
+  "baseline":"tau=0 yields unmodified target including non-positive evidence; eta=0 yields original uHNDI",
+  "tau_grid":[0.01,0.05,0.1,0.25],"eta_grid":[0.25,0.5,0.75,1.0],
+  "methods":["raw_t","original_uhndi","episode_supported_contrast","positive_only_contrast","shuffled_episode_contrast"],
+  "selection":"mean inner-fold AUC with ties within 1e-12 prefer original score, smaller eta then smaller tau; no patient-level learned coefficients or fold probability rescaling",
+  "outer_folds":5,"inner_folds":3,"outer_seeds":[42,142,242,342,442],
+  "inner_seed_rule":"outer seed + 10000 + outer fold",
+  "shuffle_seed":246810,
+  "shuffle_control":"Permute target/evidence pairs inside each contiguous per-stream segment with fixed seed before evaluation; preserve all per-record values and original mean, destroy ordering without bridging gaps",
+  "positive_only_control":"Weight=1 on positive target evidence, 0 otherwise; same eta grid but no run weighting",
+  "binder":"Available original seven envelope channels; per-channel late envelope samples reconstructed exactly along published frequency/time positions and averaging offsets. Positive evidence = on-trajectory ITPC greater than same-frequency prestimulus ITPC [-.4,-.3]. Ordered envelope samples are overlapping aggregate measurements, not independent trials or precise neural latency episodes. Original reference/floor retained.",
+  "wielek":"Target=N1 epoch indicator; positive evidence=N1. Runs never bridge time_record change, time gaps, or other stages. Original R=0 and F=wake+N3 proportions retained. No eye/video annotations or context-missingness features.",
+  "mendeley":"Chronological clean 4-second theta powers and alpha powers from audited raw block cache. Positive evidence=theta>alpha. Rejected-block gaps break runs. Original alpha mean reference, F=0; no patient exclusions.",
+  "metric":"mean outer-fold AUC then equal-weight cohort macro AUC, all seeds and adverse outcomes reported",
+  "performance_target":"positive macro delta over both strong baselines at every seed, positive mean cohort deltas over both, and positive macro mean delta over positive-only and shuffled-order controls",
+  "scientific_scope":"Explicit low-capacity morphology hypothesis; support does not imply physiological validity or an AUC guarantee. Identity and source/QC checks mandatory. Existing baseline and all negative versions remain preserved. Common feature-gain invariance holds for fixed valid observations and jointly scaled measurement references only."
+}

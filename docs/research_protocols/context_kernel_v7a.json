@@ -1,0 +1,187 @@
+{
+  "study_id": "context_kernel_v7a",
+  "client_date": "2026-10-01",
+  "status": "technical feasibility amendment after v7 stopped on VP23 missing daytime; Binder outcomes were computed but not used to choose this handling; all learner grids unchanged",
+  "cohorts": [
+    "binder",
+    "wielek",
+    "mendeley"
+  ],
+  "primary_method": "context_multikernel_rank",
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "context_multikernel_rank",
+    "marginal_only_rank",
+    "joint_only_rank",
+    "geometry_only_rank",
+    "logistic",
+    "shrinkage_lda",
+    "random_forest"
+  ],
+  "anchor": "fixed original uHNDI, training median/IQR asinh; raw T retained as fixed strong baseline",
+  "kernel": "training-scaled Gaussian marginal kernel and unscaled Gaussian matrix-log joint kernel, widths from positive training median distances; mixture weight selected in inner CV",
+  "score": "anchor + eta*tanh(K beta); pairwise logistic objective with RKHS ridge, same objective for all cohorts",
+  "eta_grid": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "ridge_grid": [
+    10.0,
+    1.0,
+    0.1
+  ],
+  "joint_weight_grid": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "selection": "mean inner-fold AUC, ties within 1e-12 prefer eta=0 then smaller eta, larger ridge and listed joint weight",
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "outer_seeds": [
+    42,
+    142,
+    242,
+    342,
+    442
+  ],
+  "inner_seed_rule": "outer seed + 10000 + outer fold",
+  "primary_metric": "mean outer-fold AUC, equal-weight macro cohort average; all seeds, raw scores, and adverse outcomes reported",
+  "performance_target": "positive macro delta over both strong baselines at every seed and positive mean cohort deltas over both; gains must be attributable beyond pure anchor",
+  "binder": {
+    "channels": [
+      "Fz",
+      "FCz",
+      "FC2",
+      "C1",
+      "Cz",
+      "C2",
+      "CPz",
+      "Pz"
+    ],
+    "bands": [
+      [
+        2,
+        8
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        12,
+        30
+      ],
+      [
+        30,
+        48
+      ]
+    ],
+    "contexts": [
+      [
+        -0.4,
+        -0.3
+      ],
+      [
+        0,
+        0.5
+      ],
+      [
+        0.55,
+        0.85
+      ]
+    ],
+    "marginal": "mean per-channel ITPC per context/band",
+    "joint": "trace-normalized spatial second moments per context/band, matrix logarithm; no connectivity claim"
+  },
+  "wielek": {
+    "states": [
+      "wake",
+      "N1",
+      "N2",
+      "N3",
+      "REM"
+    ],
+    "contexts": [
+      "all",
+      "day",
+      "night"
+    ],
+    "marginal": "context occupancy and signed night-minus-day contrasts, proportions rather than counts",
+    "joint": "continuous same-record adjacent one-hot pairs within each context; no edges across recording/time gaps",
+    "excluded": [
+      "trueEyes",
+      "predEyes",
+      "missing eye masks",
+      "CRS-R",
+      "record duration as diagnostic input"
+    ],
+    "missing_context": "Emit NaN for unavailable daytime occupancy/joint descriptors and night-minus-day contrasts. Median imputation independently refit in every training fold, no exclusion or missingness indicator. No fabricated daytime observation."
+  },
+  "mendeley": {
+    "channels": [
+      "F3",
+      "F4",
+      "C3",
+      "C4",
+      "O1",
+      "O2"
+    ],
+    "bands": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        13
+      ],
+      [
+        13,
+        30
+      ],
+      [
+        30,
+        45
+      ]
+    ],
+    "welch_seconds": 4,
+    "chunk_blocks": 180,
+    "peak_threshold_uv": 500,
+    "contexts": [
+      "all",
+      "first_third",
+      "middle_third",
+      "last_third"
+    ],
+    "context_rule": "elapsed recording block position, not accepted-block index",
+    "marginal": "normalized diagonal band powers, logarithm after fixed trace ridge",
+    "joint": "Hermitian cross-spectra mapped to 12x12 real SPD matrices, trace normalization plus ridge and matrix log",
+    "source_check": "recompute raw EDF hashes, match all41 nominal theta/alpha and QC count to historical store"
+  },
+  "spd_identity_ridge": 0.001,
+  "standard_grids": {
+    "logistic_C": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "rf_max_depth": [
+      2,
+      3,
+      null
+    ]
+  },
+  "fairness": "all multifeature methods receive the same target, original score, marginal and joint vectors; all preprocessing/model/parameter choices confined to training folds; no excluded subjects or label inversions",
+  "history": "earlier studies and manuscripts byte-protected; isolated results/context_kernel_v7; preserve every unfavorable result",
+  "novelty_scope": "candidate context-conditioned representation plus anchored multikernel learning; existing kernels/SPD tools are not claimed as original inventions"
+}

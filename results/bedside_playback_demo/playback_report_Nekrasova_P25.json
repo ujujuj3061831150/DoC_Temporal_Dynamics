@@ -1,0 +1,269 @@
+{
+  "schema_version": 2,
+  "subject_id": "Nekrasova_P25",
+  "input_mode": "cached_power",
+  "sampling_rate_hz": 256.0,
+  "channels": [
+    "F3",
+    "F4",
+    "C3",
+    "C4",
+    "O1",
+    "O2"
+  ],
+  "power_definition": "Mean Welch spectral density within each band; six-channel average reference, periodic Hann, one 4-second segment.",
+  "cache_path": "results/target_profiles_v11/raw_channels/Nekrasova_P25.npz",
+  "cache_sha256": "41fceb5245a9ba75a67effe7a45b983e79e90a63716777b5ddd6dd98fbd3673c",
+  "recording_epoch_seconds": 4.0,
+  "qc_peak_threshold_uv": 500.0,
+  "display_step": 200,
+  "feature_update_policy": "Every display_step blocks once ready; final clean block also evaluated.",
+  "min_adjacent_pairs": 10,
+  "source_training_member": true,
+  "interpretation": "Engineering demonstration with frozen source state; no held-out diagnostic-performance claim.",
+  "clinical_diagnosis_context_only": "VS/UWS",
+  "total_epochs": 5400,
+  "clean_blocks": 5398,
+  "rejected_blocks": 2,
+  "adjacent_pairs": 5395,
+  "retention_rate": 0.9996296296296296,
+  "threshold_source_train": 0.04510836528984161,
+  "threshold_source_train_c15": 0.07249809850624755,
+  "frozen_model": {
+    "training_ids": [
+      "Nekrasova_10",
+      "Nekrasova_P02",
+      "Nekrasova_P03",
+      "Nekrasova_P04",
+      "Nekrasova_P05",
+      "Nekrasova_P06",
+      "Nekrasova_P07",
+      "Nekrasova_P08",
+      "Nekrasova_P09",
+      "Nekrasova_P10",
+      "Nekrasova_P11",
+      "Nekrasova_P12",
+      "Nekrasova_P13",
+      "Nekrasova_P14",
+      "Nekrasova_P15",
+      "Nekrasova_P16",
+      "Nekrasova_P17",
+      "Nekrasova_P18",
+      "Nekrasova_P19",
+      "Nekrasova_P20",
+      "Nekrasova_P21",
+      "Nekrasova_P22",
+      "Nekrasova_P23",
+      "Nekrasova_P24",
+      "Nekrasova_P25",
+      "Nekrasova_P26",
+      "Nekrasova_P27",
+      "Nekrasova_P28",
+      "Nekrasova_P29",
+      "Nekrasova_P30",
+      "Nekrasova_P31",
+      "Nekrasova_P32",
+      "Nekrasova_P33",
+      "Nekrasova_P34",
+      "Nekrasova_P35",
+      "Nekrasova_P36",
+      "Nekrasova_P37",
+      "Nekrasova_P38",
+      "Nekrasova_P39",
+      "Nekrasova_P40",
+      "Nekrasova_P41"
+    ],
+    "features": [
+      "c_global",
+      "neg_cv",
+      "lag1",
+      "residual_corr"
+    ],
+    "mean": [
+      0.4510909047843803,
+      -1.6618995816428905,
+      0.3346602624222907,
+      0.33417120845030207
+    ],
+    "scale": [
+      0.22787382193035,
+      1.565074042004151,
+      0.2113879751128715,
+      0.17728362191992006
+    ],
+    "signs": [
+      1.0,
+      1.0,
+      1.0,
+      -1.0
+    ],
+    "thresholds": {
+      "equal_mean": 0.04510836528984161,
+      "equal_mean_c15": 0.07249809850624755,
+      "ridge": -0.37080165722689185,
+      "logistic": -0.8805820954085453,
+      "lda_shrinkage": -1.1563695595894148
+    },
+    "schema_version": 1,
+    "model": "source_equal_mean",
+    "clip_c": 1.5,
+    "provenance": {
+      "archive": "results/matched_model_comparison_v1/fitted_states.json",
+      "archive_sha256": "e0d608e05f23bdabd7a1f45610adefad10785b03898f1b8daa126e9c7140fb6a",
+      "archive_key": "crrc_full15/orthogonal_lag1/target_aligned/source",
+      "fit_cohort": "Mendeley 41",
+      "threshold_rule": "source-training score median",
+      "note": "Source training subjects may be replayed for engineering verification; this is not held-out clinical validation."
+    },
+    "state_sha256": "e492e493efc779fee1ac7f1afb100ac8413e5d979703c69f4720070e59499490"
+  },
+  "consistency_verified": true,
+  "consistency": {
+    "consistent": true,
+    "tolerance_atol": 1e-07,
+    "tolerance_rtol": 0.0,
+    "differences": {
+      "c_global": {
+        "stream_value": 0.6566987229229159,
+        "offline_expected": 0.6566987229229159,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      },
+      "neg_cv": {
+        "stream_value": -0.8226206472136482,
+        "offline_expected": -0.8226206472136482,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      },
+      "lag1": {
+        "stream_value": 0.01306741648520462,
+        "offline_expected": 0.01306741648520462,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      },
+      "residual_corr": {
+        "stream_value": 0.39456337765531235,
+        "offline_expected": 0.39456337765531235,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      }
+    },
+    "score_absolute_differences": {
+      "score": 0.0,
+      "score_c15": 0.0
+    },
+    "scores_within_tolerance": true
+  },
+  "full_record_archive_comparison": {
+    "consistent": true,
+    "tolerance_atol": 1e-07,
+    "tolerance_rtol": 0.0,
+    "differences": {
+      "c_global": {
+        "stream_value": 0.6566987229229159,
+        "offline_expected": 0.656698722923193,
+        "absolute_diff": 2.7711166694643907e-13,
+        "within_tolerance": true
+      },
+      "neg_cv": {
+        "stream_value": -0.8226206472136482,
+        "offline_expected": -0.8226206472136482,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      },
+      "lag1": {
+        "stream_value": 0.01306741648520462,
+        "offline_expected": 0.01306741648520462,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      },
+      "residual_corr": {
+        "stream_value": 0.39456337765531235,
+        "offline_expected": 0.39456337765531235,
+        "absolute_diff": 0.0,
+        "within_tolerance": true
+      }
+    }
+  },
+  "final_features": {
+    "c_global": 0.6566987229229159,
+    "neg_cv": -0.8226206472136482,
+    "lag1": 0.01306741648520462,
+    "residual_corr": 0.39456337765531235
+  },
+  "final_assessment_score": -0.10586227088938727,
+  "final_score_c15": -0.10052743187433655,
+  "prioritization_state": "LOWER_PRIORITY",
+  "latency_profile_ms": {
+    "total_epochs_profiled": 5400,
+    "clock": "time.perf_counter_ns",
+    "units": "milliseconds",
+    "scope": "In-memory engine calls; excludes file I/O, report export, rendering and acquisition wait. Unexecuted stages are excluded, not zero-filled.",
+    "feature_algorithm": "Cumulative history recomputation using offline operators; cost depends on history length.",
+    "preprocess": {
+      "count": 0,
+      "mean_ms": null,
+      "median_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "max_ms": null
+    },
+    "features": {
+      "count": 27,
+      "mean_ms": 2.170596296296296,
+      "median_ms": 2.2119,
+      "p95_ms": 3.17232,
+      "p99_ms": 3.7166279999999987,
+      "max_ms": 3.9057
+    },
+    "scoring": {
+      "count": 27,
+      "mean_ms": 0.010800000000000002,
+      "median_ms": 0.0106,
+      "p95_ms": 0.01137,
+      "p99_ms": 0.014581999999999993,
+      "max_ms": 0.0157
+    },
+    "cached_ingest_only": {
+      "count": 5373,
+      "mean_ms": 0.009809808300763076,
+      "median_ms": 0.009,
+      "p95_ms": 0.0109,
+      "p99_ms": 0.0192,
+      "max_ms": 0.709
+    },
+    "evaluated_updates": {
+      "count": 27,
+      "mean_ms": 2.192777777777778,
+      "median_ms": 2.2321,
+      "p95_ms": 3.19352,
+      "p99_ms": 3.737235999999999,
+      "max_ms": 3.9261
+    },
+    "raw_epoch_processing": {
+      "count": 0,
+      "mean_ms": null,
+      "median_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "max_ms": null
+    },
+    "all_updates": {
+      "count": 5400,
+      "mean_ms": 0.02072464814814815,
+      "median_ms": 0.009,
+      "p95_ms": 0.0111,
+      "p99_ms": 0.0282,
+      "max_ms": 3.9261
+    }
+  },
+  "replay_wall_time_seconds": 0.12844020000193268,
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26100-SP0",
+    "processor": "Intel64 Family 6 Model 191 Stepping 2, GenuineIntel",
+    "numpy": "2.2.6",
+    "thread_policy": "No CPU-affinity or BLAS-thread restriction was imposed."
+  },
+  "trajectory_file": "playback_trajectory_Nekrasova_P25.json"
+}

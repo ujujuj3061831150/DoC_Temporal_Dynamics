@@ -1,0 +1,39 @@
+{
+  "version": "lag1_independent_validation_v1",
+  "scope": "Technical freeze for future independent patients; candidate chosen after inspecting historical development results. Not retrospective preregistration, completed external validation or a clinical device.",
+  "historical_training": "All 41 retained Mendeley development patients, including 12 MCS and 29 VS/UWS; never treated as new test patients",
+  "primary_candidate": "SignedStandardizedMean on c_global, c_spatial, neg_theta_cv, r_interhem, lag1 in that order",
+  "primary_control": "SignedStandardizedMean on the original first four features in that order",
+  "model_policy": "Fit feature means, population standard deviations and Pearson-label signs once on historical training patients. Equal signed z-score weights. Save parameters, training IDs and training median score cutoffs. No fitting, sign changes, recalibration or threshold selection on new patients.",
+  "signal_policy": {
+    "channels_order": ["F3", "F4", "C3", "C4", "O1", "O2"],
+    "reference": "Original six-channel average-reference processing, frozen extractor implementation and band-power definitions; no substituting incompatible bipolar derivations",
+    "window_seconds": 4,
+    "theta_hz": [4, 8],
+    "alpha_hz": [8, 13],
+    "qc_peak_threshold_microvolts": 500,
+    "qc_comparator": "strictly less than",
+    "minimum_clean_blocks": 10,
+    "minimum_original_adjacent_pairs": 10,
+    "gap_policy": "Preserve original block indices and only pair retained blocks whose index difference is exactly 1; never join across rejected blocks or independently recorded epochs",
+    "lag1_definition": "Pearson correlation between global six-channel theta-power means of physically adjacent retained blocks; values with SD below 1e-12 receive correlation 0 under frozen code",
+    "exclusions": "Unknown physical units, missing/incompatible channel definitions, noncontinuous or unknown block order, insufficient clean blocks or adjacent pairs, nonfinite features. Log all exclusions with reasons before examining model performance.",
+    "recording_selection": "One prespecified initial eligible recording per patient; no selecting the best window, segment, session or montage from labeled test outcomes"
+  },
+  "new_cohort_policy": {
+    "identity": "Exclude all previously used patients and duplicate recordings. Verify provenance and cross-repository identity as far as available, recording unresolved identity uncertainty.",
+    "eligibility": "Independent MCS and VS/UWS patients with compatible continuous EEG; diagnosis fixed by an independent clinical source, not predicted EEG scores",
+    "dataset_lock": "Before accessing model scores with diagnostic labels, timestamp and hash an immutable patient/recording inclusion manifest and the planned recruitment window or completed source inventory. Analyze all eligible patients in that locked inventory once, with no optional stopping after favorable results.",
+    "separation": "Generate and lock EEG features and both score vectors without using new diagnostic labels. Join labels only for the fixed final evaluation. Do not adjust extraction, signs or thresholds after label joining.",
+    "clinical_items_pending": "Actual external source, patient inventory, sample-size feasibility/precision planning, clinical metadata and institutional secondary-analysis determination are not supplied. Technical freeze does not resolve these items. No new external patients are available now."
+  },
+  "evaluation": {
+    "positive_class": "MCS=1; VS/UWS=0",
+    "primary_endpoint": "Candidate AUC minus control AUC on the same independent patient scores; compute one AUC per model on the whole external cohort, not repeated CV or means of original folds",
+    "uncertainty": "10000 paired stratified patient bootstrap replicates, seed 20261003; sample MCS and VS/UWS patient identities separately with replacement, applying the same indices to both models; percentile 95% interval for AUC difference. No retraining or threshold reselection.",
+    "secondary_endpoints": "Sensitivity, specificity and balanced accuracy at each model's historical training median-score cutoff, with score >= cutoff predicting MCS. No optimizing external thresholds.",
+    "decision": "Report both absolute AUCs, paired difference and interval, all secondary metrics, exclusions and group counts. A difference interval wholly above zero supports an independent discrimination gain in this cohort; otherwise improvement is not established. Neither result proves clinical benefit or neural causality.",
+    "stopping": "No additional feature menus, hyperparameter searches, replacing the control, selecting the most favorable cohort, or reusing external labels for model revision under this version. Any revised model requires a new version and a further untouched test cohort.",
+    "confounding": "Record age, etiology, time since injury, medications, acquisition and behavioral-assessment metadata when available. No adjustment models are specified by this technical freeze; missing covariates and resulting limitations must be disclosed."
+  }
+}

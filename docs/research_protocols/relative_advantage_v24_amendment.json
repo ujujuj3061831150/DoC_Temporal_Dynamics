@@ -1,0 +1,28 @@
+{
+  "amendment_name": "relative_advantage_v24_protocol_amendment_1",
+  "base_protocol": "docs/research_protocols/relative_advantage_v24.json",
+  "base_protocol_sha256": "98795a2a1c60235dd5403ca26217a7cbf6ee93810a36dc813807bc2b716e21c5",
+  "amendment_version": "24.1.0",
+  "amendment_date": "2026-10-02T00:15:00+08:00",
+  "author": "Antigravity Biomedical Engineering Team",
+  "rationale_and_evidence": "During post-review forensic verification of v24.0.0, matched control experiments demonstrated that adding the normalized margin separation composite score (AUC + 1e-4 * Margin) did NOT improve outer test AUC; rather, it dropped Binder outer performance from 0.8360 (pure inner-CV AUC) to 0.8300 (margin tie-breaking) and dropped unpenalized outer performance from 0.8240 to 0.8220. Furthermore, applying margin tie-breaking globally to historical models inadvertently modified 41 historical fold AUCs (e.g. dropping gpco_v23_tuned from 0.8260 to 0.8160). Consequently, this amendment decouples the rules based on outer diagnostic evidence.",
+  "amended_inner_selection_criteria": {
+    "primary_evaluation_target": {
+      "model_name": "hmsco_v24_tuned",
+      "primary_metric": "3-fold inner-CV mean fractional AUC",
+      "tie_breaking_rule": "Deterministic first-in-grid order (pure inner AUC, zero margin penalty)",
+      "rationale": "Pure inner-CV discrimination objective without composite margin distortion"
+    },
+    "exploratory_diagnostic_comparator": {
+      "model_name": "hmsco_v24_margin_tuned",
+      "primary_metric": "3-fold inner-CV mean fractional AUC + 1e-4 * Normalized Margin Separation",
+      "tie_breaking_rule": "Normalized Margin Separation: (mean(pos) - mean(neg)) / (std + 1e-6)",
+      "status": "Retained strictly as an exploratory diagnostic comparator to verify the negative effect of margin tie-breaking"
+    },
+    "historical_baselines": {
+      "rule": "Strict historical original rules (pure inner AUC for tuned models, unscaled original formulas)",
+      "status": "100% frozen baseline reproduction verified (gpco_v23_tuned = 0.8260, v21_denoised_synergy = 0.8280, etc.)"
+    }
+  },
+  "scientific_qualification": "This amendment was adopted following empirical observation of outer-fold diagnostic results. Therefore, the resulting performance of hmsco_v24_tuned (Binder 0.8360, Wielek 0.8433, Mendeley 0.7553, Macro 0.811556) is classified strictly as a reproducible development candidate finding rather than a blinded, pre-locked confirmation."
+}

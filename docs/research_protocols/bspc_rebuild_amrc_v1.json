@@ -1,0 +1,33 @@
+{
+  "study": "bspc_rebuild_amrc_v1",
+  "date": "2026-10-04",
+  "candidate": "AMRC",
+  "eta": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "inner_seeds": [
+    1701,
+    1702
+  ],
+  "inner_folds": 3,
+  "selection": "Highest mean inner AUROC, first listed eta on ties within 1e-12",
+  "representation": "new",
+  "outer_policy": "Original 75 frozen patient-level folds",
+  "independent_external_validation": false,
+  "prospective_preregistration": false,
+  "historical_data_exposure": true,
+  "stopping": "One fixed menu; no change after outer results",
+  "comparison_policy": "Matched frozen reference predictions, explicitly identified as prior experiments",
+  "input_code_sha256": {
+    "results/multiscale_matched_v2/features.json": "b379195d4c80ead2539764ce2a374eeb291177d510841b8a87e9dce3dcc8b0c5",
+    "results/multiscale_matched_v2/fitted_states.json": "7e98e4d23fc2f0312a5969b4a34bca9e33d0fbbac3f1b44e076b9a6abce76bdb",
+    "scripts/run_bspc_rebuild_amrc.py": "fe499f47cc78c4c8755c2b6f9951a483163f456c25952b8a716ffa38f2bb78de",
+    "src/research_rebuild/amrc.py": "8391e5d3f475a7c9efdd2a511650365ca8bc51ac6094947431437dfd17edafee",
+    "src/public_validation/multiscale_matched.py": "daff107ff9c97e6aefcdbcf58aac1c7d8ec858cc83ef5a2b891c04a41c36b96b",
+    "src/public_validation/multiscale_consensus_engine.py": "d8111a0daefebcfb3a6acd66fe6e37418502f054a16f555123e8af65b552715c"
+  }
+}

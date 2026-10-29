@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "comparator_artifacts": 750,
+  "numeric_saved_models_replayed": 600,
+  "official_tabpfn_contexts_checked": 150,
+  "max_numeric_prediction_error": 1.8474111129762605e-13,
+  "fresh_selected_models": 30,
+  "max_fresh_prediction_error": 0.0,
+  "fresh_permutation_refits": 450,
+  "conditional_draws_recomputed": 10000,
+  "full_null_refits_in_original_run": 75000,
+  "independent_validation": false
+}

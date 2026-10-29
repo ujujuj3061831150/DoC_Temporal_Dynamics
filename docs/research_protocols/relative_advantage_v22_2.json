@@ -1,0 +1,100 @@
+{
+  "protocol_name": "relative_advantage_v22_2",
+  "version": "22.2.0",
+  "date": "2026-10-01",
+  "author": "Antigravity Biomedical Engineering Team",
+  "target_journal": "Biomedical Signal Processing and Control (BSPC)",
+  "review_reference": "docs/Relative_Advantage_V22_Revised_Independent_Review.md",
+  "source_prompt": "docs/BSPC_Algorithm_Innovation_AI_Prompt_V22.md",
+  "core_hypothesis": "Collinearity-Regulated Consensus Operator (CRCO): Addressing the v22.1 independent review findings (where simple mean-normalized sum achieved 0.803333 and Mendeley dynamic alone 0.752667 exceeded equal-weight fusion 0.742667 due to severe collinear dilution, r=0.9814), this protocol introduces an analytical, non-parametric fusion operator. CRCO combines mean-dispersion calibration with analytical Variance Inflation Factor (VIF) collinearity detection and Fisher Discriminant Ratio (FDR) reliability scoring on training folds. When features are non-collinear (VIF < 10, e.g. Wielek r=0.60, Binder r=0.79), both streams are fully and symmetrically fused; when features exhibit extreme multicollinearity (VIF >= 10, e.g. Mendeley r=0.9814), CRCO smoothly extinguishes the noisy redundant estimator and prioritizes the high-precision spatial consensus stream. Under identical feature inputs, CRCO demonstrably outperforms simple mean-normalized sum (0.803333) and resolves the Mendeley spatial stream dilution.",
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "cohorts": [
+    {
+      "name": "binder",
+      "n_patients": 45,
+      "task_type": "binary_auditory_envelope_itpc",
+      "input_dimension": 3,
+      "features": ["phi_rec", "phi_base", "phi_feed"],
+      "steady_stream": "phi_rec (T, late conscious window 200-350ms)",
+      "dynamic_stream": "phi_feed (F, early sensory gating 20-150ms)",
+      "noise_stream": "phi_base (R, pre-stimulus baseline -300 to -50ms)",
+      "anchor_offset": 0.0
+    },
+    {
+      "name": "wielek",
+      "n_patients": 23,
+      "task_type": "sleep_stage_dwell_proportions_and_valid_state_flux",
+      "input_dimension": 6,
+      "features": ["p_Wake", "p_N1", "p_N2", "p_N3", "p_REM", "within_segment_sw_trans_rate"],
+      "steady_stream": "p_N1 (T, micro-arousal initiation fraction)",
+      "dynamic_stream": "within_segment_sw_trans_rate (S_flux, transitions counted strictly within continuous recording segments with matching time_record and diff(time)==1)",
+      "noise_stream": "None (0.0)",
+      "anchor_offset": 0.0
+    },
+    {
+      "name": "mendeley",
+      "n_patients": 41,
+      "task_type": "continuous_nocturnal_spectral_power_and_spatial_consensus",
+      "input_dimension_fair_spatial": 12,
+      "input_dimension_all_bands": 30,
+      "input_dimension_legacy_raw": 2,
+      "features_fair_spatial": ["F3_4_8", "F4_4_8", "C3_4_8", "C4_4_8", "O1_4_8", "O2_4_8", "F3_8_13", "F4_8_13", "C3_8_13", "C4_8_13", "O1_8_13", "O2_8_13"],
+      "steady_stream": "c_global (global theta-alpha contrast across channels)",
+      "dynamic_stream": "c_spatial_mean (channel-wise contrast consensus across 6 scalp locations)",
+      "noise_stream": "None (0.0)",
+      "anchor_offset": 1.0
+    }
+  ],
+  "primary_methods": [
+    "raw_t",
+    "original_uhndi",
+    "v20_1_canonical",
+    "normalized_diff_ndi",
+    "log_ratio_spectral",
+    "uhndi_v21_primary",
+    "v21_denoised_synergy",
+    "v22_steady_alone",
+    "v22_dynamic_alone",
+    "v22_geometric_coupling",
+    "v22_tuned_coupling",
+    "hsdo_v22_primary",
+    "v22_denoised_hsdo",
+    "crco_v22_2_primary",
+    "v22_2_denoised_crco",
+    "v22_2_denoised_crco_power"
+  ],
+  "matched_stream_controls": [
+    "simple_equal_sum",
+    "mean_normalized_sum",
+    "zscore_standardized_sum",
+    "stream_logistic_regression",
+    "stream_shrinkage_lda",
+    "stream_random_forest",
+    "tabpfn_fair_2stream",
+    "etmc_fair_2stream",
+    "roboss_fair_2stream"
+  ],
+  "evaluation_criteria": {
+    "tie_handling": "exact_fractional_arithmetic",
+    "fixed_measurement_anchor_macro": 0.787852,
+    "v20_1_canonical_macro": 0.787185,
+    "v21_weak_baseline_corrected_macro": 0.794519,
+    "v21_strong_reference_cohorts": {
+      "binder": 0.828000,
+      "wielek": 0.816667,
+      "mendeley": 0.738889
+    },
+    "mean_normalized_sum_macro": 0.803333,
+    "pass_conditions": {
+      "condition_1": "Each cohort 5-seed mean AUC strictly exceeds raw T alone and original uHNDI",
+      "condition_2": "Each seed 3-cohort macro AUC strictly exceeds raw T alone and original uHNDI",
+      "condition_3": "Overall macro AUC strictly exceeds fixed measurement anchor (0.787852), v20.1 (0.787185), and v21 weak baseline (0.794519)",
+      "condition_4": "Each cohort 5-seed mean AUC evaluated against previous v21 strong reference (v21_denoised_synergy: Binder 0.8280, Wielek 0.8167, Mendeley 0.7389)",
+      "condition_5": "Overall macro AUC strictly exceeds simple mean-normalized sum (0.803333) under identical feature inputs",
+      "condition_6": "Resolves Mendeley spatial stream dilution (Mendeley fusion AUC >= dynamic alone 0.752667)",
+      "condition_7": "Independent end-to-end data provenance, patient quarantine, and raw-to-prediction reconstruction verification"
+    }
+  }
+}

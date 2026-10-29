@@ -1,0 +1,43 @@
+{
+  "scope": "Fixed post-hoc scientific-value analyses on previously inspected development patients; not preregistration, external validation or algorithm promotion",
+  "source": "results/multiscale_matched_v2",
+  "output": "results/bspc_scientific_value_v1",
+  "tuning": {
+    "cohorts": ["binder", "wielek", "mendeley"],
+    "models": ["logistic_standard", "ridge_standard", "lda_shrinkage_standard", "logistic_rank", "ridge_rank"],
+    "logistic_C": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "ridge_alpha": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "lda_shrinkage": ["auto", 0.0, 0.25, 0.5, 0.75, 1.0],
+    "inner_seeds": [1701, 1702, 1703, 1704, 1705],
+    "inner_folds": 3,
+    "selection": "Highest mean of fifteen inner-fold AUROCs; exact numerical ties within 1e-12 prefer stronger regularization (smaller logistic C, larger ridge alpha; LDA auto then descending numerical shrinkage)",
+    "preprocessing": "Fit ranks and StandardScaler within each inner training partition; refit selected model on the complete outer training partition only",
+    "outer_policy": "Original five seeds and five folds; full multiscale feature columns for every comparator; retain frozen C, D and fixed-parameter baseline test scores as controls",
+    "diagnostic_thresholds": "Not retuned or evaluated here"
+  },
+  "mechanism": {
+    "cohort": "mendeley",
+    "quality_control": "Original 4-second six-channel block-power caches; peaks <500 uV; preserve original block indices and only form sequential pairs with index difference exactly one",
+    "features": {
+      "lag1": "Pearson correlation of global theta block powers at physically adjacent retained blocks",
+      "neg_increment": "Negative mean absolute change of physically adjacent global theta powers divided by mean retained global theta power",
+      "residual_corr": "For each bilateral pair, regress left and right powers separately on the mean theta power of the other four channels with intercept; correlate residuals and average three pairs. This is a statistical common-mode control, not source connectivity or reference reprocessing."
+    },
+    "minimum_adjacent_pairs": 10,
+    "feature_variants": ["canonical", "plus_lag1", "plus_increment", "replace_cv_lag1", "replace_cv_increment", "residual_corr"],
+    "models": ["C", "D"],
+    "surrogate_seed": 20261003,
+    "surrogate_repeats": 32,
+    "joint_shuffle": "Permute retained time blocks jointly for all six channels within patient; preserve marginal and cross-channel paired power distributions and physical QC slot mask, while destroying temporal ordering",
+    "independent_right_shuffle": "Permute each right channel independently within patient; only channel marginals are preserved, not global block means or cross-channel pairing",
+    "surrogate_evaluation": "Report per-patient feature surrogate summaries and joint-shuffle invariance; refit C and D for plus_lag1 and plus_increment on every joint-shuffle replicate using original outer partitions. Surrogates are not diagnostic label permutations or external patients.",
+    "fusion_controls": ["z_mean", "midrank_mean", "standardized_midrank_mean", "gaussian_rank_mean", "winsorized_z_mean", "asinh_z_mean"],
+    "orientation": "Freeze each outer-training raw-feature Pearson sign shared by all six transformations; equal feature weights; no test-label preprocessing",
+    "winsorization": "Per-feature outer-training 5th/95th percentiles, clip then training StandardScaler",
+    "asinh": "Training median/MAD centering and scaling, fallback to training SD then 1 for degenerate columns; asinh then training StandardScaler",
+    "gaussian_rank": "Training midpoint empirical ranks with normal quantile mapping clipped at 0.5/n and 1-0.5/n",
+    "inference": "Transformation controls test dependence on marginal spacing, tails and normalization; no causal neural mechanism or uniquely established shrinkage explanation is claimed"
+  },
+  "uncertainty": {"draws": 3000, "seed": 20261003, "method": "Conditional patient-paired Dirichlet bootstrap of mean within-fold AUC; shared patient weights across five appearances and compared models; independent cohort streams for equal macro", "model_refits_per_draw": false, "selection_bias_corrected": false, "multiplicity": "Exploratory fixed contrasts, no confirmatory significance or winner selection"},
+  "stopping": "Complete this menu once, preserve adverse and null outcomes, do not expand models, hyperparameters or surrogate controls in response to test scores. Refuse overwriting output."
+}

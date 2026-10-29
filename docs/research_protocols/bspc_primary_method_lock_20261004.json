@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-04",
+  "primary_method": "MDCO",
+  "secondary_control": "AMRC",
+  "purpose": "Lock scientific choices for manuscript finalization, not prospective preregistration",
+  "previous_patient_exposure": true,
+  "outer_performance_driven_grid_expansion": false,
+  "new_independent_cohort_required_for_this_method_paper": false,
+  "clinical_deployment_claim": false,
+  "inputs_and_predictions": {
+    "results/multiscale_matched_v2/features.json": "b379195d4c80ead2539764ce2a374eeb291177d510841b8a87e9dce3dcc8b0c5",
+    "results/multiscale_matched_v2/test_predictions.csv": "77e3617aee292ac3d4a6ec9e6c4ada54b03b94bbda542b3b3075de43b95fbd97",
+    "results/bspc_matched_recent_v1/test_predictions.csv": "bb86f68c72d5b3c6f06e999fc66e6989464512cc5851e1ffe36a9ddc0325cdc4",
+    "results/bspc_rebuild_amrc_v1/test_predictions.csv": "95ea7082efdee03bc08552364555dda89c3a2538c8d888ee80dc5fae3b61ed07"
+  }
+}

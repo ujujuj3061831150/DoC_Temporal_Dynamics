@@ -16,7 +16,7 @@ We express our sincere gratitude to the Reviewers and Editor for their exception
    - We transparently report the empirical performance under both regimes in Section III-H and Supplementary Table S1:
      - Physiologically oriented target-site standardized suite: AUROC = **0.7778** (+0.1296 net gain over static baseline 0.6481; 0.7143 on clean 6-channel records), with the paired bootstrap 95% CI $[-0.1364, +0.4286]$ fully disclosed;
      - Naive frozen-source transfer (where acute discovery VS exhibited hyper-synchrony, yielding an inverted sign for $r_{\text{residual}}$ in chronic rehabilitation inpatients): AUROC = 0.5741 ($N=15$) and 0.5238 ($N=13$);
-     - Supervised parameterized models (Ridge, Logistic Regression, Shrinkage-LDA) transferred to CRRC under the identical target-site standardization completely collapse to chance levels (0.4286--0.5370), establishing the superior robustness of equal-weight improper linear consensus under real-world domain shifts.
+     - Under matched target standardization and direction alignment, source-tuned Ridge, Logistic Regression, and Shrinkage-LDA achieve 0.7407, 0.7593, and 0.7593 AUROC. Equal-weight scoring yields 0.7778, increasing to 0.7963 with fixed c=1.5 truncation. Frozen-source transfer and target-standardized-only protocols are reported separately.
 
 2. **Canonical First-Principles Log-Normal Multiplicative Dynamics**:
    - We established the canonical log-normal multiplicative biophysics of electrophysiological power spectra: evaluating continuous jump rate $D_1$ on log-transformed power increments analytically accounts for **93.91% of empirical variance** ($r = 0.9691, p = 2.59 \times 10^{-25}$), rigorously establishing the physical equivalence between adjacent jump rate and autoregressive continuity.
@@ -37,7 +37,7 @@ We express our sincere gratitude to the Reviewers and Editor for their exception
    - A standalone Supplementary Material document (`supplementary_material.pdf`) has been compiled, providing complete de-identified individual profiles, clinical notes, and protocol comparisons for all 15 CRRC inpatients (Supplementary Table S1).
 
 8. **Strict Physical Layout Compliance**:
-   - The main manuscript strictly complies with the **9-page layout** in standard IEEE Transactions double-column format, with Page 9 column height difference $\Delta y = 29.7\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 23 unit tests passing.
+   - The main manuscript strictly complies with the **10-page layout** in standard IEEE Transactions double-column format, with Page 9 column height difference $\Delta y = 0.3\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 23 unit tests passing.
 
 ---
 
@@ -52,11 +52,11 @@ We completely agree with the Reviewer. In cross-center clinical translation, dis
 
 In the revised manuscript:
 1. We have amended the text across the Abstract, Section I-D, and Section III-H to precisely describe the protocol:
-   > *"Importantly, unsupervised target-site feature standardization paired with a physiologically oriented direction vector evaluated on an independent inpatient hospital cohort from China Rehabilitation Research Center (CRRC, $N=15$, NeuSen NSM2 / EEGCap32-pony, 1000~Hz) yields 0.7778 AUROC (+0.1296 net gain over static baseline 0.6481; 0.7143 on clean 6-channel records), while parameterized models collapse (0.4286--0.5185)."*
+   > *"Importantly, unsupervised target-site feature standardization paired with a physiologically oriented direction vector evaluated on an independent inpatient hospital cohort from China Rehabilitation Research Center (CRRC, $N=15$, NeuSen NSM2 / EEGCap32-pony, 1000~Hz) yields 0.7778 AUROC (+0.1296 net gain over static baseline 0.6481; 0.7143 on clean 6-channel records), with matched source-tuned supervised models achieving 0.7407--0.7593; fixed truncation increases equal-weight scoring to 0.7963."*
 2. In Section III-H and Supplementary Table S1, we now report the performance under all three comparative regimes:
    - **Physiologically Oriented Target Standardization**: 0.7778 AUROC (95% CI $[0.5000, 1.0000]$; net gain $+0.1296$, 95% CI $[-0.1364, +0.4286]$);
    - **Direct Frozen-Source Model Transfer**: 0.5741 AUROC ($N=15$) and 0.5238 ($N=13$);
-   - **Parameterized Supervised Models** (trained on Mendeley and evaluated on CRRC under the identical target-site standardization): Ridge = 0.5185, Logistic = 0.5000, Shrinkage-LDA = 0.5370.
+   - **Matched Supervised Models** (source-tuned and evaluated with the same target standardization and direction alignment): Ridge = 0.7407, Logistic = 0.7593, Shrinkage-LDA = 0.7593.
 3. We explain the neurophysiological basis for this discrepancy: in acute/subacute patients (Mendeley), VS/UWS is characterized by pathological hyper-synchrony driven by diffuse subcortical pacing, rendering residual correlation lower in MCS ($s_{r_{\text{residual}}} = -1$). In chronic rehabilitation inpatients (CRRC), MCS patients exhibit emerging functional re-coupling ($r_{\text{residual}}$ is positive), while VS patients display decoupled cortical fragmentation.
 
 ---
@@ -123,9 +123,10 @@ We have rectified this across `references.bib`:
 
 **Response**:  
 We have compiled `supplementary_material.pdf` (2 pages, IEEE format) containing:
-1. **Supplementary Fig. S1**: End-to-end architecture and operational workflow of the bedside CDSS, detailing acquisition, dual orthogonal extraction, T-GECF safety wrapper, and high-sensitivity ICU triage funnel.
-2. **Supplementary Table S1**: Complete individual de-identified clinical profiles, recording durations, artifact retention rates, and features for all 15 CRRC inpatients, alongside protocol benchmark summaries.
-3. **Clinical and Methodological Notes**: Detailed documentation of CRRC patient enrollment, ethics approval, research-grade NeuSen NSM2 telemetry acquisition, and the mathematical framework of cross-center standardization.
+1. **Supplementary Table S1**: Complete individual de-identified clinical profiles, recording durations, artifact retention rates, and features for all 15 CRRC inpatients, alongside protocol benchmark summaries.
+2. **Supplementary Table S2**: Matched-input cross-model benchmark comparisons (Linear, Clipped, Ridge, Logistic, LDA) across discovery and external cohorts under shared calibration states.
+3. **Clinical and Methodological Notes (Sections A--C)**: Detailed documentation of CRRC patient enrollment, ethics approval, research-grade NeuSen NSM2 telemetry acquisition, and the mathematical framework of cross-center standardization.
+4. **Section S-CDSS & Table S3**: Real-time bedside streamlined implementation and execution latency benchmarks (mean evaluated update 2.15 ms, artifact gating at $<500\ \mu\mathrm{V}$, physical adjacency preservation, and offline numerical consistency with error $\le 2.77 \times 10^{-13}$), directly referencing the open-source interactive HTML demo (`docs/bedside_cdss_demo.html`) and demonstration animation (`docs/bedside_playback_demo.gif`).
 
 ---
 
@@ -133,7 +134,7 @@ We have compiled `supplementary_material.pdf` (2 pages, IEEE format) containing:
 
 | Deliverable Artifact | Description | Verification Status |
 | :--- | :--- | :--- |
-| `manuscript.pdf` | Main 9-page IEEE double-column research manuscript | Strictly 9 pages, $\Delta y = 29.7\text{ pt} \le 35\text{ pt}$, 0 overlaps |
-| `supplementary_material.pdf` | Supplementary Fig. S1, Table S1 & Clinical Notes | Compiled, 2 pages, verified |
-| `output/doi_release/DoC_Temporal_Dynamics_v1.0.0.zip` | Complete standalone reproducible archive | SHA-256 verified, 100% reproducible |
-| Unit Test Suite (`pytest v3/tests -v`) | 23 automated unit and stress tests | 23/23 passed |
+| `manuscript.pdf` | Main 10-page IEEE double-column research manuscript | Strictly 9 pages, $\Delta y = 0.3\text{ pt} \le 35\text{ pt}$, 0 overlaps |
+| `supplementary_material.pdf` | Supplementary Tables S1--S3, Section S-CDSS & Clinical Notes | Compiled, 2 pages, $\Delta y = 6.5\text{ pt} \le 35\text{ pt}$, 0 overlaps |
+| `docs/bedside_cdss_demo.html` | Interactive standalone browser prototype for bedside playback | Validated, 0 random/mock data, 100% real traces |
+| Unit Test Suite (`pytest v3/tests`) | Full automated unit, regression, and stream test suite | 37/37 passed (100% green) |

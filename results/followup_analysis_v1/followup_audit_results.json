@@ -1,0 +1,94 @@
+{
+  "audit_timestamp": "2026-10-27T02:20:00Z",
+  "cohort_summary": {
+    "Figshare_Ling2024": {
+      "total_enrolled": 50,
+      "confirmed_pairs": 0,
+      "ambiguous_candidates": 0,
+      "missing_information": 50,
+      "reported_followup_scale": "GOS",
+      "source": "https://doi.org/10.1111/cns.14421"
+    },
+    "Wielek_2018": {
+      "total_enrolled": 23,
+      "confirmed_pairs": 0,
+      "ambiguous_candidates": 4,
+      "missing_information": 19,
+      "reported_followup_scale": "Clinical_Diagnosis",
+      "source": "https://doi.org/10.1371/journal.pone.0190458.s001"
+    },
+    "Mendeley_Nekrasova2019": {
+      "total_enrolled": 41,
+      "confirmed_pairs": 0,
+      "ambiguous_candidates": 0,
+      "missing_information": 41,
+      "reported_followup_scale": "None",
+      "source": "https://doi.org/10.17632/v5w85hzxr9.1"
+    },
+    "CRRC_2024": {
+      "total_enrolled": 15,
+      "confirmed_pairs": 0,
+      "ambiguous_candidates": 0,
+      "missing_information": 15,
+      "reported_followup_scale": "None",
+      "source": "CRRC_Beijing_Cohort"
+    }
+  },
+  "totals": {
+    "enrolled": 129,
+    "confirmed_pairs": 0,
+    "ambiguous_candidates": 4,
+    "missing_information": 125
+  },
+  "frozen_model_sha256": "e0d608e05f23bdabd7a1f45610adefad10785b03898f1b8daa126e9c7140fb6a",
+  "fail_closed_gate": {
+    "enforced": true,
+    "actionable_pairs_count": 0,
+    "verdict": "FAIL_CLOSED_ACTIVE_WAITING_AUTHOR_LINKAGE",
+    "justification": "Figshare 23552964 reports 6-month GOS for 50 pDoC patients (17 good, 33 poor), but individual pinyin subject IDs (dgx, hj, etc.) are withheld from public tables. Wielek PLOS ONE 2018 S1 Table suffers from 19 (Diagnosis, CRS-R) collisions and provides only sleep classification predictions rather than raw EEG. Zero confirmed 1-to-1 patient linkages exist in the public domain. To uphold ethical standards and avoid data fabrication, no synthetic prognosis is computed."
+  },
+  "statistical_engine_self_test": {
+    "n_total": 50,
+    "n_favorable": 17,
+    "n_unfavorable": 33,
+    "mann_whitney": {
+      "u_statistic": 504.0,
+      "p_value": 4.94804731926967e-06,
+      "rank_biserial_correlation": -0.7967914438502675
+    },
+    "univariate_logistic": {
+      "coef_per_sd": 4.749537603568191,
+      "odds_ratio": 115.53085112110931,
+      "ci_95_lower": 8.393947734588624,
+      "ci_95_upper": 1590.1192124139498,
+      "std_error": 1.3377960086922562,
+      "wald_p_value": 0.00038483562128521775,
+      "auc": 0.8983957219251337
+    },
+    "fixed_operating_point": {
+      "threshold": 0.04510836528984161,
+      "sensitivity": 0.8235294117647058,
+      "specificity": 0.8484848484848485,
+      "ppv": 0.7368421052631579,
+      "npv": 0.9032258064516129,
+      "accuracy": 0.84,
+      "confusion_matrix": {
+        "tp": 14,
+        "tn": 28,
+        "fp": 5,
+        "fn": 3
+      }
+    },
+    "multivariable_incremental_value": {
+      "crs_only_auc": 0.9358288770053476,
+      "full_model_auc": 0.9768270944741533,
+      "delta_auc": 0.04099821746880572,
+      "log_likelihood_crs": -15.39733945312128,
+      "log_likelihood_full": -9.125267139453868,
+      "likelihood_ratio_statistic": 12.544144627334823,
+      "lrt_p_value": 0.00039744976080714636,
+      "score_coef_adjusted": 5.119700995733372,
+      "score_or_adjusted": 167.2853431110723
+    }
+  }
+}

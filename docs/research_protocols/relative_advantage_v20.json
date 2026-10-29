@@ -1,0 +1,49 @@
+{
+  "study_id": "relative_advantage_v20",
+  "client_date": "2026-10-01",
+  "status": "Development design optimizing the relative-state advantage construct and observable adapters across three temporal hierarchies; not prospective clinical preregistration.",
+  "cohorts": ["binder", "wielek", "mendeley"],
+  "primary_method": "uhndi_v20_primary",
+  "mathematical_construct": {
+    "equation": "uHNDI_v20 = (Phi_target - beta * Phi_ref) / (Phi_target + beta * Phi_ref + gamma * Phi_floor)",
+    "scale_invariance": "Exact degree-0 scale homogeneity: uHNDI_v20(k*T, k*R, k*F) = uHNDI_v20(T, R, F) for any k > 0 at machine precision (< 1e-12).",
+    "boundedness": "Finite range in [-1.0, 1.0] for non-negative inputs and non-negative beta, gamma.",
+    "singularity_protection": "Returns 0.0 when denominator is identically zero."
+  },
+  "modality_adapters": {
+    "binder": {
+      "target": "phi_rec (late evoked envelope, 0.20-0.35 s)",
+      "reference": "phi_base (prestimulus baseline, -0.30 to -0.05 s)",
+      "floor": "phi_feed (early feedforward envelope, 0.02-0.15 s)",
+      "tuning": "Fold-local 3-inner-fold CV selection of beta in [0.0, 0.5, 1.0] and gamma in [0.5, 0.75, 1.0, 1.5] on training folds only."
+    },
+    "wielek": {
+      "target": "p_N1 (transitional N1 sleep stage proportion)",
+      "reference": "0.0 (unobservable baseline in stage release)",
+      "floor": "sum(p_s for s != N1) = p_wake + p_N2 + p_N3 + p_REM = 1 - p_N1 (Complete Observable Budget Normalization)",
+      "tuning": "Fixed parameter-free beta=0.0, gamma=1.0, yielding exact complete recording budget normalization T / (T + F_full)."
+    },
+    "mendeley": {
+      "target": "theta_power (4-8 Hz spectral power across 6 channels)",
+      "reference": "alpha_power (8-13 Hz spectral power across 6 channels)",
+      "floor": "0.0 (bipolar relative spectral slowing contrast)",
+      "tuning": "Fixed parameter-free beta=1.0, gamma=1.0, yielding exact dimensionless spectral advantage (theta - alpha) / (theta + alpha)."
+    }
+  },
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "cobn_full_budget",
+    "adaptive_floor_damping",
+    "uhndi_v20_primary",
+    "same_input_logistic",
+    "same_input_shrinkage_lda",
+    "same_input_random_forest"
+  ],
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "splits": "Exactly identical v10 patient roles across all three cohorts (45 Binder, 23 Wielek, 41 Mendeley). No test leakage; zero test data enters any scaler, inner selection, or parameter choice.",
+  "metric": "Mean outer-fold AUC, then 5-seed mean, then unweighted equal-cohort macro-average AUC.",
+  "performance_target": "Macro-average AUC exceeding both raw T alone (0.7588) and original uHNDI (0.7836), while preserving exact degree-0 scale homogeneity and reporting full fair comparisons on identical inputs."
+}

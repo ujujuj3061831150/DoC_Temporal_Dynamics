@@ -1,0 +1,35 @@
+{
+  "status": "POST_HOC_FIXED_EVALUATION_PROTOCOL_NOT_BLIND_PREREGISTRATION",
+  "version": "matched-v2",
+  "frozen_previous_commit": "b3f57a4296623e835d7b383dbd860adcc426325f",
+  "evaluation_scope": "EXPLORATORY_DEVELOPMENT_ON_PREVIOUSLY_INSPECTED_PATIENTS",
+  "prior_information_disclosed": ["MDCO macro AUC 0.825333", "Mendeley signed standardized mean diagnostic AUC 0.820000", "All patients and the CV seeds have been inspected in previous development"],
+  "counts": {"binder": 45, "wielek": 23, "mendeley": 41},
+  "seeds": [42, 142, 242, 342, 442],
+  "folds": 5,
+  "input_policy": {
+    "binder_old_and_new": ["T", "F", "R"],
+    "wielek_old": ["fraction_N1", "sw_rate"],
+    "wielek_new": ["fraction_N1", "sw_rate", "wake_to_n1"],
+    "mendeley_old": ["c_global", "c_spatial"],
+    "mendeley_new": ["c_global", "c_spatial", "neg_theta_cv", "r_interhem"],
+    "mendeley_old_components_preserved_exactly_in_new": true,
+    "all_comparison_models_receive_same_raw_columns_for_each_cell": true,
+    "no_patient_or_channel_removal": true
+  },
+  "simple_baseline": {"normalization": "train-fold StandardScaler", "direction": "train-label Pearson sign per feature, constant or zero correlation defaults positive", "aggregation": "equal mean", "negative_values": "retained, never clipped"},
+  "candidate": {
+    "binder": {"scaling": "mean_relative", "p": 1.4, "alpha": 0.05, "lambda": 0.15, "streams": ["T", "F"], "reference": "R", "scope": "frozen inherited ARCO-equivalent configuration"},
+    "wielek_and_mendeley": {"scaling": "standard SciPy midpoint rank", "p": 1.0, "alpha": 0.0, "lambda": 0.0, "scope": "existing equal rank mean, no new mathematical operator"}
+  },
+  "factorial_cells": {"A": "old inputs, signed standardized equal mean", "B": "old inputs, fixed MDCO", "C": "new inputs, signed standardized equal mean", "D": "new inputs, fixed MDCO"},
+  "benchmarks": {"ridge_standard": {"alpha": 1.0}, "logistic_standard": {"C": 1.0, "solver": "lbfgs", "max_iter": 1000}, "lda_shrinkage_standard": {"solver": "lsqr", "shrinkage": "auto"}, "ridge_rank": {"alpha": 1.0}, "logistic_rank": {"C": 1.0, "solver": "lbfgs", "max_iter": 1000}},
+  "search_budget": {"candidate_configurations": 1, "each_baseline_configurations": 1, "inner_hyperparameter_search": false, "outer_results_must_not_change_this_protocol": true},
+  "primary_contrast": "D-C (mechanism on identical new raw inputs)",
+  "secondary_contrasts": ["C-A", "B-A", "D-C-B+A", "D-A", "D-frozen_ARCO", "D-ridge_standard", "D-logistic_standard", "D-lda_shrinkage_standard", "D-ridge_rank", "D-logistic_rank"],
+  "uncertainty": {"method": "paired patient Bayesian bootstrap", "draws": 3000, "seed": 20261002, "weights": "independent positive exponential weights per patient per cohort, reused across all 5 OOF appearances and all methods", "estimator": "weighted within-fold AUC, fixed 25-fold cohort mean, three-cohort equal macro", "interval": "2.5 and 97.5 posterior quantiles conditional on fitted predictions", "skip_folds": false, "model_refitting": false, "p_values": false, "developer_selection_bias_corrected": false, "confirmation_evidence": false},
+  "order_invariance_check": {"cohort": "mendeley", "all_patients": 41, "repeats_per_patient": 10, "seed": 42, "statistics": ["negative theta CV", "average Pearson correlation across all three bilateral pairs"], "not_a_label_permutation_significance_test": true},
+  "promotion_policy": {"automatic_default_replacement": false, "no_guaranteed_performance_gain": true, "no_claim_of_new_math": true, "recent_paper_methods_on_matched_inputs": "not implemented by this fairness remediation; retain as a separate publication requirement"},
+  "stopping_rule": "Run this fixed menu once, record all results, correct implementation defects if detected, do not extend hyperparameter or feature menus to obtain a win.",
+  "output_policy": "Separate new output directory; refuse to overwrite any existing directory, including with --force."
+}

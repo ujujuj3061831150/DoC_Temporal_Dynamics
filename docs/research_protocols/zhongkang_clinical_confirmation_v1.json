@@ -1,0 +1,17 @@
+{
+  "confirmation_date": "2026-10-04",
+  "evidence_source": "User confirmation in this conversation; not independent clinical-record verification",
+  "user_statement": "“0”是表示无标记坏导、分数是为 CRS-R，评分与 EEG 的时间对应。",
+  "input_sha256": {
+    "病人因数分析.xlsx": "725b5e6d3734e739d1fda1b6fe52e39dcb062e98ee0a2fa31a3d5162fe598323",
+    "zk_bad_channels_info.xlsx": "cf2a67f5abf06458e2ee70f7f70a8140aac429b974d37bc72244bbd3db2932f2"
+  },
+  "zero_bad_channel_marker_confirmed": true,
+  "zero_bad_channel_marker_meaning": "No marked bad channels; does not replace signal quality control",
+  "total_score_instrument_confirmed": true,
+  "total_score_instrument": "CRS-R",
+  "clinical_label_time_alignment_confirmed": true,
+  "exact_rating_dates_available_in_table": false,
+  "independent_record_verification_complete": false,
+  "bad_channel_exclusion_or_interpolation_policy_frozen": false
+}

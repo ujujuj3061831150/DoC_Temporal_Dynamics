@@ -194,17 +194,6 @@ def run(output, n_draws=10000, include_figshare=True):
     def save_evaluation(key, rows, state):
         frame = pd.DataFrame(rows)
         result = summarize(frame, n_draws)
-        if not key.startswith("mendeley/"):
-            auxiliary = {}
-            for method in METHODS:
-                threshold = float(np.median(frame[method]))
-                pred = frame[method].to_numpy() >= threshold
-                sensitivity = float(recall_score(frame.label, pred, zero_division=0))
-                specificity = float(recall_score(frame.label, pred, pos_label=0, zero_division=0))
-                auxiliary[method] = {"threshold": threshold, "sensitivity": sensitivity,
-                                     "specificity": specificity,
-                                     "balanced_accuracy": (sensitivity + specificity) / 2}
-            result["auxiliary_target_median_operating_points"] = auxiliary
         summary[key] = result; states[key] = state
         all_rows.extend({"evaluation": key, **r} for r in rows)
         print(key, {m: round(v["auroc"], 4) for m, v in result["metrics"].items()}, flush=True)
@@ -272,7 +261,6 @@ def run(output, n_draws=10000, include_figshare=True):
                 "internal_aggregation": "fold-macro AUROC/AP; pooled decisions across 5 repeats",
                 "external_calibration": "source_frozen is inductive; target_standardized/target_aligned are unlabeled batch adaptation",
                 "crrc_target_prior": [-1., 1., 1., 1.],
-                "auxiliary_threshold": "Separately labeled unlabeled target-batch median; never used for source-only tuning or primary predictions",
                 "bootstrap": {"type": "paired subject-level Dirichlet, conditional on fitted scores", "draws": n_draws, "seed": 20261026},
                 "source_parameters": "Re-selected inside each outer training fold; full-source selection reused across external protocols"}
     (output / "summary.json").write_text(json.dumps({"protocol": protocol, "evaluations": summary}, indent=2), encoding="utf-8")

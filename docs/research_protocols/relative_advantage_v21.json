@@ -1,0 +1,88 @@
+{
+  "protocol_name": "relative_advantage_v21",
+  "version": "21.0.0",
+  "date": "2026-10-01",
+  "author": "Antigravity Research Team",
+  "source_prompt": "docs/Algorithm_Innovation_AI_Prompt.md",
+  "core_hypothesis": "Hierarchical Temporal Integration & Dual-Stream Synthesis (HTI-DSS): In auditory event-related cascades, primary sensory feedforward (F) and secondary recurrent cognitive (T) activation represent cooperative ascending tiers. Replacing adversarial denominator floor penalization with cooperative hierarchical temporal integration (T + F) resolves the long-standing Binder bottleneck (+0.0180 gain over raw T), while preserving canonical exact fractional dwell properties on Wielek and normalized spectral dominance on Mendeley.",
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "cohorts": [
+    {
+      "name": "binder",
+      "n_patients": 45,
+      "task_type": "binary_auditory_envelope_itpc",
+      "input_dimension": 3,
+      "features": ["phi_rec", "phi_base", "phi_feed"]
+    },
+    {
+      "name": "wielek",
+      "n_patients": 23,
+      "task_type": "sleep_stage_dwell_proportions",
+      "input_dimension": 5,
+      "features": ["p_Wake", "p_N1", "p_N2", "p_N3", "p_REM"],
+      "primary_target": "p_N1"
+    },
+    {
+      "name": "mendeley",
+      "n_patients": 41,
+      "task_type": "continuous_resting_spectral_power",
+      "input_dimension": 2,
+      "features": ["theta_power", "alpha_power"]
+    }
+  ],
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "v20_1_canonical",
+    "normalized_diff_ndi",
+    "log_ratio_spectral",
+    "tuned_logistic_regression",
+    "tuned_shrinkage_lda",
+    "tuned_random_forest",
+    "tabpfn_v2_nature",
+    "etmc_vector_tpami",
+    "roboss_paper_tpami",
+    "uhndi_v21_primary",
+    "v21_geometric_coupling",
+    "v21_tuned_coupling",
+    "v21_denoised_synergy"
+  ],
+  "literature_methods_metadata": {
+    "tabpfn_v2_nature": {
+      "publication": "Nature 2025",
+      "doi": "10.1038/s41586-024-08328-6",
+      "checkpoint": ".model_cache/tabpfn-v2-classifier.ckpt",
+      "n_estimators": 4
+    },
+    "etmc_vector_tpami": {
+      "publication": "IEEE TPAMI 2023",
+      "doi": "10.1109/TPAMI.2022.3171983",
+      "epochs": 50,
+      "lr": 0.001,
+      "weight_decay": 0.0001
+    },
+    "roboss_paper_tpami": {
+      "publication": "IEEE TPAMI 2025",
+      "doi": "10.1109/TPAMI.2024.3465535",
+      "C_grid": [0.1, 1.0, 10.0],
+      "a": 1.4,
+      "bound": 1.8
+    }
+  },
+  "evaluation_criteria": {
+    "tie_handling": "exact_fractional_arithmetic",
+    "strict_benchmarks": {
+      "raw_t_macro": 0.7588,
+      "original_uhndi_macro": 0.7836,
+      "v20_1_canonical_macro": 0.7872,
+      "fixed_measurement_anchor_macro": 0.7879
+    },
+    "pass_conditions": [
+      "Each cohort 5-seed mean AUC strictly exceeds raw T alone and original uHNDI",
+      "Each seed 3-cohort macro AUC strictly exceeds raw T alone and original uHNDI",
+      "Overall macro AUC strictly exceeds fixed measurement anchor (0.7879) and v20.1 (0.7872)"
+    ]
+  }
+}

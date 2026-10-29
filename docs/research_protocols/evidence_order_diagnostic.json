@@ -1,0 +1,11 @@
+{
+  "study_id":"evidence_order_diagnostic","client_date":"2026-10-01",
+  "status":"post-development mechanism diagnostic, explicitly informed by v8/v9; not a new performance benchmark",
+  "cohorts":["binder","wielek","mendeley"],
+  "permutations":128,"shuffle_seed":86420,
+  "fixed_v8_tau":0.05,"fixed_v8_eta":0.5,
+  "comparisons":"For each subject, permute target/positive pairs only within contiguous valid segments. Recompute v9 binary phi adjacency and one fixed v8 score. Preserve every original value, marginal target, reference and floor. No model refit, no parameter selection, no best permutation promoted.",
+  "evaluation":"Report complete-patient scalar phi AUC with its original sign, and mean outer-fold fixed-score AUC at each original seed, for all 128 permutations and observed chronology. Distribution quantiles are descriptive conditional sensitivity, not independent clinical performance or a confirmatory p-value.",
+  "outer_folds":5,"outer_seeds":[42,142,242,342,442],
+  "boundaries":"Patient label is used only after features/scores have been generated for diagnostic AUC. Original v8/v9 primary models and results remain immutable. Conditional permutations preserve recording length, gaps and all target/evidence values, so this does not remove possible recording-duration or quality confounding. Fixed score is different from the selected nested v8 headline."
+}

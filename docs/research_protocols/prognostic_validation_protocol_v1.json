@@ -1,0 +1,64 @@
+{
+  "protocol_version": "v1.0.0",
+  "protocol_name": "Prognostic Validation of Frozen Baseline EEG Temporal Scores for DoC Recovery",
+  "registration_timestamp": "2026-10-27T02:15:00Z",
+  "status": "FROZEN_PRE_ANALYSIS",
+  "core_research_question": "Does the frozen baseline EEG temporal score S(x) contain incremental prognostic information regarding long-term functional recovery, beyond baseline clinical diagnosis and CRS-R score?",
+  "eligibility_criteria": {
+    "inclusion": [
+      "Adult patients with diagnosed prolonged disorder of consciousness (MCS or VS/UWS) at baseline",
+      "Resting-state multichannel EEG recording of minimum 120 seconds duration with retention >= 50%",
+      "Documented post-baseline functional outcome on standard scale (e.g., GOS at 6 months) with verified 1-to-1 patient identity linkage"
+    ],
+    "exclusion": [
+      "Absence of verified subject-level linkage between raw EEG recording and longitudinal outcome label",
+      "Identity mapping ambiguity caused by duplicate demographic or CRS-R collisions without independent cross-referencing",
+      "Severe artifact contamination (> 50% rejected epochs)"
+    ]
+  },
+  "outcome_definitions": {
+    "figshare_ling2024": {
+      "endpoint_name": "6-month Glasgow Outcome Scale (GOS)",
+      "target_interval_months": 6.0,
+      "favorable_condition": "GOS >= 4 (Moderate Disability or Good Recovery)",
+      "unfavorable_condition": "GOS < 4 (Severe Disability, Persistent Vegetative State, or Death)",
+      "pre_specified_split": "17 favorable vs 33 unfavorable as reported in CNS Neurosci Ther 2024;30:e14421"
+    },
+    "wielek_2018": {
+      "endpoint_name": "Longitudinal Clinical Recovery vs Non-Recovery / Death",
+      "target_interval_months": "Variable (1 to 150 months; right-censored time-to-event analysis)",
+      "favorable_condition": "Documented emergence or recovery of functional consciousness (eMCS, SD)",
+      "unfavorable_condition": "Persistent UWS or Death",
+      "missing_handling": "Excluded from binary analysis; censored at last follow-up for survival models"
+    }
+  },
+  "frozen_model_specification": {
+    "source_archive": "results/matched_model_comparison_v1/fitted_states.json",
+    "source_archive_sha256": "e0d608e05f23bdabd7a1f45610adefad10785b03898f1b8daa126e9c7140fb6a",
+    "model_key": "figshare50/orthogonal_lag1/source_frozen",
+    "feature_names": ["c_global", "neg_cv", "lag1", "residual_corr"],
+    "signs": [1.0, 1.0, 1.0, -1.0],
+    "scaler_mean": [0.4510909047843803, -1.6618995816428905, 0.3346602624222907, 0.33417120845030207],
+    "scaler_scale": [0.22787382193035, 1.565074042004151, 0.2113879751128715, 0.17728362191992006],
+    "scoring_rules": {
+      "standard": "S(x) = (1/4) * sum_{k=1}^4 s_k * (x_k - mu_k) / sigma_k",
+      "soft_truncated_15": "S_1.5(x) = (1/4) * sum_{k=1}^4 clip(s_k * (x_k - mu_k) / sigma_k, -1.5, 1.5)"
+    },
+    "fixed_operating_thresholds": {
+      "population_neutral": 0.04510836528984161,
+      "prioritization_c15": 0.07249809850624755
+    }
+  },
+  "pre_specified_statistical_analysis": {
+    "hypothesis_1_nonparametric": "Mann-Whitney U test comparing S(x) between favorable and unfavorable recovery groups",
+    "hypothesis_2_effect_size": "Odds Ratio (OR) per 1-SD increase in S(x) via Logistic Regression (or Firth penalized LR for small samples)",
+    "hypothesis_3_incremental_value": "Multivariable logistic regression S(x) + CRS-R vs CRS-R alone evaluated via Likelihood Ratio Test (Delta chi^2, p-value)",
+    "hypothesis_4_fixed_decision": "Sensitivity, Specificity, Positive Predictive Value (PPV), Negative Predictive Value (NPV) at fixed threshold S > 0.0451 without ROC post-hoc tuning"
+  },
+  "audit_rules": {
+    "fail_closed_gate": true,
+    "disallow_synthetic_labels": true,
+    "disallow_unverified_pairings": true,
+    "require_author_provenance": true
+  }
+}

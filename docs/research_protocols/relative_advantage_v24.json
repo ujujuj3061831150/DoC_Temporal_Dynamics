@@ -1,0 +1,76 @@
+{
+  "protocol_name": "relative_advantage_v24",
+  "version": "24.0.0",
+  "date": "2026-10-01",
+  "author": "Antigravity Biomedical Engineering Team",
+  "target_journal": "Biomedical Signal Processing and Control (BSPC)",
+  "review_reference": "docs/Relative_Advantage_V23_Remediation_Review.md",
+  "source_prompt": "docs/BSPC_Algorithm_Innovation_AI_Prompt_V22.md",
+  "core_hypothesis": "Unified Hierarchical Multi-Stream Consensus Operator (HMSCO v24): We hypothesize that multi-stream electrophysiological evidence in disorders of consciousness is governed by a unified multi-stream architecture: (1) Soft-maximum nonlinear pooling via an Lp power-mean operator (p in [1.4, 1.8]), which preserves surviving intact pathways; (2) Continuous Fisher Discriminant Ratio (FDR) quality weighting (alpha in [0.0, 0.10]), which adaptively prioritizes the higher-SNR sensory pathway; (3) Analytical collinearity-gated scalar shrinkage (r0 = 0.88), which prevents redundant variance explosion in highly collinear channels; and (4) Adaptive Reference/Noise Stream Regularization (lambda in [0.0, 0.1, 0.2]), where the degree of spontaneous non-neural baseline suppression is jointly selected inside patient-isolated inner cross-validation folds. Under strictly fair and identical feature inputs across cohorts, we hypothesize that the inner-CV tuned HMSCO (hmsco_v24_tuned) will simultaneously (a) outperform simple linear summation by a significant margin across all cohorts, (b) strictly exceed the v21 strong baseline (0.8280) on Binder under pure inner-CV selection without manual hyperparameter fixing, and (c) resolve multi-stream dilution across distinct recording paradigms.",
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "cohorts": [
+    {
+      "name": "binder",
+      "n_patients": 45,
+      "task_type": "binary_auditory_envelope_itpc",
+      "input_dimension": 3,
+      "features": ["phi_rec", "phi_base", "phi_feed"],
+      "steady_stream": "phi_rec (T, late conscious window 200-350ms)",
+      "dynamic_stream": "phi_feed (F, early sensory gating 20-150ms)",
+      "noise_stream": "phi_base (R, pre-stimulus baseline -300 to -50ms)",
+      "anchor_offset": 0.0
+    },
+    {
+      "name": "wielek",
+      "n_patients": 23,
+      "task_type": "sleep_stage_dwell_proportions_and_valid_state_flux",
+      "input_dimension": 6,
+      "features": ["p_Wake", "p_N1", "p_N2", "p_N3", "p_REM", "within_segment_sw_trans_rate"],
+      "steady_stream": "p_N1 (T, micro-arousal initiation fraction)",
+      "dynamic_stream": "within_segment_sw_trans_rate (S_flux, transitions counted strictly within continuous recording segments with matching time_record and diff(time)==1)",
+      "noise_stream": "None (0.0)",
+      "anchor_offset": 0.0
+    },
+    {
+      "name": "mendeley",
+      "n_patients": 41,
+      "task_type": "continuous_nocturnal_spectral_power_and_spatial_consensus",
+      "input_dimension_fair_spatial": 12,
+      "input_dimension_all_bands": 30,
+      "input_dimension_legacy_raw": 2,
+      "features_fair_spatial": ["F3_4_8", "F4_4_8", "C3_4_8", "C4_4_8", "O1_4_8", "O2_4_8", "F3_8_13", "F4_8_13", "C3_8_13", "C4_8_13", "O1_8_13", "O2_8_13"],
+      "steady_stream": "c_global (global theta-alpha contrast across channels)",
+      "dynamic_stream": "c_spatial_mean (channel-wise contrast consensus across 6 scalp locations)",
+      "noise_stream": "None (0.0)",
+      "anchor_offset": 1.0
+    }
+  ],
+  "hmsco_hyperparameter_grid": {
+    "power_p": [1.4, 1.6, 1.8],
+    "fdr_alpha": [0.0, 0.05],
+    "collinearity_threshold_r0": [0.88],
+    "noise_penalty_lambda": [0.0, 0.1, 0.2]
+  },
+  "primary_evaluation_target": "hmsco_v24_tuned",
+  "inner_selection_criteria": {
+    "primary_metric": "3-fold inner-CV mean AUC",
+    "tie_breaking_rule": "Normalized Margin Separation: (mean(pos) - mean(neg)) / (std + 1e-6)"
+  },
+  "promotion_gates": {
+    "gate_1_macro_gain": "Macro AUC >= 0.803333 + 0.003000 (0.806333)",
+    "gate_2_binder_strong_baseline": "Binder outer mean AUC strictly >= 0.828000 under inner-CV selection",
+    "gate_3_wielek_dominance": "Wielek outer mean AUC >= 0.840000",
+    "gate_4_mendeley_dilution": "Mendeley outer mean AUC >= 0.755333",
+    "gate_5_historical_preservation": "All historical baselines (Raw T, uHNDI, Mean Sum, v21, v22.2, v23, and ML models) preserved"
+  },
+  "amendment_history": [
+    {
+      "version": "24.1.0",
+      "date": "2026-10-02T00:15:00+08:00",
+      "amendment_file": "docs/research_protocols/relative_advantage_v24_amendment.json",
+      "summary": "Decoupled primary evaluation target (hmsco_v24_tuned) to pure inner-CV AUC with deterministic first-in-grid tie-breaking; retained normalized margin separation strictly as exploratory diagnostic (hmsco_v24_margin_tuned) following outer diagnostic proof of negative margin effect. Restored authentic historical baseline selection rules."
+    }
+  ]
+}

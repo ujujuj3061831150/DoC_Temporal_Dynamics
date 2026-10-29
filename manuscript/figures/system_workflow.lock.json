@@ -1,0 +1,9 @@
+{
+  "policy": "Do not modify the user-provided system schematic.",
+  "sha256": {
+    "fig_system_workflow.pdf": "fe023e65a42cc26784bf15fdcbad83c0581cfe3dc53dec4bd3f27dc283141271",
+    "fig_system_workflow.svg": "6a1170997edd09b48ea48192b7a2794871703f18927a7b9265153e311f9bce58",
+    "fig_system_workflow.png": "33a03e88f02b83d67f085d7e34b455d2031446f754ab88966f49bd618ef63fdb",
+    "fig_system_workflow_editable.pptx": "6e9629d76dc42dfc79c8a62491043a53b14a2a0750eb8c62fa6ffc7770f148fb"
+  }
+}

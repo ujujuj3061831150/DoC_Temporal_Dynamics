@@ -2,14 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Release Tag](https://img.shields.io/badge/Release-v1.0.1-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.1)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-23%2F23%20Passed-brightgreen)](tests/)
-[![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
-[![Reproducibility](https://img.shields.io/badge/Artifact-100%25%20Self--Contained-success)](verify_artifact.py)
+[![Artifact Version](https://img.shields.io/badge/Release-v1.0.2-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/main)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
+[![Paper Page Budget](https://img.shields.io/badge/Manuscript-10%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
+[![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.1`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Artifact Version: `v1.0.2`).
 
 ---
 
@@ -56,7 +56,7 @@ Grounded in Nicholas Schiff's **anterior forebrain mesocircuit hypothesis**, whi
 ## 2. Directory Layout
 
 ```
-DoC_Temporal_Dynamics_v1.0.0/
+DoC_Temporal_Dynamics_v1.0.2/
 ├── README.md                      # This comprehensive documentation
 ├── LICENSE.md                     # Dual MIT / CC-BY 4.0 license scope
 ├── CITATION.cff                   # Machine-readable citation metadata
@@ -66,12 +66,12 @@ DoC_Temporal_Dynamics_v1.0.0/
 ├── verify_artifact.py             # 1-Click automated verification script
 │
 ├── manuscript/                    # Submission-ready paper assets
-│   ├── manuscript.pdf             # Verified 9-page IEEEtran double-column paper
+│   ├── manuscript.pdf             # Verified 10-page IEEEtran double-column paper
 │   ├── manuscript.tex             # LaTeX source file
 │   ├── table1_results.tex         # Main results LaTeX table
 │   ├── table2_multiscale_hyperparam.tex # Validation & sensitivity LaTeX table
 │   ├── references.bib             # BibTeX reference library
-│   └── figures/                   # Publication vector PDFs (Figs 1, 2, 3)
+│   └── figures/                   # Publication vector PDFs (Figs 1–4)
 │
 ├── src/temporal_dynamics/         # Core scientific library
 │   ├── __init__.py                # Module initialization
@@ -117,7 +117,7 @@ Python 3.9+ (tested on Python 3.10 and 3.11) is required.
 
 ```bash
 git clone https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics.git
-cd DoC_Temporal_Dynamics_v1.0.0
+cd DoC_Temporal_Dynamics
 pip install -r requirements.txt
 ```
 
@@ -129,6 +129,17 @@ python verify_artifact.py
 ```
 
 The verifier reports the hashes checked, the collected test count, PDF page counts, and selected recomputed metrics. This check does not rerun the full 10,000-surrogate experiment.
+
+### 3.3 Optional Bedside Power-Block Replay
+
+```bash
+python scripts/run_bedside_playback.py --subject Nekrasova_P36 --speed 0
+python scripts/run_bedside_playback.py --subject Nekrasova_P25 --speed 0
+python scripts/build_bedside_playback_demo.py
+python scripts/render_playback_animation.py
+```
+
+Open `docs/bedside_cdss_demo.html` for the standalone dashboard. It reads actual cached power/QC/score trajectories with archived source means, scales, signs and training-median thresholds. The source-training examples verify engineering consistency and are not held-out clinical validation. Event-level timing and numerical tolerances are documented in `results/bedside_playback_demo/BEDSIDE_PLAYBACK_VERIFICATION_REPORT.md`.
 
 ---
 
@@ -156,7 +167,13 @@ This comparison uses the same feature columns and coordinate transforms for equa
 - CRRC 15, common target alignment: raw mean 0.7778; clipped mean 0.7963; Ridge/Logistic/LDA 0.7407/0.7593/0.7593.
 - Figshare 50, short-increment branch, frozen source: raw mean 0.7691 versus Ridge/Logistic/LDA 0.7759/0.7674/0.7742.
 
-Primary classification thresholds are source-training medians. Unlabeled target-batch median operating points are saved separately as auxiliary results. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
+Primary classification thresholds are source-training medians. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
+
+### Domain Baseline Operating Metrics
+```bash
+python scripts/recompute_domain_baseline_metrics.py
+```
+Recomputes LZC and spectral-entropy metrics from the included unchanged feature cache and the same 25 frozen subject partitions. Signs and median thresholds are fitted on outer-training subjects only. AUROC/AP use fold means; operating metrics pool the repeated outer-test decisions. Subject predictions, fitted thresholds, paired Dirichlet intervals and input hashes are in `results/domain_baseline_metrics_v1/`.
 
 ### 4.4 Run CRRC Hospital Inpatient Cohort Evaluation
 ```bash
@@ -180,7 +197,7 @@ Recreates `fig1_mesocircuit_memory.pdf`, `fig2_factorial_ablations.pdf`, and `fi
 
 ## 5. Ethical Statement & Data Availability
 
-All underlying raw electrophysiological data originate from publicly available, open-access, de-identified scientific repositories approved by their respective institutional review boards:
+The release combines three public datasets with de-identified CRRC features. Cohort-specific access and ethics information is listed below:
 1. **Mendeley Bedside Cohort ($N=41$)**: Open-access under CC-BY 4.0; Federal Research and Clinical Center of Intensive Care Medicine and Rehabilitation, Moscow ethics approval. DOI: [10.17632/6wx4n25h4v.1](https://doi.org/10.17632/6wx4n25h4v.1).
 2. **Figshare Continuous Cohort ($N=50$)**: Open-access under CC-BY 4.0; institutional ethics approval from Hangzhou Mingzhou Brain Rehabilitation Hospital (institutional ethics approval cited in Ling et al., 2024; Xu et al., 2021). DOI: [10.6084/m9.figshare.23552964.v1](https://doi.org/10.6084/m9.figshare.23552964.v1).
 3. **Wielek Polysomnography Cohort ($N=23$)**: Open-access; Salzburg Ethics Commission (No. 415-E/1517/14-2013). DOI: [10.6084/m9.figshare.5669641.v1](https://doi.org/10.6084/m9.figshare.5669641.v1).
@@ -205,3 +222,9 @@ If you use this codebase or methodology in your academic work, please cite:
   url={https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}
 }
 ```
+
+## Version 1.0.2 synchronization
+
+This snapshot contains the current 10-page main manuscript, 2-page supplement, four manuscript figures (including the unchanged editable system schematic), corrected bibliography and matched comparisons using source-training median thresholds. There are 37 tests. Main predictive scores and source thresholds are unchanged; target-median auxiliary operating points are no longer exported.
+
+Reported implementation timing is 2.15 ms per evaluated update in cached-power replay, excluding raw-EEG preprocessing. Figshare remains an exploratory short-record analysis under the evidence boundaries stated in the manuscript. No new software DOI is claimed by this repository metadata.

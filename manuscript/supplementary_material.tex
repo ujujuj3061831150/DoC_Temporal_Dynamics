@@ -7,6 +7,13 @@
 \usepackage{microtype}
 \usepackage{url}
 
+\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\floatsep}{6pt plus 1pt minus 1pt}
+\setlength{\intextsep}{6pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{2pt}
+
+
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
 
@@ -32,14 +39,14 @@
 \section*{Supplementary Clinical and Methodological Notes}
 
 \subsection*{A. CRRC Cohort Recruitment and Ethics Compliance}
-The prospective inpatient hospital cohort was evaluated at the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital, Capital Medical University Rehabilitation College). Patients presenting with disorders of consciousness secondary to severe acute brain injury (11 intracerebral hemorrhage [ICH], 4 traumatic brain injury [TBI]) undergoing inpatient neurorehabilitation were enrolled under institutional review board ethical approval (Medical Ethics Committee of China Rehabilitation Research Center, Approval No.~2025-118-01; cohort characteristics and auditory paradigm screening published in Duan et~al.~\cite{duan2026auditory}). Written informed surrogate consent was obtained from legally authorized representatives prior to telemetry recording in accordance with the Declaration of Helsinki. Diagnostic categorization into minimally conscious state (MCS, $N=6$) and vegetative state / unresponsive wakefulness syndrome (VS/UWS, $N=9$) was confirmed via serial Coma Recovery Scale-Revised (CRS-R) evaluations administered by certified neurorehabilitation clinicians (CRS-R scores ranging from 2 to 23). To preclude acute pharmacological confounding, all telemetry recordings adhered to a strict pre-recording clinical protocol requiring a $\ge 48\text{ h}$ sedation-free washout window, ensuring that observed electrophysiological dynamics reflected intrinsic thalamocortical mesocircuit state rather than transient sedative suppression.
+The prospective inpatient hospital cohort was evaluated at the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital, Capital Medical University Rehabilitation College). Inpatients presenting with disorders of consciousness secondary to severe acute brain injury (11 intracerebral hemorrhage [ICH], 4 traumatic brain injury [TBI]) were enrolled during neurorehabilitation. Ethical approval was granted by the Medical Ethics Committee of the China Rehabilitation Research Center (Approval No.~2025-118-01; cohort recruitment and auditory paradigm screening detailed in Duan et~al.~\cite{duan2026auditory}). Written informed surrogate consent was obtained from legally authorized representatives prior to telemetry recording in accordance with the Declaration of Helsinki. Diagnostic categorization into minimally conscious state (MCS/EMCS, $N=6$; 5 MCS and 1 EMCS) and vegetative state / unresponsive wakefulness syndrome (VS/UWS, $N=9$) was established through serial Coma Recovery Scale-Revised (CRS-R) assessments by certified neurorehabilitation clinicians (scores: 2--23). Recordings were conducted during stable post-acute neurorehabilitation in patients free from continuous acute ICU sedation. Telemetry was acquired from the cohort in~\cite{duan2026auditory}; daily medication logs were unavailable.
 
 \subsection*{B. Telemetry Acquisition and Signal Preprocessing}
 Bedside electroencephalography was acquired using a research-grade NeuSen NSM2 amplifier / EEGCap32-pony system configured at a native sampling rate of 1,000~Hz with active Ag/AgCl electrodes positioned according to the international 10--20 montage (19 channels; see Duan et~al.~\cite{duan2026auditory}). Continuous recordings spanned intermediate monitoring intervals (mean $19.53 \pm 7.96$~minutes; range 7.27 to 39.07~minutes). Raw continuous signals were re-referenced to the Common Average Reference (CAR) and segmented into non-overlapping 4-second blocks (4,000 samples per block). 
 
-To ensure strict zero-leakage evaluation, artifact screening was executed at the single-record level: blocks with peak-to-peak amplitude exceeding $500\,\mu\mathrm{V}$ were flagged as artifactual gaps ($\mathbb{I}_{\text{adj}} = 0$). Homologous electrodes matching the discovery montage (F3, F4, C3, C4, O1, O2) were extracted. 
+To prevent data leakage, artifact screening operated strictly at the individual recording level: blocks with peak-to-peak amplitude at or above $500\,\mu\mathrm{V}$ were flagged as artifactual gaps ($\mathbb{I}_{\text{adj}} = 0$). Homologous electrodes matching the discovery montage (F3, F4, C3, C4, O1, O2) were extracted. 
 
-Two subjects (CRRC\_008 and CRRC\_009) exhibited persistent high-impedance drift isolated to the occipital channel $O_2$. To evaluate clinical resilience objectively, two complementary validation protocols were executed:
+Two subjects (CRRC\_008 and CRRC\_009) exhibited persistent high-impedance drift isolated to the occipital channel $O_2$. To assess clinical robustness across sensor conditions, two complementary validation protocols were evaluated:
 \begin{enumerate}
     \item \textbf{Protocol 1 (Strict Clean 6-Channel Protocol, $N=13$)}: Excluded the two subjects with localized $O_2$ artifacts, evaluating all records with fully intact 6-channel arrays.
     \item \textbf{Protocol 2 (Full Sensitivity Protocol, $N=15$)}: Retained all 15 enrolled subjects under an intent-to-screen sensitivity protocol regardless of single-channel electrode impedance.
@@ -50,12 +57,32 @@ All matched comparisons use the same feature matrix and source training records 
 
 Frozen-source transfer reuses source means, scales, and signs. Target-standardized transfer computes means and scales from the unlabeled target batch while retaining source signs. CRRC target-aligned transfer uses the same target-standardized matrix and $\mathbf{s}_{\text{target}}=[-1,+1,+1,+1]^\top$ for all models. In raw standardized coordinates, this corresponds to $\operatorname{diag}(-1,+1,+1,-1)$ applied consistently to the target inputs of source-trained supervised models. Target labels enter only the final evaluation. The direction rule is specified for the subacute clinical setting; its prospective deployment requires the rule and calibration batch to be fixed before evaluating later patients.
 
-The primary four-feature score is the arithmetic mean. The fixed-truncation variant averages $\operatorname{clip}(s_kz_k,-1.5,1.5)$ and uses the same calibration state. It yields 0.9291 AUROC in discovery and 0.7963 on the full CRRC cohort, versus 0.9324 and 0.7778 for the untruncated score. Supplementary Table~\ref{tab:matched_comparison} separates this scoring change from the transfer protocols.
+The primary four-feature score is the arithmetic mean; the fixed-truncation variant averages $\operatorname{clip}(s_kz_k,-1.5,1.5)$ under identical calibration (0.9291 AUROC discovery, 0.7963 full CRRC vs. 0.9324 and 0.7778 unclipped; Table~\ref{tab:matched_comparison}). Primary decisions apply source-training score medians (CRRC truncated: sensitivity 0.6667, specificity 0.7778, balanced accuracy 0.7222; Figshare source-frozen threshold: balanced accuracy 0.5645, sensitivity 1.0000, specificity 0.1290). All transforms, traces, and input hashes are archived in \url{results/matched_model_comparison_v1/}; paired uncertainty applies 10,000 subject-level Dirichlet draws.
 
-Primary decisions use each model's source-training score median. For full-cohort CRRC truncated scoring, sensitivity, specificity, and balanced accuracy are 0.6667, 0.7778, and 0.7222. An auxiliary unlabeled target-median threshold gives 0.8333, 0.6667, and 0.7500. For the Figshare jump-rate score, the source threshold gives 1.0000, 0.1290, and 0.5645, while the auxiliary target median gives 0.8421, 0.7097, and 0.7759. These policies have separate archived thresholds; neither is selected by scanning target labels.
+\subsection*{D. Section S-CDSS: Bedside Streamlined Implementation \& Latency Profiling}
+To explore implementation feasibility, the four-feature temporal dynamic consensus pipeline was implemented as a streaming prototype (\url{docs/bedside_cdss_demo.html}, animation in \url{docs/bedside_playback_demo.gif}). The architecture accepts consecutive non-overlapping 4-s telemetry epochs ($f_s = 256\,\mathrm{Hz}$), subjecting each block to artifact gating ($<500\,\mu\mathrm{V}$). Temporal continuity tracking ensures that artifact gaps break physical adjacency ($\mathbb{I}_{\text{adj}} = 0$); feature estimation is gated until $\ge 10$ physically adjacent clean pairs accumulate. Data with $<10$ adjacent pairs yield \texttt{INSUFFICIENT\_DATA}. Source-frozen standardized coordinates ($z_k = s_k(x_k - \mu_k)/\sigma_k$) use archived thresholds ($\theta_0 = 0.0451$ for the raw score and $\theta_{1.5} = 0.0725$ for the clipped score), yielding illustrative candidate prioritization rather than definitive clinical referrals.
 
-The repository provides per-subject scores, primary decisions, auxiliary operating points, all source and target transforms, regularization-selection traces, and input hashes in \url{results/matched_model_comparison_v1/}. Paired uncertainty uses 10,000 subject-level Dirichlet draws, sharing weights across methods and repeated folds and conditioning on the fitted predictions.
+Cached-power replay of two source-training records (5,400 epochs per subject; P25 [VS] and P36 [MCS]) showed numerical agreement with offline batch processing ($|\Delta_{\text{feature}}| \le 2.77 \times 10^{-13}$, scoring error $0.000$; Table~\ref{tab:bedside_latency}). Cached-power replay timings were: cached power ingestion mean $0.0098\,\mathrm{ms}$ (p95 $0.011\,\mathrm{ms}$); four-feature extraction mean $2.13\,\mathrm{ms}$ (p95 $3.11\,\mathrm{ms}$); consensus scoring mean $0.011\,\mathrm{ms}$; and total evaluated update mean $2.15\,\mathrm{ms}$ (p95 $3.13\,\mathrm{ms}$), well below the 4,000\,ms inter-epoch window. Raw EEG preprocessing and clinical decision latency were not measured; no single-core or thread restriction was imposed. Table values average the two subject-level summaries (27 evaluated updates each), including their individual p95 values. Complete trajectories and test records are archived in \url{results/bedside_playback_demo/}.
 
+\begin{table}[b]
+\caption{Cached-Power Replay Timings and Verification (5,400 Epochs per Record; Two Records)}
+\label{tab:bedside_latency}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lrrrr}
+\toprule
+Processing Phase & Calls/record & Mean (ms) & Mean p95 (ms) & Max (ms) \\
+\midrule
+Cached Power Ingest & 5,373 & 0.0098 & 0.0111 & 0.7090 \\
+Feature Extraction  &    27 & 2.1323 & 3.1117 & 3.9057 \\
+Consensus Scoring   &    27 & 0.0110 & 0.0123 & 0.0164 \\
+Evaluated Step Total&    27 & 2.1542 & 3.1330 & 3.9261 \\
+\midrule
+\multicolumn{5}{l}{Offline Consistency: Max feature $|\Delta| \le 2.77\times 10^{-13}$; Score error: $0.000$.} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begingroup
 \interlinepenalty=10000

@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "historical_patients": 41,
+  "fresh_models_refitted": 2,
+  "new_patient_count": 0,
+  "external_validation_completed": false
+}

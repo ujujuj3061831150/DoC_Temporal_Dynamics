@@ -1,0 +1,10 @@
+{
+  "source": "results/hndi_benchmark/features_mendeley.csv",
+  "source_sha256": "9f369a2ea4a62d1ebe90d1f8a67c5faac0d332ef729289eb41faa96b7f8eff3d",
+  "columns": [
+    "subject_id",
+    "lzc",
+    "spectral_entropy"
+  ],
+  "note": "Only the two existing univariate feature columns are exported; no feature extraction, selection, or model change."
+}

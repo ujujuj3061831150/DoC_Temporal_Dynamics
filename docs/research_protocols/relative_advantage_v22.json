@@ -1,0 +1,104 @@
+{
+  "protocol_name": "relative_advantage_v22",
+  "version": "22.0.0",
+  "date": "2026-10-01",
+  "author": "Antigravity Biomedical Engineering Team",
+  "target_journal": "Biomedical Signal Processing and Control (BSPC)",
+  "source_prompt": "docs/BSPC_Algorithm_Innovation_AI_Prompt_V22.md",
+  "core_hypothesis": "Hierarchical State-Dynamic Operator (HSDO): In disorders of consciousness (DoC), static steady-state measurements suffer from scale and impedance ambiguity across heterogeneous patients, while active ascending state transitions provide orthogonal evidence of preserved thalamocortical integrity. By mapping heterogeneous modal inputs into an ascending dual-stream representation (steady-state capacity tier and dynamic state-transition tier) and synthesizing them via a shared scale-invariant median-normalized consensus operator, HSDO achieves true multi-cohort performance gains exceeding canonical T alone and original uHNDI across all three clinical cohorts (Binder auditory ERP, Wielek 24h sleep architecture, Mendeley nocturnal EEG).",
+  "outer_seeds": [42, 142, 242, 342, 442],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "cohorts": [
+    {
+      "name": "binder",
+      "n_patients": 45,
+      "task_type": "binary_auditory_envelope_itpc",
+      "input_dimension": 3,
+      "features": ["phi_rec", "phi_base", "phi_feed"],
+      "steady_stream": "phi_rec (T, late conscious window 200-350ms)",
+      "dynamic_stream": "phi_feed (F, early sensory gating 20-150ms)",
+      "noise_stream": "phi_base (R, pre-stimulus baseline -100-0ms)"
+    },
+    {
+      "name": "wielek",
+      "n_patients": 23,
+      "task_type": "sleep_stage_dwell_proportions_and_state_flux",
+      "input_dimension": 6,
+      "features": ["p_Wake", "p_N1", "p_N2", "p_N3", "p_REM", "sw_trans_rate"],
+      "steady_stream": "p_N1 (T, micro-arousal initiation fraction)",
+      "dynamic_stream": "sw_trans_rate (S_flux, spontaneous sleep-wake state transition flux)",
+      "noise_stream": "None (0.0)"
+    },
+    {
+      "name": "mendeley",
+      "n_patients": 41,
+      "task_type": "continuous_nocturnal_spectral_power_and_spatial_consensus",
+      "input_dimension": 30,
+      "features": ["6_channels_5_frequency_bands"],
+      "steady_stream": "c_global (global theta-alpha contrast across channels)",
+      "dynamic_stream": "c_spatial_mean (scale-invariant channel-wise contrast consensus)",
+      "noise_stream": "None (0.0)"
+    }
+  ],
+  "methods": [
+    "raw_t",
+    "original_uhndi",
+    "v20_1_canonical",
+    "normalized_diff_ndi",
+    "log_ratio_spectral",
+    "tuned_logistic_regression",
+    "tuned_shrinkage_lda",
+    "tuned_random_forest",
+    "tabpfn_v2_nature",
+    "etmc_vector_tpami",
+    "roboss_paper_tpami",
+    "uhndi_v21_primary",
+    "v21_denoised_synergy",
+    "v22_steady_alone",
+    "v22_dynamic_alone",
+    "v22_geometric_coupling",
+    "v22_tuned_coupling",
+    "hsdo_v22_primary",
+    "v22_denoised_hsdo"
+  ],
+  "literature_methods_metadata": {
+    "tabpfn_v2_nature": {
+      "publication": "Nature 2025",
+      "doi": "10.1038/s41586-024-08328-6",
+      "checkpoint": ".model_cache/tabpfn-v2-classifier.ckpt",
+      "n_estimators": 4
+    },
+    "etmc_vector_tpami": {
+      "publication": "IEEE TPAMI 2023",
+      "doi": "10.1109/TPAMI.2022.3171983",
+      "epochs": 50,
+      "lr": 0.001,
+      "weight_decay": 0.0001
+    },
+    "roboss_paper_tpami": {
+      "publication": "IEEE TPAMI 2025",
+      "doi": "10.1109/TPAMI.2024.3465535",
+      "C_grid": [0.1, 1.0, 10.0],
+      "a": 1.4,
+      "bound": 1.8
+    }
+  },
+  "evaluation_criteria": {
+    "tie_handling": "exact_fractional_arithmetic",
+    "strict_benchmarks": {
+      "raw_t_macro": 0.758815,
+      "original_uhndi_macro": 0.783630,
+      "v20_1_canonical_macro": 0.787185,
+      "fixed_measurement_anchor_macro": 0.787852,
+      "v21_primary_macro": 0.793852,
+      "v21_weak_baseline_corrected_macro": 0.794519
+    },
+    "pass_conditions": [
+      "Condition 1: Each cohort 5-seed mean AUC strictly exceeds raw T alone and original uHNDI",
+      "Condition 2: Each seed 3-cohort macro AUC strictly exceeds raw T alone and original uHNDI",
+      "Condition 3: Overall macro AUC strictly exceeds fixed measurement anchor (0.787852), v20.1 (0.787185), and v21 weak baseline (0.794519)",
+      "Condition 4: Ablation study confirms contribution of both steady and dynamic streams and explains behavior of data-driven tuning vs structural consensus"
+    ]
+  }
+}

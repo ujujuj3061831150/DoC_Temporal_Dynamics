@@ -1,0 +1,27 @@
+{
+  "scope": "Post-hoc supplementary development analysis on previously inspected patients, not preregistration or independent validation",
+  "source_study": "results/multiscale_matched_v2",
+  "same_input_comparison": ["C", "D", "lda_shrinkage_standard", "logistic_standard", "ridge_standard", "logistic_rank", "ridge_rank"],
+  "ablation": ["old_only", "plus_cv", "plus_corr", "full"],
+  "ablation_models": ["signed_mean", "mdco"],
+  "robustness_cohort": "mendeley",
+  "robustness_conditions": {
+    "canonical_4s": {"window_seconds": 4, "recording_fraction": 1, "peak_uv": 500},
+    "window_2s": {"window_seconds": 2, "recording_fraction": 1, "peak_uv": 500},
+    "window_8s": {"window_seconds": 8, "recording_fraction": 1, "peak_uv": 500},
+    "first_half": {"window_seconds": 4, "recording_fraction": 0.5, "peak_uv": 500},
+    "first_quarter": {"window_seconds": 4, "recording_fraction": 0.25, "peak_uv": 500},
+    "strict_qc_250uv": {"window_seconds": 4, "recording_fraction": 1, "peak_uv": 250},
+    "loose_qc_750uv": {"window_seconds": 4, "recording_fraction": 1, "peak_uv": 750}
+  },
+  "feature_policy": "Recompute all four features in each robustness condition; full six-channel average reference and original band-density definition; first fraction of chronological blocks before QC, never first fraction of clean blocks",
+  "minimum_clean_blocks": 10,
+  "canonical_feature_replay_absolute_tolerance": 1e-10,
+  "canonical_arithmetic": "Verify cache-derived features within numerical tolerance, then preserve frozen baseline contrast floats exactly for canonical models; all alternative conditions recompute four features",
+  "failure_policy": "No silent exclusions, no imputation; record unsupported conditions and stop on invalid data",
+  "robustness_models": ["signed_mean", "mdco"],
+  "influence": "Remove each of 41 patients from all original training and test appearances, refit full-feature signed mean and MDCO on retained training patients, retain original fold assignments and both classes; report all 41 results",
+  "uncertainty": {"draws": 3000, "seed": 20261003, "method": "patient-paired exponential Dirichlet weights shared across five OOF appearances and all methods", "estimand": "mean of 25 within-fold AUCs; equal cohort macro when applicable", "conditional_on_saved_fits": true, "selection_bias_corrected": false},
+  "stopping_rule": "Fixed complete menu, no optimization against outer results; preserve canonical results and report adverse outcomes",
+  "output": "results/bspc_supplement_v1; refuse overwriting an existing directory"
+}

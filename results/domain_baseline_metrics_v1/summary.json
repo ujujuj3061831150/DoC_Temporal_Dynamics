@@ -1,0 +1,62 @@
+{
+  "protocol": {
+    "folds": 25,
+    "source": "Existing single-feature cache; unchanged feature values and frozen subject folds",
+    "orientation": "Feature-label correlation fitted on each outer training set only",
+    "threshold": "Outer-training signed-score median, >= comparison",
+    "aggregation": "Fold-macro AUROC/AP; pooled outer-test decisions across five repeats",
+    "bootstrap": {
+      "type": "Paired subject-level Dirichlet conditional on fixed scores",
+      "draws": 10000,
+      "seed": 20261026
+    }
+  },
+  "metrics": {
+    "canonical": {
+      "auroc": 0.82,
+      "average_precision": 0.7822539682539683,
+      "balanced_accuracy": 0.7201149425287356,
+      "sensitivity": 0.8333333333333334,
+      "specificity": 0.6068965517241379,
+      "f1": 0.5988023952095808,
+      "true_positive": 50,
+      "true_negative": 88,
+      "positive_decisions": 60,
+      "negative_decisions": 145
+    },
+    "lzc": {
+      "auroc": 0.5135555555555554,
+      "average_precision": 0.5060793650793651,
+      "balanced_accuracy": 0.5267241379310346,
+      "sensitivity": 0.55,
+      "specificity": 0.503448275862069,
+      "f1": 0.4,
+      "true_positive": 33,
+      "true_negative": 73,
+      "positive_decisions": 60,
+      "negative_decisions": 145,
+      "difference_vs_static": -0.3064444444444445,
+      "difference_ci95": [
+        -0.423283212162083,
+        -0.18616269398797236
+      ]
+    },
+    "spectral_entropy": {
+      "auroc": 0.6953333333333334,
+      "average_precision": 0.6181746031746032,
+      "balanced_accuracy": 0.6721264367816092,
+      "sensitivity": 0.7166666666666667,
+      "specificity": 0.6275862068965518,
+      "f1": 0.5477707006369427,
+      "true_positive": 43,
+      "true_negative": 91,
+      "positive_decisions": 60,
+      "negative_decisions": 145,
+      "difference_vs_static": -0.12466666666666659,
+      "difference_ci95": [
+        -0.25402893206623134,
+        0.00851397830357548
+      ]
+    }
+  }
+}
