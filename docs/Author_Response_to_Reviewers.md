@@ -37,7 +37,7 @@ We express our sincere gratitude to the Reviewers and Editor for their exception
    - A standalone Supplementary Material document (`supplementary_material.pdf`) has been compiled, providing complete de-identified individual profiles, clinical notes, and protocol comparisons for all 15 CRRC inpatients (Supplementary Table S1).
 
 8. **Strict Physical Layout Compliance**:
-   - The main manuscript strictly complies with the **10-page layout** in standard IEEE Transactions double-column format, with Page 9 column height difference $\Delta y = 0.3\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 23 unit tests passing.
+   - The main manuscript strictly complies with the **9-page layout** in standard IEEE Transactions double-column format, with Page 9 column height difference $\Delta y = 0.3\text{ pt} \le 35.0\text{ pt}$, zero text collisions, and all 23 unit tests passing.
 
 ---
 
@@ -134,7 +134,7 @@ We have compiled `supplementary_material.pdf` (2 pages, IEEE format) containing:
 
 | Deliverable Artifact | Description | Verification Status |
 | :--- | :--- | :--- |
-| `manuscript.pdf` | Main 10-page IEEE double-column research manuscript | Strictly 9 pages, $\Delta y = 0.3\text{ pt} \le 35\text{ pt}$, 0 overlaps |
+| `manuscript.pdf` | Main 9-page IEEE double-column research manuscript | Strictly 9 pages, $\Delta y = 0.3\text{ pt} \le 35\text{ pt}$, 0 overlaps |
 | `supplementary_material.pdf` | Supplementary Tables S1--S3, Section S-CDSS & Clinical Notes | Compiled, 2 pages, $\Delta y = 6.5\text{ pt} \le 35\text{ pt}$, 0 overlaps |
 | `docs/bedside_cdss_demo.html` | Interactive standalone browser prototype for bedside playback | Validated, 0 random/mock data, 100% real traces |
 | Unit Test Suite (`pytest v3/tests`) | Full automated unit, regression, and stream test suite | 37/37 passed (100% green) |

@@ -2,14 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Artifact Version](https://img.shields.io/badge/Release-v1.0.2-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/main)
+[![Release Tag](https://img.shields.io/badge/Release-v1.0.4-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.4)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
-[![Paper Page Budget](https://img.shields.io/badge/Manuscript-10%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
+[![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Artifact Version: `v1.0.2`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.4`).
 
 ---
 
@@ -56,7 +56,7 @@ Grounded in Nicholas Schiff's **anterior forebrain mesocircuit hypothesis**, whi
 ## 2. Directory Layout
 
 ```
-DoC_Temporal_Dynamics_v1.0.2/
+DoC_Temporal_Dynamics_v1.0.0/
 ├── README.md                      # This comprehensive documentation
 ├── LICENSE.md                     # Dual MIT / CC-BY 4.0 license scope
 ├── CITATION.cff                   # Machine-readable citation metadata
@@ -66,12 +66,12 @@ DoC_Temporal_Dynamics_v1.0.2/
 ├── verify_artifact.py             # 1-Click automated verification script
 │
 ├── manuscript/                    # Submission-ready paper assets
-│   ├── manuscript.pdf             # Verified 10-page IEEEtran double-column paper
+│   ├── manuscript.pdf             # Verified 9-page IEEEtran double-column paper
 │   ├── manuscript.tex             # LaTeX source file
 │   ├── table1_results.tex         # Main results LaTeX table
 │   ├── table2_multiscale_hyperparam.tex # Validation & sensitivity LaTeX table
 │   ├── references.bib             # BibTeX reference library
-│   └── figures/                   # Publication vector PDFs (Figs 1–4)
+│   └── figures/                   # Publication vector PDFs (Figs 1, 2, 3)
 │
 ├── src/temporal_dynamics/         # Core scientific library
 │   ├── __init__.py                # Module initialization
@@ -167,7 +167,7 @@ This comparison uses the same feature columns and coordinate transforms for equa
 - CRRC 15, common target alignment: raw mean 0.7778; clipped mean 0.7963; Ridge/Logistic/LDA 0.7407/0.7593/0.7593.
 - Figshare 50, short-increment branch, frozen source: raw mean 0.7691 versus Ridge/Logistic/LDA 0.7759/0.7674/0.7742.
 
-Primary classification thresholds are source-training medians. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
+Primary classification thresholds are source-training medians. Unlabeled target-batch median operating points are saved separately as auxiliary results. Target standardization/direction alignment are batch adaptation protocols, distinct from fully frozen-source transfer. `summary.json`, subject-level score CSVs, fitted states, selection traces and `manifest.json` provide the comparison record. Earlier benchmark JSON files retain their original model configurations; the matched comparison is the source for the revised matched-model claims.
 
 ### Domain Baseline Operating Metrics
 ```bash
@@ -223,8 +223,6 @@ If you use this codebase or methodology in your academic work, please cite:
 }
 ```
 
-## Version 1.0.2 synchronization
+## Author affiliation correction
 
-This snapshot contains the current 10-page main manuscript, 2-page supplement, four manuscript figures (including the unchanged editable system schematic), corrected bibliography and matched comparisons using source-training median thresholds. There are 37 tests. Main predictive scores and source thresholds are unchanged; target-median auxiliary operating points are no longer exported.
-
-Reported implementation timing is 2.15 ms per evaluated update in cached-power replay, excluding raw-EEG preprocessing. Figshare remains an exploratory short-record analysis under the evidence boundaries stated in the manuscript. No new software DOI is claimed by this repository metadata.
+Jianming Chen is affiliated with the College of Information Science and Engineering, Huaqiao University. This author-confirmed correction is consistent across the main manuscript, supplement and citation metadata.

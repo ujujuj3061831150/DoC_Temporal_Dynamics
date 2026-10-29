@@ -7,7 +7,7 @@ authors:
     affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Chen"
     given-names: "Jianming"
-    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Xiong"
     given-names: "Guanyu"
     affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
@@ -17,7 +17,7 @@ authors:
   - family-names: "Duan"
     given-names: "Fang"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
-version: 1.0.2
+version: 1.0.4
 date-released: 2026-10-29
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
