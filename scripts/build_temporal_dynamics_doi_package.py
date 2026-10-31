@@ -31,7 +31,7 @@ import zipfile
 
 _this_file = Path(__file__).resolve()
 ROOT = _this_file.parents[2] if _this_file.parents[1].name == "v3" else _this_file.parents[1]
-PKG_NAME = "DoC_Temporal_Dynamics_v1.0.3"
+PKG_NAME = "DoC_Temporal_Dynamics_v1.0.5"
 STAGE_DIR = ROOT / "output/doi_release" / PKG_NAME
 ZIP_PATH = ROOT / "output/doi_release" / f"{PKG_NAME}.zip"
 SUBMISSION_ZIP_PATH = ROOT / "submission/doi" / f"{PKG_NAME}.zip"
@@ -77,14 +77,14 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Release Tag](https://img.shields.io/badge/Release-v1.0.3-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.3)
+[![Release Tag](https://img.shields.io/badge/Release-v1.0.5-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.5)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.3`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.5`).
 
 ---
 
@@ -346,7 +346,7 @@ ZENODO_JSON = {
         },
         {
             "name": "Chen, Jianming",
-            "affiliation": "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
+            "affiliation": "College of Information Science and Engineering, Huaqiao University"
         },
         {
             "name": "Xiong, Guanyu",
@@ -392,7 +392,7 @@ authors:
     affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Chen"
     given-names: "Jianming"
-    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
+    affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Xiong"
     given-names: "Guanyu"
     affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
@@ -402,8 +402,8 @@ authors:
   - family-names: "Duan"
     given-names: "Fang"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
-version: 1.0.3
-date-released: 2026-10-29
+version: 1.0.5
+date-released: 2026-10-31
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT
@@ -869,6 +869,11 @@ def build_package():
     shutil.copy2(ZIP_PATH, SUBMISSION_ZIP_PATH)
     print(f"[*] Submission archive copied to: {SUBMISSION_ZIP_PATH}")
 
+    # Copy to submission/jbhi/06_DOI_Release_Package/
+    jbhi_doi_dir = ROOT / "submission/jbhi/06_DOI_Release_Package"
+    jbhi_doi_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ZIP_PATH, jbhi_doi_dir / ZIP_PATH.name)
+
     # Write archive checksum file
     checksum_info = {
         "package_name": PKG_NAME,
@@ -882,6 +887,20 @@ def build_package():
     }
     (ZIP_PATH.parent / f"{PKG_NAME}_checksum.json").write_text(json.dumps(checksum_info, indent=2), encoding="utf-8")
     (SUBMISSION_ZIP_PATH.parent / f"{PKG_NAME}_checksum.json").write_text(json.dumps(checksum_info, indent=2), encoding="utf-8")
+    (jbhi_doi_dir / f"{PKG_NAME}_checksum.json").write_text(json.dumps(checksum_info, indent=2), encoding="utf-8")
+
+    latest_meta = {
+        "package_name": PKG_NAME,
+        "version": "1.0.5",
+        "zip_filename": ZIP_PATH.name,
+        "sha256": zip_sha,
+        "size_bytes": ZIP_PATH.stat().st_size,
+        "manuscript_pages": checksum_info["manuscript_pages"],
+        "supplementary_pages": 2,
+        "doi_status": "Staged locally; ready for Zenodo/repository minting",
+        "author_update": "First: Hongjie Chen; Second: Jianming Chen; Third: Guanyu Xiong; Fourth: Fang Li; Corresponding: Fang Duan, Fang Li"
+    }
+    (jbhi_doi_dir / "LATEST.json").write_text(json.dumps(latest_meta, indent=2), encoding="utf-8")
     print(f"[*] Checksum manifest written to: {ZIP_PATH.parent / f'{PKG_NAME}_checksum.json'}")
 
 

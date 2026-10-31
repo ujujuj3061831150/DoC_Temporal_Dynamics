@@ -2,7 +2,7 @@
 
 **Manuscript Title**: A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation  
 **Target Journal**: IEEE Journal of Biomedical and Health Informatics (IEEE JBHI) / IEEE Transactions on Neural Systems and Rehabilitation Engineering (IEEE TNSRE)  
-**Authors**: Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan$^*$ (Corresponding)  
+**Authors**: Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li$^*$ (Corresponding), and Fang Duan$^*$ (Corresponding)  
 **Decision Under Revision**: Major Revision Response (Comprehensive Methodological & Rigor Audit)
 
 ---

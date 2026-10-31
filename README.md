@@ -2,14 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Release Tag](https://img.shields.io/badge/Release-v1.0.4-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.4)
+[![Package](https://img.shields.io/badge/Package-v1.0.6-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.4`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Package version: `v1.0.6`).
 
 ---
 
@@ -222,7 +222,3 @@ If you use this codebase or methodology in your academic work, please cite:
   url={https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}
 }
 ```
-
-## Author affiliation correction
-
-Jianming Chen is affiliated with the College of Information Science and Engineering, Huaqiao University. This author-confirmed correction is consistent across the main manuscript, supplement and citation metadata.
