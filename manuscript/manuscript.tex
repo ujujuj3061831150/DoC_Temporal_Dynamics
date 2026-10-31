@@ -91,7 +91,7 @@ Fig.~\ref{fig:system_workflow} summarizes the processing, scoring and evaluation
 \begin{figure*}[t]
 \centering
 \vspace{-4pt}
-\includegraphics[width=0.76\textwidth]{figures/fig_system_workflow_simplified.pdf}
+\includegraphics[width=0.78\textwidth]{figures/fig_system_workflow_simplified.pdf}
 \vspace{-3pt}
 \caption{System overview. Schematic EEG traces illustrate processing. Original block indices are retained, and lag-1 persistence and D1 use only physically adjacent clean blocks ($\Delta\mathrm{index}=1$). Main and short-record branches use distinct four-feature suites and independently fitted equal-weight consensus scores. Discovery uses 4-s epochs; Figshare triage uses 2-s segments. Source training data determine the operating median. External cohorts include target-batch standardization and direction alignment where indicated. The temporal-order test compares intact data with 10,000 synchronized multichannel permutations using the frozen intact scale.}
 \label{fig:system_workflow}
@@ -134,6 +134,7 @@ Four baseline features define $\mathbf{x}_{\text{canonical}} = [c_{\text{global}
 
 \textbf{3) Negative Theta Dispersion ($-\mathrm{CV}_\theta$)}: Measures temporal variance of mean theta $G_t = \frac{1}{6}\sum_{k=1}^6 P_{\theta, t}^{(k)}$: $-\mathrm{CV}_\theta = - \sqrt{\frac{1}{N}\sum_{t=1}^N (G_t - \bar{G})^2}/(\bar{G} + \epsilon)$, with temporal mean $\bar{G} = \frac{1}{N}\sum_{t=1}^N G_t$.
 
+\vspace{2pt}
 \textbf{4) Inter-Hemispheric Bilateral Correlation ($r_{\text{interhem}}$)}: Averages raw pairwise Pearson correlations across symmetric bilateral pairs: $r_{\text{interhem}} = \frac{1}{3}\sum_{(L, R)} \operatorname{Corr}(\mathbf{y}_L, \mathbf{y}_R)$, where $\mathbf{y}_L, \mathbf{y}_R \in \mathbb{R}^N$ denote the 4-second block theta-power vectors across symmetric pairs $(L, R) \in \{(\text{F3}, \text{F4}), (\text{C3}, \text{C4}), (\text{O1}, \text{O2})\}$.
 
 To capture multi-second sequential continuity, two order-aware temporal representations are formulated on physically adjacent blocks:
@@ -306,8 +307,8 @@ OpenAI Codex assisted code implementation, preparation of the data figures and s
 {\fontsize{6.7pt}{7.6pt}\selectfont
 \textbf{Ethics and Consent:} Secondary analyses complied with Declaration of Helsinki, approved by institutional ethics committees: FRCCICMR Moscow~\cite{nekrasova2020psg}, Salzburg Ethics Commission (No.~415-E/1517/14-2013)~\cite{wielek2018sleep}, Hangzhou Mingzhou Hospital~\cite{ling2024microstates}, and China Rehabilitation Research Center (CRRC, Ethics No.~2025-118-01)~\cite{duan2026auditory}, with written surrogate consent. \textbf{Data and Code Availability:} Public data: Mendeley~\cite{nekrasova2020psg} and Figshare~\cite{ling2024microstates,xu2021neural}. De-identified CRRC tabular feature matrices and replication scripts: \url{https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}. Raw clinical telemetry from CRRC is restricted by institutional patient confidentiality regulations. \textbf{Conflict of Interest:} The authors declare no competing interests.\par}
 
-\def\IEEEbibitemsep{0.5pt}
-\def\BIBdecl{\fontsize{7.6pt}{8.6pt}\selectfont}
+\def\IEEEbibitemsep{0pt}
+\def\BIBdecl{\fontsize{7.3pt}{8.2pt}\selectfont}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

@@ -64,12 +64,12 @@ To explore implementation feasibility, the four-feature temporal dynamic consens
 
 Cached-power replay of two source-training records (5,400 epochs per subject; P25 [VS] and P36 [MCS]) showed numerical agreement with offline batch processing ($|\Delta_{\text{feature}}| \le 2.77 \times 10^{-13}$, scoring error $0.000$; Table~\ref{tab:bedside_latency}). Cached-power replay timings were: cached power ingestion mean $0.0098\,\mathrm{ms}$ (p95 $0.011\,\mathrm{ms}$); four-feature extraction mean $2.13\,\mathrm{ms}$ (p95 $3.11\,\mathrm{ms}$); consensus scoring mean $0.011\,\mathrm{ms}$; and total evaluated update mean $2.15\,\mathrm{ms}$ (p95 $3.13\,\mathrm{ms}$), well below the 4,000\,ms inter-epoch window. Feature calculation and consensus scoring operate over $1{,}800\times$ faster than the 4-s telemetry ingestion window. Table values average the two subject-level summaries (27 evaluated updates each), including their individual p95 values. Complete trajectories and test records are archived in \url{results/bedside_playback_demo/}.
 
-\begin{table}[b]
+\begin{table}[!t]
 \caption{Cached-Power Replay Timings and Verification (5,400 Epochs per Record; Two Records)}
 \label{tab:bedside_latency}
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
+\footnotesize
+\setlength{\tabcolsep}{1.0pt}
 \begin{tabular}{lrrrr}
 \toprule
 Processing Phase & Calls/record & Mean (ms) & Mean p95 (ms) & Max (ms) \\

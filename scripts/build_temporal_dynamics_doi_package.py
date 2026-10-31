@@ -31,7 +31,7 @@ import zipfile
 
 _this_file = Path(__file__).resolve()
 ROOT = _this_file.parents[2] if _this_file.parents[1].name == "v3" else _this_file.parents[1]
-PKG_NAME = "DoC_Temporal_Dynamics_v1.0.5"
+PKG_NAME = "DoC_Temporal_Dynamics_v1.0.7"
 STAGE_DIR = ROOT / "output/doi_release" / PKG_NAME
 ZIP_PATH = ROOT / "output/doi_release" / f"{PKG_NAME}.zip"
 SUBMISSION_ZIP_PATH = ROOT / "submission/doi" / f"{PKG_NAME}.zip"
@@ -77,14 +77,14 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Release Tag](https://img.shields.io/badge/Release-v1.0.5-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics/tree/v1.0.5)
+[![Package](https://img.shields.io/badge/Package-v1.0.7-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Release Tag: `v1.0.5`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Package version: `v1.0.7`).
 
 ---
 
@@ -402,7 +402,7 @@ authors:
   - family-names: "Duan"
     given-names: "Fang"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
-version: 1.0.5
+version: 1.0.7
 date-released: 2026-10-31
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
@@ -891,7 +891,7 @@ def build_package():
 
     latest_meta = {
         "package_name": PKG_NAME,
-        "version": "1.0.5",
+        "version": "1.0.7",
         "zip_filename": ZIP_PATH.name,
         "sha256": zip_sha,
         "size_bytes": ZIP_PATH.stat().st_size,
