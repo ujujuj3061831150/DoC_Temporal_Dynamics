@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\caption{Hyperparameter Stability: Soft Truncation and T-GECF Gating Grid}
+\label{tab:hyperparam_stability}
+\vspace{-4pt}
+\footnotesize
+\renewcommand{\arraystretch}{0.84}
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc}
+\hline
+\multicolumn{4}{c}{\textbf{(A) Soft Truncation Threshold $c$}} \\
+\hline
+\textbf{Threshold} & \textbf{AUROC} & \textbf{PR-AUC} & \textbf{Bal. Acc.} \\
+\hline
+$c = 1.0\sigma$ & 0.8958 & 0.8543 & 0.8080 \\
+$c = 1.5\sigma$ (Default) & \textbf{0.9149} & \textbf{0.8782} & \textbf{0.8399} \\
+$c = 2.0\sigma$ & 0.9056 & 0.8662 & 0.8046 \\
+$c = 2.5\sigma$ & 0.8996 & 0.8622 & 0.8129 \\
+$c = 3.0\sigma$ & 0.8996 & 0.8622 & 0.8129 \\
+$c = \infty$ (Raw unconstrained) & 0.8996 & 0.8622 & 0.8129 \\
+\hline
+\end{tabular*}
+\vspace{3pt}
+\noindent\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc}
+\hline
+\multicolumn{5}{c}{\textbf{(B) T-GECF Gating Grid ($\theta_0 \times \kappa$)}} \\
+\hline
+ & \multicolumn{4}{c}{\textbf{Sigmoid Gate Slope $\kappa$}} \\
+\textbf{$\theta_0$ (Quantile)} & \textbf{0.5} & \textbf{1.0} & \textbf{2.0} & \textbf{5.0} \\
+\hline
+1.282 (90\%) & \textbf{0.9220} & 0.9182 & 0.9187 & 0.9149 \\
+1.645 (95\%) & 0.9160 & 0.9182 & \textbf{0.9116} & 0.9089 \\
+1.960 (97.5\%) & 0.9160 & 0.9149 & 0.9056 & 0.9056 \\
+2.326 (99\%) & 0.9127 & 0.9116 & 0.9022 & 0.8996 \\
+Ablate Cont. ($c=\infty$) & 0.8996 & 0.8996 & 0.8996 & 0.8996 \\
+\hline
+\end{tabular*}
+\vspace{-4pt}
+\end{table}

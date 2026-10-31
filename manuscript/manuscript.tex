@@ -66,7 +66,7 @@ While continuous multi-hour telemetry enables stable asymptotic estimation of $\
 \begin{figure*}[t]
 \centering
 \vspace{-4pt}
-\includegraphics[width=0.80\textwidth]{figures/fig1_mesocircuit_memory.pdf}
+\includegraphics[width=0.85\textwidth]{figures/fig1_mesocircuit_memory.pdf}
 \vspace{-3pt}
 \caption{Bedside EEG dynamics and patient distributions. (a) Standardized theta power across 30 consecutive 4-s epochs in P36 (MCS) and P25 (VS/UWS). (b,c) Lag-1 persistence $\rho_1$ ($p=0.0227$) and positive theta CV ($p=0.0264$) across 12 MCS and 29 VS/UWS patients (two-sided Mann--Whitney tests). Jittered points show all individual patients; boxes show medians and IQRs; whiskers span 1.5 IQR. Panel c uses a logarithmic scale for theta CV.}
 \label{fig:schematic}
@@ -91,7 +91,7 @@ Fig.~\ref{fig:system_workflow} summarizes the processing, scoring and evaluation
 \begin{figure*}[t]
 \centering
 \vspace{-4pt}
-\includegraphics[width=0.78\textwidth]{figures/fig_system_workflow_simplified.pdf}
+\includegraphics[width=0.88\textwidth]{figures/fig_system_workflow_simplified.pdf}
 \vspace{-3pt}
 \caption{System overview. Schematic EEG traces illustrate processing. Original block indices are retained, and lag-1 persistence and D1 use only physically adjacent clean blocks ($\Delta\mathrm{index}=1$). Main and short-record branches use distinct four-feature suites and independently fitted equal-weight consensus scores. Discovery uses 4-s epochs; Figshare triage uses 2-s segments. Source training data determine the operating median. External cohorts include target-batch standardization and direction alignment where indicated. The temporal-order test compares intact data with 10,000 synchronized multichannel permutations using the frozen intact scale.}
 \label{fig:system_workflow}
@@ -255,9 +255,9 @@ Evaluating observational windows (Table~\ref{tab:multiscale_sensitivity}-A) show
 
 \vspace{-3pt}
 \subsection{Hyperparameter Sensitivity and Gating Grid Evaluation}
-To evaluate hyperparameter stability across regimes, Table~\ref{tab:hyperparam_stability}-A reports systematic benchmarks across truncation thresholds $c$ and continuous Sigmoid gating parameters $(\theta_0, \kappa)$. Varying Winsorized soft truncation from $c = 1.0\sigma$ to unconstrained $c = \infty$ produced stable AUROC bounded within $[0.8958, 0.9149]$ (Table~\ref{tab:hyperparam_stability}-A; balanced accuracy $0.8046$--$0.8399$, sensitivity $0.9333$--$0.9833$), peaking at $c = 1.5\sigma$ ($0.9149$) before smoothly decaying toward linear aggregation ($0.8996$).
+To evaluate hyperparameter stability across regimes, Supplementary Table~S3-A reports systematic benchmarks across truncation thresholds $c$ and continuous Sigmoid gating parameters $(\theta_0, \kappa)$. Varying Winsorized soft truncation from $c = 1.0\sigma$ to unconstrained $c = \infty$ produced stable AUROC bounded within $[0.8958, 0.9149]$ (Supplementary Table~S3-A; balanced accuracy $0.8046$--$0.8399$, sensitivity $0.9333$--$0.9833$), peaking at $c = 1.5\sigma$ ($0.9149$) before smoothly decaying toward linear aggregation ($0.8996$).
 
-Similarly, evaluating T-GECF across a $4 \times 4$ parameter grid crossing Gaussian quantile thresholds $\theta_0 \in \{1.282, \allowbreak 1.645, \allowbreak 1.960, \allowbreak 2.326\}$ (90th--99th percentiles) and slopes $\kappa \in \{0.5, \allowbreak 1.0, \allowbreak 2.0, \allowbreak 5.0\}$ demonstrated stability (Table~\ref{tab:hyperparam_stability}-B). Across all 16 configurations, AUROC remained bounded within $0.8996$--$0.9220$, outperforming canonical baseline (0.8200) by $+0.08$ to $+0.10$. At $\theta_0 = 2.326$ ($\kappa=5.0$), $\beta(\mathbf{x}) \to 0$, smoothly recovering unconstrained linear aggregation ($0.8996$) without hyperparameter brittleness.
+Similarly, evaluating T-GECF across a $4 \times 4$ parameter grid crossing Gaussian quantile thresholds $\theta_0 \in \{1.282, \allowbreak 1.645, \allowbreak 1.960, \allowbreak 2.326\}$ (90th--99th percentiles) and slopes $\kappa \in \{0.5, \allowbreak 1.0, \allowbreak 2.0, \allowbreak 5.0\}$ demonstrated stability (Supplementary Table~S3-B). Across all 16 configurations, AUROC remained bounded within $0.8996$--$0.9220$, outperforming canonical baseline (0.8200) by $+0.08$ to $+0.10$. At $\theta_0 = 2.326$ ($\kappa=5.0$), $\beta(\mathbf{x}) \to 0$, smoothly recovering unconstrained linear aggregation ($0.8996$) without hyperparameter brittleness.
 
 \vspace{-2pt}
 \enlargethispage{1.0\baselineskip}
@@ -308,7 +308,7 @@ OpenAI Codex assisted code implementation, preparation of the data figures and s
 \textbf{Ethics and Consent:} Secondary analyses complied with Declaration of Helsinki, approved by institutional ethics committees: FRCCICMR Moscow~\cite{nekrasova2020psg}, Salzburg Ethics Commission (No.~415-E/1517/14-2013)~\cite{wielek2018sleep}, Hangzhou Mingzhou Hospital~\cite{ling2024microstates}, and China Rehabilitation Research Center (CRRC, Ethics No.~2025-118-01)~\cite{duan2026auditory}, with written surrogate consent. \textbf{Data and Code Availability:} Public data: Mendeley~\cite{nekrasova2020psg} and Figshare~\cite{ling2024microstates,xu2021neural}. De-identified CRRC tabular feature matrices and replication scripts: \url{https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}. Raw clinical telemetry from CRRC is restricted by institutional patient confidentiality regulations. \textbf{Conflict of Interest:} The authors declare no competing interests.\par}
 
 \def\IEEEbibitemsep{0pt}
-\def\BIBdecl{\fontsize{7.3pt}{8.2pt}\selectfont}
+\def\BIBdecl{\fontsize{7.5pt}{8.5pt}\selectfont}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

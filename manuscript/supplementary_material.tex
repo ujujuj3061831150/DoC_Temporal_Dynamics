@@ -7,12 +7,11 @@
 \usepackage{microtype}
 \usepackage{url}
 
-\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
-\setlength{\floatsep}{6pt plus 1pt minus 1pt}
-\setlength{\intextsep}{6pt plus 1pt minus 1pt}
-\setlength{\abovecaptionskip}{3pt}
-\setlength{\belowcaptionskip}{2pt}
-
+\setlength{\textfloatsep}{4pt plus 1pt minus 1pt}
+\setlength{\floatsep}{4pt plus 1pt minus 1pt}
+\setlength{\intextsep}{4pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{1pt}
 
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
@@ -20,12 +19,12 @@
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
 
-\title{Supplementary Material: A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation}
+\title{\fontsize{14pt}{16pt}\selectfont Supplementary Material: A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation}
 
-\author{Hongjie~Chen$^{1}$, Jianming~Chen$^{1}$, Guanyu~Xiong$^{2}$, Fang~Li$^{2,*}$, and Fang~Duan$^{1,*}$%
-\thanks{$^{1}$Hongjie Chen, Jianming Chen, and Fang Duan are with the College of Information Science and Engineering, Huaqiao University, Xiamen 361021, China.}%
-\thanks{$^{2}$Guanyu Xiong and Fang Li are with the China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University, Beijing, China.}%
-\thanks{$^{*}$Corresponding authors: Fang Duan (e-mail: duan.fang@hqu.edu.cn) and Fang Li (e-mail: fangli8608@163.com).}%
+\author{\fontsize{9pt}{11pt}\selectfont Hongjie~Chen$^{1}$, Jianming~Chen$^{1}$, Guanyu~Xiong$^{2}$, Fang~Li$^{2,*}$, and Fang~Duan$^{1,*}$%
+\thanks{$^{1}$College of Information Science and Engineering, Huaqiao University, Xiamen 361021, China.}%
+\thanks{$^{2}$China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University, Beijing, China.}%
+\thanks{$^{*}$Corresponding authors: Fang Duan (duan.fang@hqu.edu.cn), Fang Li (fangli8608@163.com).}%
 }
 
 \markboth{IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS: SUPPLEMENTARY MATERIAL}%
@@ -37,27 +36,22 @@
 \input{table_s_matched.tex}
 
 \section*{Supplementary Clinical and Methodological Notes}
+\vspace{-2pt}
 
 \subsection*{A. CRRC Cohort Recruitment and Ethics Compliance}
-The prospective inpatient hospital cohort was evaluated at the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital, Capital Medical University Rehabilitation College). Inpatients presenting with disorders of consciousness secondary to severe acute brain injury (11 intracerebral hemorrhage [ICH], 4 traumatic brain injury [TBI]) were enrolled during neurorehabilitation. Ethical approval was granted by the Medical Ethics Committee of the China Rehabilitation Research Center (Approval No.~2025-118-01; cohort recruitment and auditory paradigm screening detailed in Duan et~al.~\cite{duan2026auditory}). Written informed surrogate consent was obtained from legally authorized representatives prior to telemetry recording in accordance with the Declaration of Helsinki. Diagnostic categorization into minimally conscious state (MCS/EMCS, $N=6$; 5 MCS and 1 EMCS) and vegetative state / unresponsive wakefulness syndrome (VS/UWS, $N=9$) was established through serial Coma Recovery Scale-Revised (CRS-R) assessments by certified neurorehabilitation clinicians (scores: 2--23). Recordings were conducted during stable post-acute neurorehabilitation in patients free from continuous acute ICU sedation. Telemetry was acquired from the cohort in~\cite{duan2026auditory}.
+The prospective inpatient hospital cohort was evaluated at the China Rehabilitation Research Center (CRRC / Beijing Bo'ai Hospital, Capital Medical University Rehabilitation College). Inpatients presenting with disorders of consciousness secondary to severe acute brain injury (11 ICH, 4 TBI) were enrolled during neurorehabilitation. Ethical approval was granted by the Medical Ethics Committee of the China Rehabilitation Research Center (Approval No.~2025-118-01; cohort recruitment and auditory paradigm screening detailed in Duan et~al.~\cite{duan2026auditory}). Written informed surrogate consent was obtained from legally authorized representatives prior to telemetry recording in accordance with the Declaration of Helsinki. Diagnostic categorization into minimally conscious state (MCS/EMCS, $N=6$; 5 MCS and 1 EMCS) and vegetative state / unresponsive wakefulness syndrome (VS/UWS, $N=9$) was established through serial Coma Recovery Scale-Revised (CRS-R) assessments by certified neurorehabilitation clinicians (scores: 2--23). Recordings were conducted during stable post-acute neurorehabilitation in patients free from continuous acute ICU sedation. Telemetry was acquired from the cohort in~\cite{duan2026auditory}.
 
 \subsection*{B. Telemetry Acquisition and Signal Preprocessing}
-Bedside electroencephalography was acquired using a research-grade NeuSen NSM2 amplifier / EEGCap32-pony system configured at a native sampling rate of 1,000~Hz with active Ag/AgCl electrodes positioned according to the international 10--20 montage (19 channels; see Duan et~al.~\cite{duan2026auditory}). Continuous recordings spanned intermediate monitoring intervals (mean $19.53 \pm 7.96$~minutes; range 7.27 to 39.07~minutes). Raw continuous signals were re-referenced to the Common Average Reference (CAR) and segmented into non-overlapping 4-second blocks (4,000 samples per block). 
+Bedside electroencephalography was acquired using a research-grade NeuSen NSM2 amplifier / EEGCap32-pony system configured at a native sampling rate of 1,000~Hz with active Ag/AgCl electrodes positioned according to the international 10--20 montage (19 channels; see Duan et~al.~\cite{duan2026auditory}). Continuous recordings spanned intermediate monitoring intervals (mean $19.53 \pm 7.96$~minutes; range 7.27 to 39.07~minutes). Raw continuous signals were re-referenced to Common Average Reference (CAR) and segmented into non-overlapping 4-second blocks (4,000 samples per block). 
 
-To prevent data leakage, artifact screening operated strictly at the individual recording level: blocks with peak-to-peak amplitude at or above $500\,\mu\mathrm{V}$ were flagged as artifactual gaps ($\mathbb{I}_{\text{adj}} = 0$). Homologous electrodes matching the discovery montage (F3, F4, C3, C4, O1, O2) were extracted. 
-
-Two subjects (CRRC\_008 and CRRC\_009) exhibited persistent high-impedance drift isolated to the occipital channel $O_2$. To assess clinical robustness across sensor conditions, two complementary validation protocols were evaluated:
-\begin{enumerate}
-    \item \textbf{Intact 6-Channel Subset ($N=13$)}: Excluded the two subjects with localized $O_2$ mechanical drift, evaluating records with fully intact 6-channel arrays.
-    \item \textbf{Full Prospective Cohort ($N=15$)}: Evaluated all 15 enrolled subjects to verify engineering tolerance against real-world single-channel sensor artifacts.
-\end{enumerate}
+To prevent data leakage, artifact screening operated strictly at the individual recording level: blocks with peak-to-peak amplitude at or above $500\,\mu\mathrm{V}$ were flagged as artifactual gaps ($\mathbb{I}_{\text{adj}} = 0$). Homologous electrodes matching the discovery montage (F3, F4, C3, C4, O1, O2) were extracted. Two subjects (CRRC\_008 and CRRC\_009) exhibited persistent high-impedance drift isolated to the occipital channel $O_2$. To assess clinical robustness across sensor conditions, two complementary validation protocols were evaluated: (1)~\textbf{Intact 6-Channel Subset ($N=13$)}: Excluded the two subjects with localized $O_2$ mechanical drift, evaluating records with fully intact 6-channel arrays; (2)~\textbf{Full Prospective Cohort ($N=15$)}: Evaluated all 15 enrolled subjects to verify engineering tolerance against real-world single-channel sensor artifacts.
 
 \subsection*{C. Matched Cross-Center Preprocessing and Operating Points}
-All matched comparisons use the same feature matrix and source training records for every model. The primary matrix is $[c_{\text{global}},-\mathrm{CV}_\theta,\rho_1,r_{\text{residual}}]$. Source-only inner three-fold cross-validation selects ridge and logistic regularization; LDA uses analytical shrinkage. Full-source feature signs are $\mathbf{s}_{\text{source}}=[+1,+1,+1,-1]^\top$. Model fitting uses source-standardized, sign-coded coordinates.
+All matched comparisons use the same feature matrix and source training records for every model: $[c_{\text{global}},-\mathrm{CV}_\theta,\rho_1,r_{\text{residual}}]$. Source-only inner three-fold cross-validation selects ridge and logistic regularization; LDA uses analytical shrinkage. Full-source feature signs are $\mathbf{s}_{\text{source}}=[+1,+1,+1,-1]^\top$. Model fitting uses source-standardized, sign-coded coordinates.
 
-Frozen-source transfer reuses source means, scales, and signs. Target-standardized transfer computes means and scales from the unlabeled target batch while retaining source signs. CRRC target-aligned transfer uses the same target-standardized matrix and $\mathbf{s}_{\text{target}}=[-1,+1,+1,+1]^\top$ for all models. In raw standardized coordinates, this corresponds to $\operatorname{diag}(-1,+1,+1,-1)$ applied consistently to the target inputs of source-trained supervised models. Target labels enter only the final evaluation. The direction rule is specified for the subacute clinical setting; its prospective deployment requires the rule and calibration batch to be fixed before evaluating later patients.
+Frozen-source transfer reuses source means, scales, and signs. Target-standardized transfer computes means and scales from the unlabeled target batch while retaining source signs. CRRC target-aligned transfer uses the same target-standardized matrix and $\mathbf{s}_{\text{target}}=[-1,+1,+1,+1]^\top$ for all models. In raw standardized coordinates, this corresponds to $\operatorname{diag}(-1,+1,+1,-1)$ applied consistently to the target inputs of source-trained supervised models. Target labels enter only the final evaluation. The direction rule is specified for the subacute clinical setting; its prospective deployment requires the rule and calibration batch to be fixed before evaluating later patients. The primary four-feature score is the arithmetic mean; the fixed-truncation variant averages $\operatorname{clip}(s_kz_k,-1.5,1.5)$ under identical calibration (0.9291 AUROC discovery, 0.7963 full CRRC vs. 0.9324 and 0.7778 unclipped; Table~\ref{tab:matched_comparison}). Primary decisions apply source-training score medians (CRRC truncated: sensitivity 0.6667, specificity 0.7778, balanced accuracy 0.7222; Figshare source-frozen threshold: balanced accuracy 0.5645, sensitivity 1.0000, specificity 0.1290). All transforms, traces, and input hashes are archived in \url{results/matched_model_comparison_v1/}; paired uncertainty applies 10,000 subject-level Dirichlet draws.
 
-The primary four-feature score is the arithmetic mean; the fixed-truncation variant averages $\operatorname{clip}(s_kz_k,-1.5,1.5)$ under identical calibration (0.9291 AUROC discovery, 0.7963 full CRRC vs. 0.9324 and 0.7778 unclipped; Table~\ref{tab:matched_comparison}). Primary decisions apply source-training score medians (CRRC truncated: sensitivity 0.6667, specificity 0.7778, balanced accuracy 0.7222; Figshare source-frozen threshold: balanced accuracy 0.5645, sensitivity 1.0000, specificity 0.1290). All transforms, traces, and input hashes are archived in \url{results/matched_model_comparison_v1/}; paired uncertainty applies 10,000 subject-level Dirichlet draws.
+\input{table_s_hyperparam.tex}
 
 \subsection*{D. Section S-CDSS: Bedside Streamlined Implementation \& Latency Profiling}
 To explore implementation feasibility, the four-feature temporal dynamic consensus pipeline was implemented as a streaming prototype (\url{docs/bedside_cdss_demo.html}, animation in \url{docs/bedside_playback_demo.gif}). The architecture accepts consecutive non-overlapping 4-s telemetry epochs ($f_s = 256\,\mathrm{Hz}$), subjecting each block to artifact gating ($<500\,\mu\mathrm{V}$). Temporal continuity tracking ensures that artifact gaps break physical adjacency ($\mathbb{I}_{\text{adj}} = 0$); feature estimation is gated until $\ge 10$ physically adjacent clean pairs accumulate. Data with $<10$ adjacent pairs yield \texttt{INSUFFICIENT\_DATA}. Source-frozen standardized coordinates ($z_k = s_k(x_k - \mu_k)/\sigma_k$) use archived thresholds ($\theta_0 = 0.0451$ for the raw score and $\theta_{1.5} = 0.0725$ for the clipped score), providing auditable bedside decision support.
@@ -79,13 +73,15 @@ Feature Extraction  &    27 & 2.1323 & 3.1117 & 3.9057 \\
 Consensus Scoring   &    27 & 0.0110 & 0.0123 & 0.0164 \\
 Evaluated Step Total&    27 & 2.1542 & 3.1330 & 3.9261 \\
 \midrule
-\multicolumn{5}{l}{Offline Consistency: Max feature $|\Delta| \le 2.77\times 10^{-13}$; Score error: $0.000$.} \\
+\multicolumn{5}{@{}l@{}}{Offline Consistency: Max feature $|\Delta| \le 2.77\times 10^{-13}$; Score error: $0.000$.} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begingroup
 \interlinepenalty=10000
+\def\IEEEbibitemsep{0pt}
+\def\BIBdecl{\fontsize{7.0pt}{8.0pt}\selectfont}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \endgroup
