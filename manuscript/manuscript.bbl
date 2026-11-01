@@ -22,51 +22,61 @@
 \BIBdecl
 
 \bibitem{giacino2002minimally}
-J.~T. Giacino \emph{et~al.}, ``The minimally conscious state: definition and
-  diagnostic criteria,'' \emph{Neurology}, vol.~58, no.~3, pp. 349--353, 2002.
+J.~T. Giacino, S.~Ashwal, N.~Childs, R.~Cranford, B.~Jennett, D.~I. Katz
+  \emph{et~al.}, ``The minimally conscious state: definition and diagnostic
+  criteria,'' \emph{Neurology}, vol.~58, no.~3, pp. 349--353, 2002.
 
 \bibitem{giacino2018practice}
-J.~T. Giacino \emph{et~al.}, ``Practice guideline update recommendations
-  summary: Disorders of consciousness,'' \emph{Neurology}, vol.~91, no.~10, pp.
-  450--460, 2018.
+J.~T. Giacino, D.~I. Katz, N.~D. Schiff, J.~Whyte, E.~J. Ashman, S.~Ashwal
+  \emph{et~al.}, ``Practice guideline update recommendations summary: Disorders
+  of consciousness,'' \emph{Neurology}, vol.~91, no.~10, pp. 450--460, 2018.
 
 \bibitem{schnakers2009diagnostic}
-C.~Schnakers \emph{et~al.}, ``Diagnostic accuracy of the vegetative and
+C.~Schnakers, A.~Vanhaudenhuyse, J.~Giacino, M.~Ventura, M.~Boly, S.~Majerus,
+  G.~Moonen, and S.~Laureys, ``Diagnostic accuracy of the vegetative and
   minimally conscious state: clinical consensus versus standardized
   neurobehavioral assessment,'' \emph{BMC Neurology}, vol.~9, p.~35, 2009.
 
 \bibitem{cruse2011bedside}
-D.~Cruse \emph{et~al.}, ``Bedside detection of awareness in the vegetative
-  state: a cohort study,'' \emph{The Lancet}, vol. 378, no. 9809, pp.
-  2088--2094, 2011.
+D.~Cruse, S.~Chennu, C.~Chatelle, T.~A. Bekinschtein, D.~Fern{\'a}ndez-Espejo,
+  J.~D. Pickard, S.~Laureys, and A.~M. Owen, ``Bedside detection of awareness
+  in the vegetative state: a cohort study,'' \emph{The Lancet}, vol. 378, no.
+  9809, pp. 2088--2094, 2011.
 
 \bibitem{bodien2024cognitive}
-Y.~G. Bodien \emph{et~al.}, ``Cognitive motor dissociation in disorders of
+Y.~G. Bodien, J.~Allanson, P.~Cardone, A.~Bonhomme, J.~Carmona, C.~Chatelle
+  \emph{et~al.}, ``Cognitive motor dissociation in disorders of
   consciousness,'' \emph{New England Journal of Medicine}, vol. 391, no.~7, pp.
   598--608, 2024.
 
 \bibitem{casali2013theoretically}
-A.~G. Casali \emph{et~al.}, ``A theoretically based index of consciousness
-  independent of sensory processing and behavior,'' \emph{Science Translational
-  Medicine}, vol.~5, no. 198, p. 198ra105, 2013.
+A.~G. Casali, O.~Gosseries, M.~Rosanova, M.~Boly, S.~Sarasso, K.~R. Casali,
+  S.~Casarotto, M.-A. Bruno, S.~Laureys, G.~Tononi, and M.~Massimini, ``A
+  theoretically based index of consciousness independent of sensory processing
+  and behavior,'' \emph{Science Translational Medicine}, vol.~5, no. 198, p.
+  198ra105, 2013.
 
 \bibitem{chennu2017brain}
-S.~Chennu \emph{et~al.}, ``Brain networks predict metabolism, diagnosis and
-  prognosis at the bedside in disorders of consciousness,'' \emph{Brain}, vol.
-  140, no.~8, pp. 2120--2132, 2017.
+S.~Chennu, J.~Annen, S.~Wannez, A.~Thibaut, C.~Chatelle, and H.~Cassol, ``Brain
+  networks predict metabolism, diagnosis and prognosis at the bedside in
+  disorders of consciousness,'' \emph{Brain}, vol. 140, no.~8, pp. 2120--2132,
+  2017.
 
 \bibitem{sitt2014large}
-J.~D. Sitt \emph{et~al.}, ``Large scale screening of neural signatures of
-  consciousness in patients in a vegetative or minimally conscious state,''
-  \emph{Brain}, vol. 137, no.~8, pp. 2258--2270, 2014.
+J.~D. Sitt, J.-R. King, I.~El~Karoui, B.~Rohaut, F.~Faugeras, A.~Gramfort,
+  L.~Cohen, M.~Sigman, S.~Dehaene, and L.~Naccache, ``Large scale screening of
+  neural signatures of consciousness in patients in a vegetative or minimally
+  conscious state,'' \emph{Brain}, vol. 137, no.~8, pp. 2258--2270, 2014.
 
 \bibitem{engemann2018robust}
-D.~A. Engemann \emph{et~al.}, ``Robust {EEG}-based cross-site and
-  cross-protocol classification of states of consciousness,'' \emph{Brain},
-  vol. 141, no.~11, pp. 3179--3192, 2018.
+D.~A. Engemann, F.~Raimondo, J.-R. King, B.~Rohaut, G.~Louppe, F.~Faugeras
+  \emph{et~al.}, ``Robust {EEG}-based cross-site and cross-protocol
+  classification of states of consciousness,'' \emph{Brain}, vol. 141, no.~11,
+  pp. 3179--3192, 2018.
 
 \bibitem{bareham2020spectral}
-C.~A. Bareham \emph{et~al.}, ``Bedside {EEG} predicts longitudinal behavioural
+C.~A. Bareham, N.~Roberts, J.~Allanson, P.~J.~A. Hutchinson, J.~D. Pickard,
+  D.~K. Menon, and S.~Chennu, ``Bedside {EEG} predicts longitudinal behavioural
   changes in disorders of consciousness,'' \emph{NeuroImage: Clinical},
   vol.~28, p. 102372, 2020.
 
@@ -76,68 +86,76 @@ C.~Bandt and B.~Pompe, ``Permutation entropy: a natural complexity measure for
   2002.
 
 \bibitem{ling2024microstates}
-Y.~Ling \emph{et~al.}, ``Effect of topographic comparison of
-  electroencephalographic microstates on the diagnosis and prognosis prediction
-  of patients with prolonged disorders of consciousness,'' \emph{CNS
-  Neuroscience \& Therapeutics}, vol.~30, no.~3, p. e14421, 2024.
+Y.~Ling, X.~Wen, J.~Tang, Z.~Tao, L.~Sun, H.~Xin, and B.~Luo, ``Effect of
+  topographic comparison of electroencephalographic microstates on the
+  diagnosis and prognosis prediction of patients with prolonged disorders of
+  consciousness,'' \emph{CNS Neuroscience \& Therapeutics}, vol.~30, no.~3, p.
+  e14421, 2024.
 
 \bibitem{wielek2018sleep}
-T.~Wielek \emph{et~al.}, ``Sleep in patients with disorders of consciousness
+T.~Wielek, J.~Lechinger, M.~Wislowska, C.~Blume, P.~Ott, S.~Wegenkittl
+  \emph{et~al.}, ``Sleep in patients with disorders of consciousness
   characterized by means of machine learning,'' \emph{PLoS One}, vol.~13,
   no.~1, p. e0190458, 2018.
 
 \bibitem{xiao2026sleep}
-J.~Xiao \emph{et~al.}, ``Assessing disorders of consciousness using temporal
-  sleep dynamics extracted from whole-night {PSG},'' \emph{IEEE Transactions on
-  Biomedical Engineering}, pp. 1--14, 2026, early access, doi:
-  10.1109/TBME.2026.3675367.
+J.~Xiao, T.~Yu, H.~Huang, J.~Pan, F.~Wang, D.~Chen \emph{et~al.}, ``Assessing
+  disorders of consciousness using temporal sleep dynamics extracted from
+  whole-night {PSG},'' \emph{IEEE Transactions on Biomedical Engineering}, pp.
+  1--14, 2026, early access, doi: 10.1109/TBME.2026.3675367.
 
 \bibitem{thiery2018long}
-T.~Thi{\'e}ry \emph{et~al.}, ``Long-range temporal correlations in the brain
-  distinguish conscious wakefulness from induced unconsciousness,''
-  \emph{NeuroImage}, vol. 179, pp. 30--39, 2018.
+T.~Thi{\'e}ry, T.~Lajnef, E.~Combrisson, A.~Dehgan, P.~Rainville, G.~A. Mashour
+  \emph{et~al.}, ``Long-range temporal correlations in the brain distinguish
+  conscious wakefulness from induced unconsciousness,'' \emph{NeuroImage}, vol.
+  179, pp. 30--39, 2018.
 
 \bibitem{wei2023aberrant}
-X.~Wei \emph{et~al.}, ``Aberrant temporal correlations of ongoing oscillations
-  in disorders of consciousness on multiple time scales,'' \emph{Cognitive
-  Neurodynamics}, vol.~17, no.~3, pp. 633--645, 2023.
+X.~Wei, Z.~Yan, L.~Cai, M.~Lu, G.~Yi, J.~Wang \emph{et~al.}, ``Aberrant
+  temporal correlations of ongoing oscillations in disorders of consciousness
+  on multiple time scales,'' \emph{Cognitive Neurodynamics}, vol.~17, no.~3,
+  pp. 633--645, 2023.
 
 \bibitem{bai2021spontaneous}
-Y.~Bai \emph{et~al.}, ``Spontaneous transient brain states in {EEG} source
-  space in disorders of consciousness,'' \emph{NeuroImage}, vol. 240, p.
-  118407, 2021.
+Y.~Bai, J.~He, X.~Xia, Y.~Wang, Y.~Yang, H.~Di \emph{et~al.}, ``Spontaneous
+  transient brain states in {EEG} source space in disorders of consciousness,''
+  \emph{NeuroImage}, vol. 240, p. 118407, 2021.
 
 \bibitem{toker2022consciousness}
-D.~Toker \emph{et~al.}, ``Consciousness is supported by near-critical slow
-  cortical electrodynamics,'' \emph{Proceedings of the National Academy of
-  Sciences}, vol. 119, no.~7, p. e2024455119, 2022.
+D.~Toker, I.~Pappas, J.~D. Lendner, J.~Frohlich, D.~M. Mateos,
+  S.~Muthukumaraswamy \emph{et~al.}, ``Consciousness is supported by
+  near-critical slow cortical electrodynamics,'' \emph{Proceedings of the
+  National Academy of Sciences}, vol. 119, no.~7, p. e2024455119, 2022.
 
 \bibitem{schiff2010recovery}
 N.~D. Schiff, ``Recovery of consciousness after brain injury: a mesocircuit
   hypothesis,'' \emph{Trends in Neurosciences}, vol.~33, no.~1, pp. 1--9, 2010.
 
 \bibitem{nekrasova2020psg}
-J.~Nekrasova \emph{et~al.}, ``Polysomnographic records of patients with
-  disorders of consciousness,'' Mendeley Data, V1, 2020.
+J.~Nekrasova, M.~Kanarskii, D.~Yankevich, I.~Borisov, and P.~Pradhan,
+  ``Polysomnographic records of patients with disorders of consciousness,''
+  Mendeley Data, V1, 2020.
 
 \bibitem{duan2026auditory}
-F.~Duan \emph{et~al.}, ``Auditory paradigm-dependent {EEG} feature screening
-  and representation for distinguishing consciousness states in male patients
-  with disorders of consciousness,'' \emph{Frontiers in Neurology}, vol.~17, p.
-  1927313, 2026.
+F.~Duan, J.~Chen, Z.~Yan, X.~Cao, G.~Xiong, and F.~Li, ``Auditory
+  paradigm-dependent {EEG} feature screening and representation for
+  distinguishing consciousness states in male patients with disorders of
+  consciousness,'' \emph{Frontiers in Neurology}, vol.~17, p. 1927313, 2026.
 
 \bibitem{xu2021neural}
-C.~Xu \emph{et~al.}, ``Neural tracking of sound rhythms correlates with
-  diagnosis, severity, and prognosis of disorders of consciousness,''
-  \emph{Frontiers in Neuroscience}, vol.~15, p. 646543, 2021.
+C.~Xu, J.~Zou, F.~He, X.~Wen, J.~Li, J.~Gao \emph{et~al.}, ``Neural tracking of
+  sound rhythms correlates with diagnosis, severity, and prognosis of disorders
+  of consciousness,'' \emph{Frontiers in Neuroscience}, vol.~15, p. 646543,
+  2021.
 
 \bibitem{dawes1979robust}
 R.~M. Dawes, ``The robust beauty of improper linear models in decision
   making,'' \emph{American Psychologist}, vol.~34, no.~7, pp. 571--582, 1979.
 
 \bibitem{grabisch2009aggregation}
-M.~Grabisch \emph{et~al.}, \emph{Aggregation Functions}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Cambridge University Press, 2009.
+M.~Grabisch, J.-L. Marichal, R.~Mesiar, and E.~Pap, \emph{Aggregation
+  Functions}.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge University
+  Press, 2009.
 
 \bibitem{ledoit2004well}
 O.~Ledoit and M.~Wolf, ``A well-conditioned estimator for large-dimensional
@@ -145,8 +163,9 @@ O.~Ledoit and M.~Wolf, ``A well-conditioned estimator for large-dimensional
   no.~2, pp. 365--411, 2004.
 
 \bibitem{lawhern2018eegnet}
-V.~J. Lawhern \emph{et~al.}, ``{EEGNet}: A compact convolutional neural network
-  for {EEG}-based brain--computer interfaces,'' \emph{Journal of Neural
+V.~J. Lawhern, A.~J. Solon, N.~R. Waytowich, S.~M. Gordon, C.~P. Hung, and
+  B.~J. Lance, ``{EEGNet}: A compact convolutional neural network for
+  {EEG}-based brain--computer interfaces,'' \emph{Journal of Neural
   Engineering}, vol.~15, no.~5, p. 056013, 2018.
 
 \bibitem{rubin1981bayesian}
@@ -154,24 +173,25 @@ D.~B. Rubin, ``The {Bayesian} bootstrap,'' \emph{The Annals of Statistics},
   vol.~9, no.~1, pp. 130--134, 1981.
 
 \bibitem{theiler1992testing}
-J.~Theiler \emph{et~al.}, ``Testing for nonlinearity in time series: the method
-  of surrogate data,'' \emph{Physica D: Nonlinear Phenomena}, vol.~58, no. 1-4,
-  pp. 77--94, 1992.
+J.~Theiler, S.~Eubank, A.~Longtin, B.~Galdrikian, and J.~D. Farmer, ``Testing
+  for nonlinearity in time series: the method of surrogate data,''
+  \emph{Physica D: Nonlinear Phenomena}, vol.~58, no. 1-4, pp. 77--94, 1992.
 
 \bibitem{qu2026diagnosis}
-S.~Qu \emph{et~al.}, ``Diagnosis of disorders of consciousness using nonlinear
-  feature derived {EEG} topographic maps via deep learning,'' \emph{Scientific
-  Reports}, vol.~16, p. 7417, 2026.
+S.~Qu, X.~Wu, L.~Huang, Y.~Zhou, Q.~Sun, and F.~Zeng, ``Diagnosis of disorders
+  of consciousness using nonlinear feature derived {EEG} topographic maps via
+  deep learning,'' \emph{Scientific Reports}, vol.~16, p. 7417, 2026.
 
 \bibitem{zhang2025multimodal}
-W.~Zhang \emph{et~al.}, ``Assess the level of consciousness in patients with
-  disorders of consciousness by combining resting-state and auditory-evoked
-  {EEG},'' \emph{Frontiers in Neuroscience}, vol.~19, p. 1613356, 2025.
+W.~Zhang, X.~Shi, M.~Li, L.~Zhang, R.~Zhang, X.~Wu \emph{et~al.}, ``Assess the
+  level of consciousness in patients with disorders of consciousness by
+  combining resting-state and auditory-evoked {EEG},'' \emph{Frontiers in
+  Neuroscience}, vol.~19, p. 1613356, 2025.
 
 \bibitem{hao2024uncovering}
-Z.~Hao \emph{et~al.}, ``Uncovering brain network insights for prognosis in
-  disorders of consciousness: {EEG} source space analysis and brain dynamics,''
-  \emph{IEEE Transactions on Neural Systems and Rehabilitation Engineering},
-  vol.~32, pp. 144--153, 2024.
+Z.~Hao, X.~Xia, Y.~Pan, Y.~Bai, Y.~Wang, B.~Peng, and W.~Dou, ``Uncovering
+  brain network insights for prognosis in disorders of consciousness: {EEG}
+  source space analysis and brain dynamics,'' \emph{IEEE Transactions on Neural
+  Systems and Rehabilitation Engineering}, vol.~32, pp. 144--153, 2024.
 
 \end{thebibliography}
