@@ -10,14 +10,14 @@ authors:
     affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Xiong"
     given-names: "Guanyu"
-    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
-  - family-names: "Li"
-    given-names: "Fang"
-    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
+    affiliation: "School of Biomedical Engineering, University of British Columbia"
   - family-names: "Duan"
     given-names: "Fang"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
-version: 1.0.10
+  - family-names: "Li"
+    given-names: "Fang"
+    affiliation: "Parkinson Medical Center, Beijing Rehabilitation Hospital, Capital Medical University"
+version: 1.0.11
 date-released: 2026-11-01
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"

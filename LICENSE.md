@@ -1,6 +1,6 @@
 # License Notice
 
-Copyright (c) 2026 Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan.
+Copyright (c) 2026 Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li.
 
 This release is dual-licensed under open-source and open-access standards:
 
