@@ -2,7 +2,7 @@
 
 **Date**: 2026-10-31
 **To**: Editor-in-Chief, IEEE Journal of Biomedical and Health Informatics
-**From**: Fang Duan (Corresponding Author; duan.fang@hqu.edu.cn) and Fang Li (Corresponding Author; fangli8608@163.com)
+**From**: Fang Duan (First Corresponding Author; duan.fang@hqu.edu.cn) and Fang Li (Second Corresponding Author; fangli8608@163.com)
 **Re**: Submission of regular research article  -  "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation"
 
 ---
@@ -33,4 +33,4 @@ Thank you for your consideration.
 Sincerely,
 
 Fang Duan (on behalf of all authors)  
-Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li
+Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan
