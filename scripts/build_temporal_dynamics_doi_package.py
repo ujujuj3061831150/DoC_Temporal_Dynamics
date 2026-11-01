@@ -31,7 +31,7 @@ import zipfile
 
 _this_file = Path(__file__).resolve()
 ROOT = _this_file.parents[2] if _this_file.parents[1].name == "v3" else _this_file.parents[1]
-PKG_NAME = "DoC_Temporal_Dynamics_v1.0.8"
+PKG_NAME = "DoC_Temporal_Dynamics_v1.0.9"
 STAGE_DIR = ROOT / "output/doi_release" / PKG_NAME
 ZIP_PATH = ROOT / "output/doi_release" / f"{PKG_NAME}.zip"
 SUBMISSION_ZIP_PATH = ROOT / "submission/doi" / f"{PKG_NAME}.zip"
@@ -77,14 +77,14 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Package](https://img.shields.io/badge/Package-v1.0.8-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
+[![Package](https://img.shields.io/badge/Package-v1.0.9-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEEtran-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan*, October 2026 (Package version: `v1.0.8`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.9`).
 
 ---
 
@@ -291,7 +291,7 @@ If you use this codebase or methodology in your academic work, please cite:
 ```bibtex
 @article{chen2026bedside,
   title={A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation},
-  author={Chen, Hongjie and Chen, Jianming and Xiong, Guanyu and Li, Fang and Duan, Fang},
+  author={Chen, Hongjie and Chen, Jianming and Xiong, Guanyu and Duan, Fang and Li, Fang},
   journal={IEEE Journal of Biomedical and Health Informatics (Under Review)},
   year={2026},
   url={https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics}
@@ -302,7 +302,7 @@ If you use this codebase or methodology in your academic work, please cite:
 
 LICENSE_TEXT = r'''# License Notice
 
-Copyright (c) 2026 Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Li, and Fang Duan.
+Copyright (c) 2026 Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li.
 
 This release is dual-licensed under open-source and open-access standards:
 
@@ -353,12 +353,12 @@ ZENODO_JSON = {
             "affiliation": "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
         },
         {
-            "name": "Li, Fang",
-            "affiliation": "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
-        },
-        {
             "name": "Duan, Fang",
             "affiliation": "College of Information Science and Engineering, Huaqiao University"
+        },
+        {
+            "name": "Li, Fang",
+            "affiliation": "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
         }
     ],
     "keywords": [
@@ -396,14 +396,14 @@ authors:
   - family-names: "Xiong"
     given-names: "Guanyu"
     affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
-  - family-names: "Li"
-    given-names: "Fang"
-    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
   - family-names: "Duan"
     given-names: "Fang"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
-version: 1.0.8
-date-released: 2026-10-31
+  - family-names: "Li"
+    given-names: "Fang"
+    affiliation: "China Rehabilitation Research Center, Beijing Bo'ai Hospital, Capital Medical University"
+version: 1.0.9
+date-released: 2026-11-01
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT
@@ -894,14 +894,14 @@ def build_package():
 
     latest_meta = {
         "package_name": PKG_NAME,
-        "version": "1.0.8",
+        "version": "1.0.9",
         "zip_filename": ZIP_PATH.name,
         "sha256": zip_sha,
         "size_bytes": ZIP_PATH.stat().st_size,
         "manuscript_pages": checksum_info["manuscript_pages"],
         "supplementary_pages": 2,
         "doi_status": "Staged locally; ready for Zenodo/repository minting",
-        "author_update": "First: Hongjie Chen; Second: Jianming Chen; Third: Guanyu Xiong; Fourth: Fang Li; Corresponding: Fang Duan, Fang Li"
+        "author_update": "First: Hongjie Chen; Second: Jianming Chen; Third: Guanyu Xiong; Fourth: Fang Duan; Fifth: Fang Li; Corresponding: Fang Duan, Fang Li"
     }
     (jbhi_doi_dir / "LATEST.json").write_text(json.dumps(latest_meta, indent=2), encoding="utf-8")
     print(f"[*] Checksum manifest written to: {ZIP_PATH.parent / f'{PKG_NAME}_checksum.json'}")
