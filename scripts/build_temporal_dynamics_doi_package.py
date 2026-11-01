@@ -31,7 +31,7 @@ import zipfile
 
 _this_file = Path(__file__).resolve()
 ROOT = _this_file.parents[2] if _this_file.parents[1].name == "v3" else _this_file.parents[1]
-PKG_NAME = "DoC_Temporal_Dynamics_v1.0.12"
+PKG_NAME = "DoC_Temporal_Dynamics_v1.0.13"
 STAGE_DIR = ROOT / "output/doi_release" / PKG_NAME
 ZIP_PATH = ROOT / "output/doi_release" / f"{PKG_NAME}.zip"
 SUBMISSION_ZIP_PATH = ROOT / "submission/doi" / f"{PKG_NAME}.zip"
@@ -77,14 +77,14 @@ README_TEXT = r'''# A Bedside Decision Support System for Disorders of Conscious
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Package](https://img.shields.io/badge/Package-v1.0.12-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
+[![Package](https://img.shields.io/badge/Package-v1.0.13-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEE-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.12`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.13`).
 
 ---
 
@@ -338,7 +338,7 @@ This release is dual-licensed under open-source and open-access standards:
 ZENODO_JSON = {
     "title": "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation",
     "upload_type": "software",
-    "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 9-page IEEE JBHI manuscript and 2-page supplementary material.",
+    "description": "Official replication archive and artifact accompanying the manuscript 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'. Contains the complete Python source code for order-aware dynamical operators (rho_1, D_1, r_residual), decision fusion models (Linear C, Temporal MDCO, T-GECF), 10,000 synchronous counterfactual permutation tests, multicenter cross-cohort validation pipelines across 4 cohorts (Mendeley N=41, CRRC N=15, Figshare N=50, Wielek N=23; total N=129), unit tests, pre-extracted benchmark profiles, precomputed empirical tables, and the compiled 9-page IEEE JBHI manuscript and 3-page supplementary material.",
     "creators": [
         {
             "name": "Chen, Hongjie",
@@ -402,7 +402,7 @@ authors:
   - family-names: "Li"
     given-names: "Fang"
     affiliation: "Parkinson Medical Center, Beijing Rehabilitation Hospital, Capital Medical University"
-version: 1.0.12
+version: 1.0.13
 date-released: 2026-11-01
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
@@ -747,6 +747,7 @@ def build_package():
         copy_file(ROOT / "v3/manuscript_temporal/supplementary_material.pdf", "manuscript/supplementary_material.pdf")
     if (ROOT / "v3/manuscript_temporal/supplementary_material.tex").exists():
         copy_file(ROOT / "v3/manuscript_temporal/supplementary_material.tex", "manuscript/supplementary_material.tex")
+    copy_file(ROOT / "v3/manuscript_temporal/supplementary_material.bbl", "manuscript/supplementary_material.bbl")
     copy_tree(ROOT / "v3/manuscript_temporal/figures", "manuscript/figures")
 
     # 3. Core Library Source Code
@@ -896,12 +897,12 @@ def build_package():
 
     latest_meta = {
         "package_name": PKG_NAME,
-        "version": "1.0.12",
+        "version": "1.0.13",
         "zip_filename": ZIP_PATH.name,
         "sha256": zip_sha,
         "size_bytes": ZIP_PATH.stat().st_size,
         "manuscript_pages": checksum_info["manuscript_pages"],
-        "supplementary_pages": 2,
+        "supplementary_pages": 3,
         "doi_status": "Staged locally; ready for Zenodo/repository minting",
         "author_update": "First: Hongjie Chen; Second: Jianming Chen; Third: Guanyu Xiong; Fourth: Fang Duan; Fifth: Fang Li; Corresponding: Fang Duan (first), Fang Li (second)"
     }

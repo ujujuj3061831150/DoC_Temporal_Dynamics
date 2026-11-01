@@ -1,4 +1,7 @@
-\documentclass[journal]{IEEEtran}
+\documentclass[journal,twoside,web]{ieeecolor}
+\usepackage{generic}
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{\section*{\color{black}}}{\section*{References}}{}{}
 
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
@@ -17,11 +20,12 @@
 \renewcommand{\thetable}{S\arabic{table}}
 
 \begin{document}
-\bstctlcite{IEEEexample:BSTcontrol}
+\pagestyle{plain}
+
 
 \title{\fontsize{14pt}{16pt}\selectfont Supplementary Material: A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation}
 
-\author{\fontsize{9pt}{11pt}\selectfont Hongjie~Chen$^{1}$, Jianming~Chen$^{1}$, Guanyu~Xiong$^{2}$, Fang~Duan$^{1,*}$, and Fang~Li$^{3,*}$%
+\author{\parbox{\textwidth}{\centering\fontsize{9pt}{11pt}\selectfont Hongjie~Chen$^{1}$, Jianming~Chen$^{1}$, Guanyu~Xiong$^{2}$, Fang~Duan$^{1,*}$, and Fang~Li$^{3,*}$}%
 \thanks{$^{1}$College of Information Science and Engineering, Huaqiao University, Xiamen 361021, China.}%
 \thanks{$^{2}$School of Biomedical Engineering, University of British Columbia, Vancouver, BC, Canada.}%
 \thanks{$^{3}$Parkinson Medical Center, Beijing Rehabilitation Hospital, Capital Medical University, Beijing, China.}%
@@ -80,7 +84,6 @@ Evaluated Step Total&    27 & 2.1542 & 3.1330 & 3.9261 \\
 \end{table}
 
 \begingroup
-\interlinepenalty=10000
 \def\IEEEbibitemsep{0pt}
 \def\BIBdecl{\fontsize{7.0pt}{8.0pt}\selectfont}
 \bibliographystyle{IEEEtran}
