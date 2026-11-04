@@ -1,13 +1,13 @@
 cff-version: 1.2.0
 message: "If you use this software or empirical data in your research, please cite it as below."
-title: "A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation"
+title: "Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation"
 authors:
   - family-names: "Chen"
     given-names: "Hongjie"
     affiliation: "College of Information Science and Engineering, Huaqiao University"
   - family-names: "Chen"
     given-names: "Jianming"
-    affiliation: "College of Information Science and Engineering, Huaqiao University"
+    affiliation: "School of Information Engineering, Minnan University of Science and Technology"
   - family-names: "Xiong"
     given-names: "Guanyu"
     affiliation: "School of Biomedical Engineering, University of British Columbia"
@@ -17,8 +17,8 @@ authors:
   - family-names: "Li"
     given-names: "Fang"
     affiliation: "Parkinson Medical Center, Beijing Rehabilitation Hospital, Capital Medical University"
-version: 1.0.14
-date-released: 2026-11-01
+version: 1.0.18
+date-released: 2026-11-04
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT

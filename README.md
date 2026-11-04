@@ -1,15 +1,15 @@
-# A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation
+# Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE.md)
-[![Package](https://img.shields.io/badge/Package-v1.0.14-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
+[![Package](https://img.shields.io/badge/Package-v1.0.18-blue.svg)](https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-37%2F37%20Passed-brightgreen)](tests/)
 [![Paper Page Budget](https://img.shields.io/badge/Manuscript-9%20Pages%20IEEE-blue)](manuscript/manuscript.pdf)
 [![Reproducibility](https://img.shields.io/badge/Artifact-Checks%20Available-blue)](verify_artifact.py)
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
-> **A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.14`).
+> **Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation**  
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.18`).
 
 ---
 
@@ -215,7 +215,7 @@ No identifiable protected health information (PHI) is present in this release.
 If you use this codebase or methodology in your academic work, please cite:
 ```bibtex
 @article{chen2026bedside,
-  title={A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation},
+  title={Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation},
   author={Chen, Hongjie and Chen, Jianming and Xiong, Guanyu and Duan, Fang and Li, Fang},
   journal={IEEE Journal of Biomedical and Health Informatics (Under Review)},
   year={2026},
