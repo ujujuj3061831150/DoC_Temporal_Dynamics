@@ -38,8 +38,8 @@ QA.mkdir(parents=True,exist_ok=True)
 alignment_scripts=Path.home()/'.codex/skills/nature-figure/scripts'
 sys.path.insert(0,str(alignment_scripts))
 from audit_panel_alignment import require_matplotlib_panel_alignment
-plt.rcParams.update({'font.family':'Arial','font.size':7.5,'axes.labelsize':7.5,
- 'axes.titlesize':8,'xtick.labelsize':7,'ytick.labelsize':7,'legend.fontsize':7.5,
+plt.rcParams.update({'font.family':'Arial','font.size':9.0,'axes.labelsize':9.0,
+ 'axes.titlesize':9.5,'xtick.labelsize':8.8,'ytick.labelsize':8.8,'legend.fontsize':9.0,
  'pdf.fonttype':42,'ps.fonttype':42,'svg.fonttype':'none','axes.spines.top':False,'axes.spines.right':False,
  'axes.linewidth':.65,'xtick.major.size':2.5,'ytick.major.size':2.5,
  'text.color':'#202020','axes.labelcolor':'#202020',
@@ -69,7 +69,7 @@ def decorate(ax):
 
 def panel(ax,letter,title):
     # Axis labels carry the variable names; only panel letters are repeated.
-    ax.text(-.085,1.055,letter,transform=ax.transAxes,fontsize=8,
+    ax.text(-.095,1.06,letter,transform=ax.transAxes,fontsize=9.5,
             fontweight='bold',ha='left',va='bottom')
 def save(fig,name,exemptions=()):
     fig.canvas.draw()
@@ -93,7 +93,7 @@ frame=pd.DataFrame({'subject':ids,'group':np.where(labels==1,'MCS','VS/UWS'),
  'neg_cv':[data['temporal_features'][s]['neg_cv'] for s in ids]})
 frame.to_csv(QA/'figure1_source.csv',index=False)
 fig,axs=plt.subplots(1,3,figsize=(7.1398,2.18))
-fig.subplots_adjust(left=.075,right=.98,bottom=.245,top=.81,wspace=.42)
+fig.subplots_adjust(left=.085,right=.98,bottom=.26,top=.80,wspace=.44)
 ax=axs[0]
 trace_rows=[]
 for sid,color,style,label in [('Nekrasova_P36',BLUE,'-','MCS (P36)'),('Nekrasova_P25',ORANGE,'--','VS/UWS (P25)')]:
@@ -136,7 +136,7 @@ save(fig,'fig1_mesocircuit_memory')
 
 # These are separate feature/model configurations, not additive increments.
 fig=plt.figure(figsize=(3.4868,2.18))
-axs=[fig.add_axes([.16,.32,.27,.49]),fig.add_axes([.70,.32,.27,.49])]
+axs=[fig.add_axes([.17,.34,.26,.47]),fig.add_axes([.71,.34,.26,.47])]
 ax=axs[0]
 factorial=[]
 matrix=np.array([[.8200,.8911],[.7893,.8591]])
@@ -146,19 +146,19 @@ heat=ax.pcolormesh(np.arange(3)-.5,np.arange(3)-.5,matrix,
 ax.set_ylim(1.5,-.5)
 for y,(label,static,ordered) in enumerate([('Linear',.8200,.8911),('Rank',.7893,.8591)]):
     for x,value in enumerate([static,ordered]):
-        ax.text(x,y,f'{value:.4f}',ha='center',va='center',fontsize=7,
+        ax.text(x,y,f'{value:.4f}',ha='center',va='center',fontsize=8.6,
                 color=cell_label_color(value,heat))
     factorial.extend([{'fusion':label,'suite':'Static','auroc':static},
                       {'fusion':label,'suite':'Lag-1','auroc':ordered}])
 pd.DataFrame(factorial).to_csv(QA/'figure2_factorial_source.csv',index=False)
 ax.set_xticks([0,1],['Static',r'$+\rho_1$']);ax.set_yticks([0,1],['Linear','Rank'])
-ax.tick_params(axis='both',length=0,pad=4,labelsize=7.5)
+ax.tick_params(axis='both',length=0,pad=4,labelsize=8.8)
 for spine in ax.spines.values():spine.set_visible(False)
-cax=fig.add_axes([.16,.115,.27,.025],label='<colorbar>')
+cax=fig.add_axes([.17,.145,.26,.025],label='<colorbar>')
 bar=fig.colorbar(heat,cax=cax,orientation='horizontal',ticks=[.75,.85,.95])
 bar.solids.set_rasterized(False)
-bar.outline.set_visible(False);bar.ax.tick_params(labelsize=6.5,length=2,pad=2)
-bar.set_label('AUROC',fontsize=7,labelpad=1)
+bar.outline.set_visible(False);bar.ax.tick_params(labelsize=8.5,length=2,pad=2)
+bar.set_label('AUROC',fontsize=8.8,labelpad=2)
 panel(ax,'a','  Factorial')
 ax=axs[1]
 summary_path=ROOT/'results/matched_model_comparison_v1/summary.json'
@@ -179,7 +179,7 @@ save(fig,'fig2_factorial_ablations')
 
 null=pd.read_csv(args.input/'shuffle_summary_10000.csv')['plus_lag1__C'].to_numpy()
 pd.DataFrame({'shuffled_auroc':null}).to_csv(QA/'figure3_source.csv',index=False)
-fig,ax=plt.subplots(figsize=(3.4868,1.98));fig.subplots_adjust(left=.18,right=.96,bottom=.255,top=.83)
+fig,ax=plt.subplots(figsize=(3.4868,1.98));fig.subplots_adjust(left=.20,right=.96,bottom=.27,top=.82)
 counts,edges,_=ax.hist(null,bins=30,color='#BEC8CF',edgecolor='white',linewidth=.3,label='Shuffled')
 assert int(counts.sum())==len(null)==10000
 pd.DataFrame({'left':edges[:-1],'right':edges[1:],'count':counts.astype(int)}).to_csv(QA/'figure3_histogram_bins.csv',index=False)

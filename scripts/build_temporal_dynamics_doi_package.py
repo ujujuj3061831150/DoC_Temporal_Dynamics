@@ -3,7 +3,7 @@ Build Publication-Grade DOI Release Package for:
 'A Bedside Decision Support System for Disorders of Consciousness: Multi-Scale Temporal Dynamics and Multicenter Validation'
 
 Creates a fully self-contained, FAIR-compliant artifact archive:
-  - output/doi_release/DoC_Temporal_Dynamics_v1.0.0/ (staged directory)
+  - output/doi_release/DoC_Temporal_Dynamics_v1.0.18/ (staged directory)
   - output/doi_release/DoC_Temporal_Dynamics_v1.0.0.zip (deliverable archive)
   - submission/doi/DoC_Temporal_Dynamics_v1.0.0.zip (submission copy)
 
@@ -84,7 +84,7 @@ README_TEXT = r'''# Order-Aware Temporal Dynamics in Disorders of Consciousness:
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.18`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, November 2026 (Package version: `v1.0.18`).
 
 ---
 
@@ -131,7 +131,7 @@ Grounded in Nicholas Schiff's **anterior forebrain mesocircuit hypothesis**, whi
 ## 2. Directory Layout
 
 ```
-DoC_Temporal_Dynamics_v1.0.0/
+DoC_Temporal_Dynamics_v1.0.18/
 ├── README.md                      # This comprehensive documentation
 ├── LICENSE.md                     # Dual MIT / CC-BY 4.0 license scope
 ├── CITATION.cff                   # Machine-readable citation metadata
@@ -403,7 +403,7 @@ authors:
     given-names: "Fang"
     affiliation: "Parkinson Medical Center, Beijing Rehabilitation Hospital, Capital Medical University"
 version: 1.0.18
-date-released: 2026-11-04
+date-released: 2026-11-05
 repository-code: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 url: "https://github.com/ujujuj3061831150/DoC_Temporal_Dynamics"
 license: MIT

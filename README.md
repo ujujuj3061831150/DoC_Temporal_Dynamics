@@ -9,7 +9,7 @@
 
 Official open-science research artifact and replication codebase accompanying the manuscript:
 > **Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation**  
-> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, October 2026 (Package version: `v1.0.18`).
+> *Hongjie Chen, Jianming Chen, Guanyu Xiong, Fang Duan, and Fang Li*, November 2026 (Package version: `v1.0.18`).
 
 ---
 
@@ -56,7 +56,7 @@ Grounded in Nicholas Schiff's **anterior forebrain mesocircuit hypothesis**, whi
 ## 2. Directory Layout
 
 ```
-DoC_Temporal_Dynamics_v1.0.0/
+DoC_Temporal_Dynamics_v1.0.18/
 ├── README.md                      # This comprehensive documentation
 ├── LICENSE.md                     # Dual MIT / CC-BY 4.0 license scope
 ├── CITATION.cff                   # Machine-readable citation metadata

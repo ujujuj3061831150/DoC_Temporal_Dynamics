@@ -1,6 +1,6 @@
 # Cover Letter: IEEE JBHI Submission
 
-**Date**: 2026-11-04
+**Date**: 2026-11-05
 **To**: Editor-in-Chief, IEEE Journal of Biomedical and Health Informatics
 **From**: Fang Duan (First Corresponding Author; duan.fang@hqu.edu.cn) and Fang Li (Second Corresponding Author; lifangcrrc@mail.ccmu.edu.cn)
 **Re**: Submission of regular research article: "Order-Aware Temporal Dynamics in Disorders of Consciousness: Multi-Scale Electrophysiological Modeling and Multicenter Evaluation"
